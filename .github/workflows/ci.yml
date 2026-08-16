@@ -1,0 +1,72 @@
+name: CI — package validation
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  validate:
+    name: Lint manifest + retrieval smoke test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Lint manifest.json
+        run: |
+          python3 - <<'PY'
+          import json, os
+          m = json.load(open('manifest.json'))
+          assert m['name'] == 'shortdrama-producer', 'name mismatch'
+          assert m['version'], 'version missing'
+          assert m['entrypoints'].get('AGENTS.md') and m['entrypoints'].get('SKILL.md'), 'entrypoints missing'
+          # every declared file must exist
+          for k in ('scripts', 'references'):
+              for rel in m['dependencies'].get(k, []):
+                  assert os.path.exists(rel), f'missing dependency file: {rel}'
+          print(f"manifest OK (v{m['version']}, {m['data']['docs']} docs, {m['data']['character_cards']} cards)")
+          PY
+
+      - name: Lint AGENTS.md / SKILL.md frontmatter consistency
+        run: |
+          python3 - <<'PY'
+          import re
+          for fn in ('AGENTS.md', 'SKILL.md'):
+              txt = open(fn).read()
+              assert txt.startswith('---'), f'{fn} must start with YAML frontmatter'
+              m = re.match(r'^---\n(.*?)\n---\n', txt, re.S)
+              assert m, f'{fn} frontmatter parse failed'
+              assert 'name:' in m.group(1) and 'description:' in m.group(1), f'{fn} needs name+description'
+              print(f'{fn} frontmatter OK')
+          PY
+
+      - name: Retrieval smoke test
+        run: |
+          python3 scripts/seedance_search.py "police helicopter chasing a white Escalade at night" 3 | python3 -c "
+          import sys, json
+          d = json.load(sys.stdin)
+          hits = d.get('hits', [])
+          assert len(hits) >= 1, 'no hits returned'
+          for h in hits:
+              assert h.get('prompt_clean') and len(h['prompt_clean']) > 200, 'prompt_clean too short or missing'
+              assert 'structure' in h, 'structure missing'
+          print(f'smoke OK: {len(hits)} hits, top score={hits[0][\"score\"]}')
+          "
+
+      - name: install.sh syntax check
+        run: bash -n install.sh && echo "install.sh syntax OK"
+
+      - name: README bilingual completeness
+        run: |
+          python3 - <<'PY'
+          txt = open('README.md').read()
+          assert '## English' in txt, 'README missing English section'
+          assert '## 中文' in txt, 'README missing Chinese section'
+          print('README bilingual OK')
+          PY
