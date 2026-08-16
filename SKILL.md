@@ -95,6 +95,14 @@ shortdrama-producer-agent/
 ```
 
 ## Installation
+```bash
+./install.sh                          # auto-detect terminals
+./install.sh --target codex           # OpenAI Codex  -> ~/.agents/skills/shortdrama-producer (2026 spec)
+./install.sh --target claude          # Claude Code   -> ~/.claude/skills/shortdrama-producer
+./install.sh --target workbuddy       # WorkBuddy     -> ~/.workbuddy/skills/shortdrama-producer
+./install.sh --target repo --repo <dir>  # AGENTS.md-only terminals -> <dir>/.agents/skills/
+./install.sh --update                 # git-pull update existing installs
+```
 - **Claude Code**: `~/.claude/skills/shortdrama-producer/`
 - **WorkBuddy**: `~/.workbuddy/skills/shortdrama-producer/`
-- **Codex**: `~/.codex/skills/shortdrama-producer/` (or use AGENTS.md)
+- **Codex**: `~/.agents/skills/shortdrama-producer/` (USER scope, per 2026 spec; or use AGENTS.md)

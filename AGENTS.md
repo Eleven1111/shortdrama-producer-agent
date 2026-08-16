@@ -135,8 +135,17 @@ shortdrama-producer-agent/
 
 ## Installation (any terminal)
 
-- **Codex**: copy to `~/.codex/skills/shortdrama-producer/` (or `.agents/skills/` in repo)
-- **Cursor / Windsurf / Gemini CLI / Copilot**: place `AGENTS.md` path into your project or global agents dir
+```bash
+./install.sh                          # auto-detect terminals
+./install.sh --target codex           # OpenAI Codex  -> ~/.agents/skills/shortdrama-producer (2026 spec)
+./install.sh --target claude          # Claude Code   -> ~/.claude/skills/shortdrama-producer
+./install.sh --target workbuddy       # WorkBuddy     -> ~/.workbuddy/skills/shortdrama-producer
+./install.sh --target repo --repo <dir>  # AGENTS.md-only terminals -> <dir>/.agents/skills/
+./install.sh --update                 # git-pull update existing installs
+```
+
+- **Codex**: `~/.agents/skills/shortdrama-producer/` (USER scope, per 2026 spec; repo scope: `.agents/skills/`)
+- **Cursor / Windsurf / Gemini CLI / Copilot**: place `AGENTS.md` path into your project or global agents dir (`<repo>/.agents/skills/`)
 - **Claude Code**: copy to `~/.claude/skills/shortdrama-producer/`
 - **WorkBuddy**: copy to `~/.workbuddy/skills/shortdrama-producer/`
 
