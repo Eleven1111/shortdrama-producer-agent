@@ -33,17 +33,21 @@ jobs:
           print(f"manifest OK (v{m['version']}, {m['data']['docs']} docs, {m['data']['character_cards']} cards)")
           PY
 
-      - name: Lint AGENTS.md / SKILL.md frontmatter consistency
+      - name: Lint AGENTS.md / SKILL.md structure
         run: |
           python3 - <<'PY'
           import re
-          for fn in ('AGENTS.md', 'SKILL.md'):
-              txt = open(fn).read()
-              assert txt.startswith('---'), f'{fn} must start with YAML frontmatter'
-              m = re.match(r'^---\n(.*?)\n---\n', txt, re.S)
-              assert m, f'{fn} frontmatter parse failed'
-              assert 'name:' in m.group(1) and 'description:' in m.group(1), f'{fn} needs name+description'
-              print(f'{fn} frontmatter OK')
+          # SKILL.md: must be YAML frontmatter with name + description (agentskills.io spec)
+          txt = open('SKILL.md').read()
+          assert txt.startswith('---'), 'SKILL.md must start with YAML frontmatter'
+          m = re.match(r'^---\n(.*?)\n---\n', txt, re.S)
+          assert m, 'SKILL.md frontmatter parse failed'
+          assert 'name:' in m.group(1) and 'description:' in m.group(1), 'SKILL.md needs name+description'
+          print('SKILL.md frontmatter OK')
+          # AGENTS.md: 2026 cross-tool standard — markdown with name + description fields
+          txt = open('AGENTS.md').read()
+          assert 'name:' in txt and 'description:' in txt, 'AGENTS.md needs name+description fields'
+          print('AGENTS.md structure OK')
           PY
 
       - name: Retrieval smoke test
