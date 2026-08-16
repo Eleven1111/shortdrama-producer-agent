@@ -1,10 +1,11 @@
 {
   "name": "shortdrama-producer",
-  "version": "3.0.0",
+  "version": "3.3.0",
   "type": "agent-package",
   "entrypoints": {
     "AGENTS.md": "2026 cross-tool standard (Codex / Cursor / Windsurf / Gemini CLI / Copilot / Claude Code)",
-    "SKILL.md": "skill-compatible layer (Claude Code / WorkBuddy)"
+    "SKILL.md": "skill-compatible layer (Claude Code / WorkBuddy)",
+    "agents/openai.yaml": "OpenAI metadata (ChatGPT / Codex)"
   },
   "description": "跨终端通用 Seedance 短剧/视频 prompt 生产 Agent：用户描述想法后自动完成 解析意图 → 检索真实生产范例 → 生成简报 → 产出可粘贴 prompt → 质检。单镜头（cinema/quick）与短剧（拆解+连续性圣经+shotlist+连续 prompt）模式。",
   "tags": ["seedance", "video-prompt", "creative", "short-drama", "sequence", "workflow", "agent"],
@@ -13,6 +14,7 @@
     "name": "Eleven1111",
     "github": "https://github.com/Eleven1111"
   },
+  "install": "install.sh",
   "dependencies": {
     "scripts": [
       "scripts/seedance_search.py",
@@ -24,13 +26,22 @@
       "references/prompt-templates.md",
       "references/story-breakdown.md",
       "references/continuity-bible.md",
-      "references/sequence-protocol.md"
+      "references/sequence-protocol.md",
+      "references/character_cards_visual.json",
+      "references/story_level/act_structure.json",
+      "references/story_level/beat_patterns.json",
+      "references/story_level/character_journeys.json",
+      "references/story_level/conflict_patterns.json",
+      "references/story_level/movement_arcs.json",
+      "references/story_level/prop_journeys.json",
+      "references/story_level/story_patterns.md"
     ]
   },
   "data": {
     "corpus": "scripts/seedance_corpus.jsonl.gz",
-    "docs": 4348,
+    "docs": 5387,
     "gold": 562,
-    "source": "Higgsfield Cully Hill Boys 473,239 assets"
+    "source": "Higgsfield Hell Grind 115,447 + Cully Hill Boys 473,239 assets",
+    "character_cards": 1607
   }
 }

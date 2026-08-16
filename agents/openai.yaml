@@ -1,0 +1,18 @@
+# OpenAI agent metadata (https://developers.openai.com/codex/skills)
+# Provides UI metadata, invocation policy and tool dependencies for ChatGPT / Codex.
+interface:
+  display_name: "Seedance Short-Drama Producer"
+  short_description: "Turns a vague idea into a paste-ready Seedance 2.5 short-drama / video prompt — auto workflow with real-production-example retrieval and quality gate."
+  icon_small: "./assets/logo-small.svg"
+  icon_large: "./assets/logo-large.png"
+  brand_color: "#6D28D9"
+  default_prompt: "Describe your short-drama idea — a scene, a mood, or a full story. I will retrieve real production examples and deliver paste-ready Seedance prompts."
+
+policy:
+  allow_implicit_invocation: true
+
+dependencies:
+  tools:
+    - type: "command"
+      value: "python3"
+      description: "Zero-dependency BM25 retriever (scripts/seedance_search.py); pure stdlib, no packages required."
