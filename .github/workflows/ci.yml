@@ -44,9 +44,11 @@ jobs:
           assert m, 'SKILL.md frontmatter parse failed'
           assert 'name:' in m.group(1) and 'description:' in m.group(1), 'SKILL.md needs name+description'
           print('SKILL.md frontmatter OK')
-          # AGENTS.md: 2026 cross-tool standard — markdown with name + description fields
+          # AGENTS.md: 2026 cross-tool standard — markdown with title + role + workflow sections
           txt = open('AGENTS.md').read()
-          assert 'name:' in txt and 'description:' in txt, 'AGENTS.md needs name+description fields'
+          assert 'shortdrama-producer' in txt, 'AGENTS.md missing agent name'
+          for sec in ('## Role', '## Triggers', '## Workflow', '## Boundaries'):
+              assert sec in txt, f'AGENTS.md missing section {sec}'
           print('AGENTS.md structure OK')
           PY
 
