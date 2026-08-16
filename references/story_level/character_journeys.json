@@ -1,0 +1,5 @@
+{
+  "meta": "CHB Top 5 主角跨场次密度",
+  "note": "act_density 是该角色在每个 act 的 prompt 引用次数（不是镜头数）",
+  "top": {}
+}

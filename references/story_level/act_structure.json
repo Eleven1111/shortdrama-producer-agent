@@ -1,0 +1,28 @@
+{
+  "acts": {
+    "act1 (1-49)": {
+      "scene_count": 32,
+      "avg_assets_per_scene": 655.84375,
+      "avg_optics_ratio": 586.5,
+      "avg_climax_kw": 0.375
+    },
+    "act2 (50-93)": {
+      "scene_count": 22,
+      "avg_assets_per_scene": 805.2727272727273,
+      "avg_optics_ratio": 674.8181818181819,
+      "avg_climax_kw": 4.2272727272727275
+    },
+    "act3 (94-120)": {
+      "scene_count": 14,
+      "avg_assets_per_scene": 1044.7142857142858,
+      "avg_optics_ratio": 641.7857142857143,
+      "avg_climax_kw": 24.428571428571427
+    },
+    "act4 (121-137)": {
+      "scene_count": 7,
+      "avg_assets_per_scene": 1434.142857142857,
+      "avg_optics_ratio": 613.2857142857143,
+      "avg_climax_kw": 163.42857142857142
+    }
+  }
+}

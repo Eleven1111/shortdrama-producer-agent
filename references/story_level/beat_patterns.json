@@ -1,0 +1,1234 @@
+[
+  {
+    "scene": 13,
+    "folder": "Scene 13",
+    "transition_types": {
+      "cut to": 1
+    },
+    "shot_count_distribution": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "max_shots_in_one_prompt": 0
+  },
+  {
+    "scene": 14,
+    "folder": "Scene 14",
+    "transition_types": {
+      "cut to": 5,
+      "hard cut": 4
+    },
+    "shot_count_distribution": [
+      0,
+      4,
+      4,
+      4,
+      4,
+      0
+    ],
+    "max_shots_in_one_prompt": 4
+  },
+  {
+    "scene": 15,
+    "folder": "Scene 15-16",
+    "transition_types": {
+      "hard cut": 3,
+      "cut to": 2
+    },
+    "shot_count_distribution": [
+      26,
+      16,
+      1,
+      3,
+      16,
+      0
+    ],
+    "max_shots_in_one_prompt": 26
+  },
+  {
+    "scene": 15,
+    "folder": "Scene 15 Pizza_OLD",
+    "transition_types": {
+      "hard cut": 5,
+      "dissolve": 3
+    },
+    "shot_count_distribution": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "max_shots_in_one_prompt": 0
+  },
+  {
+    "scene": 17,
+    "folder": "Scene 17",
+    "transition_types": {},
+    "shot_count_distribution": [
+      0,
+      2,
+      2,
+      2,
+      2,
+      0
+    ],
+    "max_shots_in_one_prompt": 2
+  },
+  {
+    "scene": 20,
+    "folder": "Scene 20",
+    "transition_types": {
+      "hard cut": 6
+    },
+    "shot_count_distribution": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "max_shots_in_one_prompt": 0
+  },
+  {
+    "scene": 20,
+    "folder": "Scene 20",
+    "transition_types": {
+      "cut to": 4
+    },
+    "shot_count_distribution": [
+      0,
+      0,
+      1,
+      1,
+      0,
+      0
+    ],
+    "max_shots_in_one_prompt": 1
+  },
+  {
+    "scene": 21,
+    "folder": "Scene 21",
+    "transition_types": {},
+    "shot_count_distribution": [
+      0,
+      0,
+      0,
+      2,
+      0,
+      2
+    ],
+    "max_shots_in_one_prompt": 2
+  },
+  {
+    "scene": 22,
+    "folder": "Scene 22",
+    "transition_types": {
+      "hard cut": 3,
+      "dissolve": 2,
+      "cut to": 4
+    },
+    "shot_count_distribution": [
+      0,
+      14,
+      1,
+      7,
+      6,
+      0
+    ],
+    "max_shots_in_one_prompt": 14
+  },
+  {
+    "scene": 24,
+    "folder": "Scene 24",
+    "transition_types": {},
+    "shot_count_distribution": [
+      2,
+      2,
+      2,
+      2,
+      2,
+      2
+    ],
+    "max_shots_in_one_prompt": 2
+  },
+  {
+    "scene": 25,
+    "folder": "Scene 25 Roko vs Robots",
+    "transition_types": {
+      "dissolve": 6,
+      "hard cut": 7
+    },
+    "shot_count_distribution": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "max_shots_in_one_prompt": 0
+  },
+  {
+    "scene": 25,
+    "folder": "Scene 25",
+    "transition_types": {
+      "hard cut": 10
+    },
+    "shot_count_distribution": [
+      2,
+      2,
+      2,
+      4,
+      2,
+      4
+    ],
+    "max_shots_in_one_prompt": 4
+  },
+  {
+    "scene": 26,
+    "folder": "Scene 26",
+    "transition_types": {},
+    "shot_count_distribution": [
+      0,
+      0,
+      1,
+      0,
+      0,
+      0
+    ],
+    "max_shots_in_one_prompt": 1
+  },
+  {
+    "scene": 26,
+    "folder": "Scene 26",
+    "transition_types": {
+      "hard cut": 26
+    },
+    "shot_count_distribution": [
+      0,
+      13,
+      0,
+      0,
+      16,
+      19
+    ],
+    "max_shots_in_one_prompt": 19
+  },
+  {
+    "scene": 27,
+    "folder": "Scene 27.1",
+    "transition_types": {
+      "cut to": 9
+    },
+    "shot_count_distribution": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "max_shots_in_one_prompt": 0
+  },
+  {
+    "scene": 27,
+    "folder": "Scene 27",
+    "transition_types": {
+      "cut to": 4,
+      "hard cut": 8
+    },
+    "shot_count_distribution": [
+      3,
+      0,
+      0,
+      3,
+      0,
+      0
+    ],
+    "max_shots_in_one_prompt": 3
+  },
+  {
+    "scene": 27,
+    "folder": "Scene 27.3",
+    "transition_types": {
+      "cut to": 4
+    },
+    "shot_count_distribution": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "max_shots_in_one_prompt": 0
+  },
+  {
+    "scene": 27,
+    "folder": "Scene 27.6",
+    "transition_types": {
+      "cut to": 1
+    },
+    "shot_count_distribution": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "max_shots_in_one_prompt": 0
+  },
+  {
+    "scene": 27,
+    "folder": "Scene 27.5",
+    "transition_types": {
+      "cut to": 4
+    },
+    "shot_count_distribution": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "max_shots_in_one_prompt": 0
+  },
+  {
+    "scene": 27,
+    "folder": "Scene 27.2",
+    "transition_types": {
+      "cut to": 2
+    },
+    "shot_count_distribution": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "max_shots_in_one_prompt": 0
+  },
+  {
+    "scene": 28,
+    "folder": "Scene 28",
+    "transition_types": {
+      "hard cut": 19,
+      "dissolve": 1,
+      "whip pan": 6
+    },
+    "shot_count_distribution": [
+      12,
+      10,
+      0,
+      4,
+      4,
+      10
+    ],
+    "max_shots_in_one_prompt": 12
+  },
+  {
+    "scene": 29,
+    "folder": "Scene 29",
+    "transition_types": {
+      "hard cut": 7
+    },
+    "shot_count_distribution": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "max_shots_in_one_prompt": 0
+  },
+  {
+    "scene": 31,
+    "folder": "Scene 31",
+    "transition_types": {
+      "hard cut": 7
+    },
+    "shot_count_distribution": [
+      0,
+      0,
+      1,
+      0,
+      0,
+      0
+    ],
+    "max_shots_in_one_prompt": 1
+  },
+  {
+    "scene": 32,
+    "folder": "Scene 32",
+    "transition_types": {
+      "hard cut": 5,
+      "cut to": 1
+    },
+    "shot_count_distribution": [
+      4,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "max_shots_in_one_prompt": 4
+  },
+  {
+    "scene": 36,
+    "folder": "Scene 36",
+    "transition_types": {
+      "hard cut": 11
+    },
+    "shot_count_distribution": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "max_shots_in_one_prompt": 0
+  },
+  {
+    "scene": 37,
+    "folder": "Scene 37",
+    "transition_types": {
+      "cut to": 4
+    },
+    "shot_count_distribution": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "max_shots_in_one_prompt": 0
+  },
+  {
+    "scene": 42,
+    "folder": "Scene 42-50",
+    "transition_types": {},
+    "shot_count_distribution": [
+      0,
+      0,
+      4,
+      8,
+      5,
+      2
+    ],
+    "max_shots_in_one_prompt": 8
+  },
+  {
+    "scene": 50,
+    "folder": "Scene 50",
+    "transition_types": {
+      "hard cut": 11,
+      "cut to": 2
+    },
+    "shot_count_distribution": [
+      0,
+      0,
+      6,
+      5,
+      6,
+      13
+    ],
+    "max_shots_in_one_prompt": 13
+  },
+  {
+    "scene": 51,
+    "folder": "Scene 51 Statue Assault",
+    "transition_types": {
+      "cut to": 4
+    },
+    "shot_count_distribution": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      4
+    ],
+    "max_shots_in_one_prompt": 4
+  },
+  {
+    "scene": 51,
+    "folder": "Scene 51 Extra",
+    "transition_types": {
+      "hard cut": 6,
+      "dissolve": 6
+    },
+    "shot_count_distribution": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "max_shots_in_one_prompt": 0
+  },
+  {
+    "scene": 51,
+    "folder": "Scene 51",
+    "transition_types": {
+      "hard cut": 13,
+      "dissolve": 6
+    },
+    "shot_count_distribution": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "max_shots_in_one_prompt": 0
+  },
+  {
+    "scene": 52,
+    "folder": "Scene 52",
+    "transition_types": {
+      "hard cut": 1,
+      "whip pan": 3,
+      "cut to": 1
+    },
+    "shot_count_distribution": [
+      9,
+      9,
+      0,
+      0,
+      6,
+      8
+    ],
+    "max_shots_in_one_prompt": 9
+  },
+  {
+    "scene": 53,
+    "folder": "Scene 53",
+    "transition_types": {},
+    "shot_count_distribution": [
+      5,
+      5,
+      8,
+      5,
+      5,
+      5
+    ],
+    "max_shots_in_one_prompt": 8
+  },
+  {
+    "scene": 54,
+    "folder": "Scene 54-59",
+    "transition_types": {},
+    "shot_count_distribution": [
+      5,
+      2,
+      2,
+      2,
+      5,
+      3
+    ],
+    "max_shots_in_one_prompt": 5
+  },
+  {
+    "scene": 60,
+    "folder": "Scene 60",
+    "transition_types": {},
+    "shot_count_distribution": [
+      4,
+      5,
+      5,
+      5,
+      5,
+      7
+    ],
+    "max_shots_in_one_prompt": 7
+  },
+  {
+    "scene": 61,
+    "folder": "Scene 61-66",
+    "transition_types": {
+      "hard cut": 20,
+      "cut to": 1
+    },
+    "shot_count_distribution": [
+      0,
+      4,
+      16,
+      0,
+      0,
+      0
+    ],
+    "max_shots_in_one_prompt": 16
+  },
+  {
+    "scene": 64,
+    "folder": "Scene 64",
+    "transition_types": {
+      "hard cut": 12,
+      "dissolve": 8,
+      "cut to": 2
+    },
+    "shot_count_distribution": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "max_shots_in_one_prompt": 0
+  },
+  {
+    "scene": 64,
+    "folder": "Scene 64",
+    "transition_types": {
+      "dissolve": 7
+    },
+    "shot_count_distribution": [
+      3,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "max_shots_in_one_prompt": 3
+  },
+  {
+    "scene": 66,
+    "folder": "Scene 66",
+    "transition_types": {
+      "dissolve": 30,
+      "hard cut": 15
+    },
+    "shot_count_distribution": [
+      10,
+      7,
+      0,
+      0,
+      0,
+      10
+    ],
+    "max_shots_in_one_prompt": 10
+  },
+  {
+    "scene": 67,
+    "folder": "Scene 67A",
+    "transition_types": {
+      "dissolve": 42,
+      "cut to": 6
+    },
+    "shot_count_distribution": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "max_shots_in_one_prompt": 0
+  },
+  {
+    "scene": 67,
+    "folder": "Scene 67A",
+    "transition_types": {
+      "dissolve": 19
+    },
+    "shot_count_distribution": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "max_shots_in_one_prompt": 0
+  },
+  {
+    "scene": 67,
+    "folder": "Scene 67B",
+    "transition_types": {
+      "dissolve": 31
+    },
+    "shot_count_distribution": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "max_shots_in_one_prompt": 0
+  },
+  {
+    "scene": 67,
+    "folder": "Scene 67",
+    "transition_types": {
+      "hard cut": 28
+    },
+    "shot_count_distribution": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "max_shots_in_one_prompt": 0
+  },
+  {
+    "scene": 67,
+    "folder": "Scene 67",
+    "transition_types": {
+      "hard cut": 11,
+      "whip pan": 1,
+      "cut to": 1,
+      "dissolve": 1
+    },
+    "shot_count_distribution": [
+      0,
+      1,
+      16,
+      5,
+      0,
+      1
+    ],
+    "max_shots_in_one_prompt": 16
+  },
+  {
+    "scene": 67,
+    "folder": "Scene 67",
+    "transition_types": {
+      "whip pan": 2,
+      "hard cut": 3,
+      "dissolve": 2
+    },
+    "shot_count_distribution": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "max_shots_in_one_prompt": 0
+  },
+  {
+    "scene": 68,
+    "folder": "Scene 68",
+    "transition_types": {
+      "cut to": 3,
+      "hard cut": 2,
+      "dissolve": 1
+    },
+    "shot_count_distribution": [
+      5,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "max_shots_in_one_prompt": 5
+  },
+  {
+    "scene": 69,
+    "folder": "Scene 69B.20",
+    "transition_types": {
+      "dissolve": 6
+    },
+    "shot_count_distribution": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "max_shots_in_one_prompt": 0
+  },
+  {
+    "scene": 69,
+    "folder": "Scene 69 - Fight",
+    "transition_types": {
+      "dissolve": 15,
+      "hard cut": 12
+    },
+    "shot_count_distribution": [
+      5,
+      5,
+      5,
+      0,
+      0,
+      0
+    ],
+    "max_shots_in_one_prompt": 5
+  },
+  {
+    "scene": 69,
+    "folder": "Scene 69B.17",
+    "transition_types": {
+      "dissolve": 3
+    },
+    "shot_count_distribution": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "max_shots_in_one_prompt": 0
+  },
+  {
+    "scene": 69,
+    "folder": "Scene 69.B16",
+    "transition_types": {
+      "hard cut": 13,
+      "cut to": 3
+    },
+    "shot_count_distribution": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "max_shots_in_one_prompt": 0
+  },
+  {
+    "scene": 69,
+    "folder": "Scene 69B.19",
+    "transition_types": {
+      "dissolve": 6
+    },
+    "shot_count_distribution": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "max_shots_in_one_prompt": 0
+  },
+  {
+    "scene": 69,
+    "folder": "Scene 69B.18",
+    "transition_types": {
+      "dissolve": 1
+    },
+    "shot_count_distribution": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "max_shots_in_one_prompt": 0
+  },
+  {
+    "scene": 69,
+    "folder": "Scene 69B.15",
+    "transition_types": {
+      "cut to": 2,
+      "hard cut": 4,
+      "dissolve": 1
+    },
+    "shot_count_distribution": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "max_shots_in_one_prompt": 0
+  },
+  {
+    "scene": 69,
+    "folder": "Scene 69",
+    "transition_types": {
+      "dissolve": 36,
+      "hard cut": 30
+    },
+    "shot_count_distribution": [
+      6,
+      6,
+      6,
+      6,
+      6,
+      6
+    ],
+    "max_shots_in_one_prompt": 6
+  },
+  {
+    "scene": 70,
+    "folder": "Scene 70.2",
+    "transition_types": {
+      "dissolve": 3
+    },
+    "shot_count_distribution": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "max_shots_in_one_prompt": 0
+  },
+  {
+    "scene": 70,
+    "folder": "Scene 70",
+    "transition_types": {
+      "dissolve": 3
+    },
+    "shot_count_distribution": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "max_shots_in_one_prompt": 0
+  },
+  {
+    "scene": 70,
+    "folder": "Scene 70C",
+    "transition_types": {
+      "dissolve": 2,
+      "cut to": 7
+    },
+    "shot_count_distribution": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "max_shots_in_one_prompt": 0
+  },
+  {
+    "scene": 71,
+    "folder": "Scene 71.1",
+    "transition_types": {
+      "dissolve": 20
+    },
+    "shot_count_distribution": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "max_shots_in_one_prompt": 0
+  },
+  {
+    "scene": 71,
+    "folder": "Scene 71.4",
+    "transition_types": {
+      "dissolve": 2
+    },
+    "shot_count_distribution": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "max_shots_in_one_prompt": 0
+  },
+  {
+    "scene": 71,
+    "folder": "Scene 71.3",
+    "transition_types": {
+      "dissolve": 6
+    },
+    "shot_count_distribution": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "max_shots_in_one_prompt": 0
+  },
+  {
+    "scene": 71,
+    "folder": "Scene 71.2",
+    "transition_types": {
+      "dissolve": 6
+    },
+    "shot_count_distribution": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "max_shots_in_one_prompt": 0
+  },
+  {
+    "scene": 72,
+    "folder": "Scene 72",
+    "transition_types": {},
+    "shot_count_distribution": [
+      4,
+      2,
+      0,
+      2,
+      0,
+      3
+    ],
+    "max_shots_in_one_prompt": 4
+  },
+  {
+    "scene": 72,
+    "folder": "Scene 72_ Roko vs Dagon",
+    "transition_types": {
+      "hard cut": 1
+    },
+    "shot_count_distribution": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "max_shots_in_one_prompt": 0
+  },
+  {
+    "scene": 72,
+    "folder": "Scene 72A",
+    "transition_types": {
+      "hard cut": 12
+    },
+    "shot_count_distribution": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "max_shots_in_one_prompt": 0
+  },
+  {
+    "scene": 72,
+    "folder": "Scene 72B",
+    "transition_types": {
+      "hard cut": 23
+    },
+    "shot_count_distribution": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "max_shots_in_one_prompt": 0
+  },
+  {
+    "scene": 73,
+    "folder": "Scene 73.1",
+    "transition_types": {
+      "cut to": 10,
+      "match cut": 12
+    },
+    "shot_count_distribution": [
+      2,
+      0,
+      0,
+      2,
+      2,
+      2
+    ],
+    "max_shots_in_one_prompt": 2
+  },
+  {
+    "scene": 73,
+    "folder": "Scene 73.2",
+    "transition_types": {
+      "dissolve": 3,
+      "cut to": 4
+    },
+    "shot_count_distribution": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "max_shots_in_one_prompt": 0
+  },
+  {
+    "scene": 73,
+    "folder": "Scene 73.2B",
+    "transition_types": {
+      "cut to": 4
+    },
+    "shot_count_distribution": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "max_shots_in_one_prompt": 0
+  },
+  {
+    "scene": 73,
+    "folder": "Scene 73.4",
+    "transition_types": {
+      "dissolve": 10
+    },
+    "shot_count_distribution": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "max_shots_in_one_prompt": 0
+  },
+  {
+    "scene": 73,
+    "folder": "Scene 73.3",
+    "transition_types": {
+      "match cut": 18
+    },
+    "shot_count_distribution": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "max_shots_in_one_prompt": 0
+  },
+  {
+    "scene": 73,
+    "folder": "Scene 73B",
+    "transition_types": {},
+    "shot_count_distribution": [
+      0,
+      0,
+      0,
+      0,
+      3,
+      0
+    ],
+    "max_shots_in_one_prompt": 3
+  },
+  {
+    "scene": 73,
+    "folder": "Scene 73.8",
+    "transition_types": {
+      "cut to": 6
+    },
+    "shot_count_distribution": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "max_shots_in_one_prompt": 0
+  },
+  {
+    "scene": 73,
+    "folder": "Scene 73.5E",
+    "transition_types": {
+      "cut to": 6
+    },
+    "shot_count_distribution": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "max_shots_in_one_prompt": 0
+  },
+  {
+    "scene": 73,
+    "folder": "Scene 73.5D",
+    "transition_types": {
+      "cut to": 5
+    },
+    "shot_count_distribution": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "max_shots_in_one_prompt": 0
+  },
+  {
+    "scene": 73,
+    "folder": "Scene 73.9",
+    "transition_types": {
+      "cut to": 8,
+      "match cut": 8
+    },
+    "shot_count_distribution": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "max_shots_in_one_prompt": 0
+  },
+  {
+    "scene": 74,
+    "folder": "Scene 74",
+    "transition_types": {
+      "dissolve": 11
+    },
+    "shot_count_distribution": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "max_shots_in_one_prompt": 0
+  }
+]

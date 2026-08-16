@@ -1,0 +1,250 @@
+{
+  "meta": "CHB 道具跨场统计（场景号从卡名 _sN 解析）",
+  "top": {
+    "prop_CB_ak47_s23-30-35-95-99-115": {
+      "name": "prop_CB_ak47_s23-30-35-95-99-115",
+      "category": "prop",
+      "total_appearances": 13140,
+      "unique_scenes": 6,
+      "scene_list": [
+        23,
+        30,
+        35,
+        95,
+        99,
+        115
+      ],
+      "example_prompt": ""
+    },
+    "prop_CB_automatic_gun_s23-30-35-95-99-115": {
+      "name": "prop_CB_automatic_gun_s23-30-35-95-99-115",
+      "category": "prop",
+      "total_appearances": 3451,
+      "unique_scenes": 6,
+      "scene_list": [
+        23,
+        30,
+        35,
+        95,
+        99,
+        115
+      ],
+      "example_prompt": ""
+    },
+    "prop_CB_train_locomotive_s43-44-45-118-120": {
+      "name": "prop_CB_train_locomotive_s43-44-45-118-120",
+      "category": "prop",
+      "total_appearances": 4163,
+      "unique_scenes": 5,
+      "scene_list": [
+        43,
+        44,
+        45,
+        118,
+        120
+      ],
+      "example_prompt": ""
+    },
+    "prop_CB_crossing_barrier_s43-44-45-118-120_var1": {
+      "name": "prop_CB_crossing_barrier_s43-44-45-118-120_var1",
+      "category": "auto:prop",
+      "total_appearances": 25,
+      "unique_scenes": 5,
+      "scene_list": [
+        43,
+        44,
+        45,
+        118,
+        120
+      ],
+      "example_prompt": ""
+    },
+    "prop_CB_crossing_barrier_s43-44-45-118-120_var2": {
+      "name": "prop_CB_crossing_barrier_s43-44-45-118-120_var2",
+      "category": "auto:prop",
+      "total_appearances": 25,
+      "unique_scenes": 5,
+      "scene_list": [
+        43,
+        44,
+        45,
+        118,
+        120
+      ],
+      "example_prompt": ""
+    },
+    "prop_CB_firework_mortars_s27-28-30-31": {
+      "name": "prop_CB_firework_mortars_s27-28-30-31",
+      "category": "prop",
+      "total_appearances": 2666,
+      "unique_scenes": 4,
+      "scene_list": [
+        27,
+        28,
+        30,
+        31
+      ],
+      "example_prompt": ""
+    },
+    "prop_CB_firework_mortars_s27-28-30-32": {
+      "name": "prop_CB_firework_mortars_s27-28-30-32",
+      "category": "auto:prop",
+      "total_appearances": 24,
+      "unique_scenes": 4,
+      "scene_list": [
+        27,
+        28,
+        30,
+        32
+      ],
+      "example_prompt": ""
+    },
+    "prop_CB_morris_1800_s40-41-46_v2": {
+      "name": "prop_CB_morris_1800_s40-41-46_v2",
+      "category": "prop",
+      "total_appearances": 4592,
+      "unique_scenes": 3,
+      "scene_list": [
+        40,
+        41,
+        46
+      ],
+      "example_prompt": ""
+    },
+    "prop_CB_morris_1800_s40-41-46": {
+      "name": "prop_CB_morris_1800_s40-41-46",
+      "category": "prop",
+      "total_appearances": 4398,
+      "unique_scenes": 3,
+      "scene_list": [
+        40,
+        41,
+        46
+      ],
+      "example_prompt": ""
+    },
+    "prop_CB_music_setup_s5-49-64_v1": {
+      "name": "prop_CB_music_setup_s5-49-64_v1",
+      "category": "auto:prop",
+      "total_appearances": 6014,
+      "unique_scenes": 3,
+      "scene_list": [
+        5,
+        49,
+        64
+      ],
+      "example_prompt": ""
+    },
+    "prop_CB_morris_1800_s40-41-47_onlyback": {
+      "name": "prop_CB_morris_1800_s40-41-47_onlyback",
+      "category": "auto:prop",
+      "total_appearances": 140,
+      "unique_scenes": 3,
+      "scene_list": [
+        40,
+        41,
+        47
+      ],
+      "example_prompt": ""
+    },
+    "prop_CB_burrito_s56-2": {
+      "name": "prop_CB_burrito_s56-2",
+      "category": "prop",
+      "total_appearances": 419,
+      "unique_scenes": 2,
+      "scene_list": [
+        2,
+        56
+      ],
+      "example_prompt": ""
+    },
+    "prop_CB_grey_van_s3-34": {
+      "name": "prop_CB_grey_van_s3-34",
+      "category": "auto:prop",
+      "total_appearances": 56,
+      "unique_scenes": 2,
+      "scene_list": [
+        3,
+        34
+      ],
+      "example_prompt": ""
+    },
+    "prop_CB_vernon_shotgun_s105-107": {
+      "name": "prop_CB_vernon_shotgun_s105-107",
+      "category": "prop",
+      "total_appearances": 8149,
+      "unique_scenes": 2,
+      "scene_list": [
+        105,
+        107
+      ],
+      "example_prompt": ""
+    },
+    "prop_CB_mercedes_GLE_s53-92": {
+      "name": "prop_CB_mercedes_GLE_s53-92",
+      "category": "prop",
+      "total_appearances": 9947,
+      "unique_scenes": 2,
+      "scene_list": [
+        53,
+        92
+      ],
+      "example_prompt": ""
+    },
+    "prop_CB_vernon_shotgun_s105-107_1": {
+      "name": "prop_CB_vernon_shotgun_s105-107_1",
+      "category": "auto:prop",
+      "total_appearances": 44,
+      "unique_scenes": 2,
+      "scene_list": [
+        105,
+        107
+      ],
+      "example_prompt": ""
+    },
+    "prop_CB_bag_Cal_s5-2": {
+      "name": "prop_CB_bag_Cal_s5-2",
+      "category": "prop",
+      "total_appearances": 24,
+      "unique_scenes": 2,
+      "scene_list": [
+        2,
+        5
+      ],
+      "example_prompt": ""
+    },
+    "prop_CB_vernon_shotgun_s105-107_v2": {
+      "name": "prop_CB_vernon_shotgun_s105-107_v2",
+      "category": "auto:prop",
+      "total_appearances": 48,
+      "unique_scenes": 2,
+      "scene_list": [
+        105,
+        107
+      ],
+      "example_prompt": ""
+    },
+    "@prop_CB_Tahoe_s69-111": {
+      "name": "@prop_CB_Tahoe_s69-111",
+      "category": "auto:prop",
+      "total_appearances": 5,
+      "unique_scenes": 2,
+      "scene_list": [
+        69,
+        111
+      ],
+      "example_prompt": ""
+    },
+    "depth_CB_morris_yard_s20-37_v1": {
+      "name": "depth_CB_morris_yard_s20-37_v1",
+      "category": "auto:prop",
+      "total_appearances": 16,
+      "unique_scenes": 2,
+      "scene_list": [
+        20,
+        37
+      ],
+      "example_prompt": ""
+    }
+  }
+}

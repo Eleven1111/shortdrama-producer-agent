@@ -1,0 +1,36 @@
+{
+  "name": "shortdrama-producer",
+  "version": "3.0.0",
+  "type": "agent-package",
+  "entrypoints": {
+    "AGENTS.md": "2026 cross-tool standard (Codex / Cursor / Windsurf / Gemini CLI / Copilot / Claude Code)",
+    "SKILL.md": "skill-compatible layer (Claude Code / WorkBuddy)"
+  },
+  "description": "跨终端通用 Seedance 短剧/视频 prompt 生产 Agent：用户描述想法后自动完成 解析意图 → 检索真实生产范例 → 生成简报 → 产出可粘贴 prompt → 质检。单镜头（cinema/quick）与短剧（拆解+连续性圣经+shotlist+连续 prompt）模式。",
+  "tags": ["seedance", "video-prompt", "creative", "short-drama", "sequence", "workflow", "agent"],
+  "license": "MIT",
+  "author": {
+    "name": "Eleven1111",
+    "github": "https://github.com/Eleven1111"
+  },
+  "dependencies": {
+    "scripts": [
+      "scripts/seedance_search.py",
+      "scripts/seedance_corpus.jsonl.gz"
+    ],
+    "references": [
+      "references/seedance-writing-guide.md",
+      "references/clarification-protocol.md",
+      "references/prompt-templates.md",
+      "references/story-breakdown.md",
+      "references/continuity-bible.md",
+      "references/sequence-protocol.md"
+    ]
+  },
+  "data": {
+    "corpus": "scripts/seedance_corpus.jsonl.gz",
+    "docs": 4348,
+    "gold": 562,
+    "source": "Higgsfield Cully Hill Boys 473,239 assets"
+  }
+}
