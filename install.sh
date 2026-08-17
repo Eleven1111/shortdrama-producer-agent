@@ -79,7 +79,8 @@ install_one() {
   echo "==> [$t] -> $dest"
 
   if [[ "$UPDATE" -eq 1 && -d "$dest" ]]; then
-    if [[ -d "$dest/.git" ]]; then
+    # An explicit --from-local wins over `git pull`: the caller named a source, honour it.
+    if [[ -d "$dest/.git" && -z "$FROM_LOCAL" ]]; then
       git -C "$dest" pull --ff-only
       echo "    ✅ updated (git pull)"
       return
@@ -93,7 +94,12 @@ install_one() {
       git clone --depth 1 "$REPO_URL" "$src" >/dev/null 2>&1 || {
         echo "    ⚠️  no .git and clone failed; re-run with --from-local <dir>"; return; }
     fi
-    local bak="$dest.bak.$(date +%Y%m%d%H%M%S)"
+    # Backups must NOT live inside skills/ — agent hosts scan that directory and would
+    # register the backup as a second, duplicate skill. Keep it one level out.
+    local bak_root bak
+    bak_root="$(dirname "$(dirname "$dest")")/skill-backups"
+    mkdir -p "$bak_root"
+    bak="$bak_root/$NAME.$(date +%Y%m%d%H%M%S)"
     mv "$dest" "$bak"
     cp -R "$src" "$dest"
     echo "    ✅ updated (re-synced; previous copy kept at $bak)"
