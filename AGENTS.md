@@ -24,7 +24,8 @@ Use proactively when the user:
 - Asks to improve or expand an existing Seedance prompt
 - Says any of: seedance, video prompt, 视频提示词, 帮我做视频, 短剧, 分镜, vibe 提示词
 
-Do NOT use for: pure image prompts, non-Seedance models, actual rendering / API calls.
+Do NOT use for: standalone image creation (posters, illustrations), non-Seedance video models, actual rendering / API calls.
+Reference/setup images that serve video consistency ARE in scope — see Step 4.6.
 
 ## Workflow (run in order, autonomously)
 
@@ -135,6 +136,27 @@ marks) and to imitate that specificity when writing your own `<<<anchor>>> — d
 lines. **Never copy the source project's actual characters/props wholesale** — the lexicon
 is a style/format teacher, not content to paste.
 
+### Step 4.6 — Reference images (the real consistency mechanism)
+Text cannot anchor identity on its own. **87.32% of the 473,239 source assets carry
+`reference_elements`** — consistency is locked by *images*, and `<<<name>>>` is only a
+pointer to one. Repeating the same appearance paragraph in every shot still drifts.
+
+For any character / prop / location that appears in more than one shot:
+1. Produce a **three-panel character sheet prompt** first — front full-body · back
+   full-body · close-up, on a seamless neutral mid-grey backdrop under even soft light
+   (`three-panel` appears 4,556 times in the source image corpus, `character sheet` 3,007).
+2. Register the anchor name in the continuity bible, then reference it per shot under
+   `ACTIVE REFERENCES`.
+
+**State changes are edits to the sheet, not rewrites of the video prompt.** When a character
+gets injured / soaked / dirty / changes clothes, edit the sheet into a new version
+(`char_X_v2`) rather than describing the change in each shot — 46.8% of real character
+assets carry a `_vN` suffix and one character has 28 versions. The edit prompt must say
+`consistently across ALL panels`, enumerate what must NOT change, and pin
+`COLOUR GRADE — match the reference EXACTLY 1:1`.
+
+Templates, naming convention and the full workflow: `references/reference-image-protocol.md`.
+
 ### Step 6 — Deliver
 Output ONLY clean paste-ready prompt(s) + ≤3 short notes. No commentary walls.
 
@@ -143,12 +165,13 @@ Output ONLY clean paste-ready prompt(s) + ≤3 short notes. No commentary walls.
 Automatically produce, in order (protocols in `references/story-breakdown.md`, `references/continuity-bible.md`, `references/sequence-protocol.md`):
 
 1. **Story breakdown**: goal/ending → beats (3-8) → scenes (same time+place) → shots (2-6 per scene) → budget (≤6 shots per batch)
-2. **Continuity bible**: character/scene/prop definitions (series-level anchors); every shot prompt references the bible verbatim, never rewritten
-3. **Shotlist table**: | shot | scene | shot type | cam/focal/move | content | transition |
-4. **Per-shot prompts**: each independently paste-ready, with sequence header (`# shot N/total | scene | transition | start/end state`)
+2. **Reference sheets** (Step 4.6): three-panel character-sheet prompt for every element appearing in more than one shot; edited versions (`_vN`) for state changes
+3. **Continuity bible**: character/scene/prop definitions (series-level anchors) plus which sheet version each shot uses; every shot prompt references the bible verbatim, never rewritten
+4. **Shotlist table**: | shot | scene | shot type | cam/focal/move | content | transition |
+5. **Per-shot prompts**: each independently paste-ready, with sequence header (`# shot N/total | scene | transition | start/end state`)
    - Transitions: continuation (default) / time jump / transition close-up
    - Consistency negative constraint on every shot: `no identity drift, characters identical across every cut`
-5. **State machine**: update character position / prop state / light / mood between batches
+6. **State machine**: update character position / prop state / light / mood between batches
 
 ## Boundaries
 
