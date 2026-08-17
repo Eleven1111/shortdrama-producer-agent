@@ -72,7 +72,7 @@ Duration: <<<duration>> seconds. Aspect ratio: <<<21:9>>>. One continuous <<<mov
 
 ## 八、检索优先级（BM25 跨项目语料）
 
-`seedance_corpus.jsonl.gz` 现合并 HG 1039 + CHB 4348 = 5387 docs。检索时优先：
+`seedance_corpus.jsonl.gz` 现合并 HG 1039（采样）+ CHB 6785（cluster 去重代表，覆盖 937 folder）= 7824 docs。检索时优先：
 1. 用户场景词命中范例
 2. 同 project 优先（HG 检索召回时 HG 项目本身优先）
 3. 金标（CHB 562）始终保留优先召回

@@ -82,6 +82,23 @@ Use these as the *verified story rhythm*, not generic screenwriting advice. For 
 
 If any check fails, rewrite the prompt until it passes before delivering.
 
+### Step 5.5 — Harden constraints (`references/iteration-lessons.md`)
+Mined from 4,154 real revised prompt clusters: **69.7% of revisions add length, while
+section skeletons barely move (2–6% add/remove)** — creators iterate by tightening
+constraints, not rewriting prose. Most-expanded sections: `POSITIVE CONSTRAINTS` (32.8%),
+`POSITIVE LOCKS` (31.0%), `ACTION TIMING` (28.5%). After generating, add what a first
+draft predictably misses:
+
+- **Five cross-project-verified baselines** (high frequency in *both* source projects):
+  diegetic sound / no music · no on-screen text or watermark · natural 180-degree shutter
+  cadence · explicit hard-cut timecodes · `all left/right = FROM CAMERA`.
+- **Per-genre** (single-project evidence, pick by fit): realist footage → not-3D-render,
+  nothing floats, hands fully formed; multi-shot continuity → one lens locked per segment,
+  180° axis consistency, no empty first frame.
+- The source projects' own world settings (British spelling, period locks, their
+  reference-matching discipline) are listed in §4 of that file as a **blocklist** —
+  they must never reach user output.
+
 ### Step 4.5 — Appearance authority (character/environment/prop cards)
 For any character, location or prop the user wants consistent across shots, consult
 `references/character_cards_visual.md` (or `.json`) — an aggregated lexicon of 1,351 real
@@ -129,7 +146,7 @@ shortdrama-producer-agent/
 ├── SKILL.md                 # 兼容层：作为 Claude Code / WorkBuddy skill 的入口
 ├── scripts/
 │   ├── seedance_search.py   # 零依赖 BM25 检索器（纯 Python stdlib）
-│   └── seedance_corpus.jsonl.gz  # 4,348 条真实生产范例（金标 562 + 采样）
+│   └── seedance_corpus.jsonl.gz  # 7,824 条真实生产范例（金标 562 + cluster 去重代表）
 └── references/              # 规律库 / 模板 / 序列协议（Step 4/短剧模式引用）
 ```
 
