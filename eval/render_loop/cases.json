@@ -1,0 +1,57 @@
+{
+  "meta": {
+    "purpose": "P1 渲染回环的 A/B 用例集。A 组 = agent 产出（含 Step 5.5 约束加固），B 组 = 同一需求但跳过 Step 5.5。用于验证 iteration-lessons.md 的约束是否真的降低出片缺陷率。",
+    "design": "12 用例 × 2 组 = 24 次渲染。用例覆盖 single-shot / short-drama 两种模式，以及 Step 5.5 各条约束的可观测场景。",
+    "note": "用例的 idea 字段是用户视角的原始模糊描述 —— 刻意保持口语、信息不全，这才是真实输入形态。"
+  },
+  "cases": [
+    {
+      "id": "c01", "mode": "single", "probes": ["diegetic_audio", "no_onscreen_text"],
+      "idea": "雨夜，一个女孩在便利店门口等人，一直没等到"
+    },
+    {
+      "id": "c02", "mode": "single", "probes": ["hands_formed", "no_floating"],
+      "idea": "老木匠在工作台上刨木头，木屑飞起来"
+    },
+    {
+      "id": "c03", "mode": "single", "probes": ["no_look_at_lens", "shutter_cadence"],
+      "idea": "地铁上一个上班族盯着窗外发呆"
+    },
+    {
+      "id": "c04", "mode": "single", "probes": ["lens_locked", "no_fisheye"],
+      "idea": "空荡的办公室，只有一盏灯还亮着，镜头慢慢推近那张桌子"
+    },
+    {
+      "id": "c05", "mode": "single", "probes": ["not_3d_render", "diegetic_audio"],
+      "idea": "菜市场清晨，摊贩在摆货，很有生活气"
+    },
+    {
+      "id": "c06", "mode": "single", "probes": ["no_empty_first_frame", "camera_relative_direction"],
+      "idea": "一辆车从画面左边开进来，停下，人下车"
+    },
+    {
+      "id": "c07", "mode": "drama", "shots": 3, "probes": ["hard_cut_timecode", "identity_consistency"],
+      "idea": "男人收到一条短信，脸色变了，冲出门"
+    },
+    {
+      "id": "c08", "mode": "drama", "shots": 3, "probes": ["identity_consistency", "axis_180"],
+      "idea": "两个人在天台对峙，谁也不说话"
+    },
+    {
+      "id": "c09", "mode": "drama", "shots": 4, "probes": ["hard_cut_timecode", "hold_final_frame"],
+      "idea": "小孩追着气球跑，气球飞走了，他停下来抬头看"
+    },
+    {
+      "id": "c10", "mode": "drama", "shots": 3, "probes": ["identity_consistency", "prop_consistency"],
+      "idea": "女人在厨房煮面，端到桌上，对面椅子是空的"
+    },
+    {
+      "id": "c11", "mode": "single", "probes": ["no_slow_motion", "no_floating"],
+      "idea": "下雨天，水滴打在积水的地面上"
+    },
+    {
+      "id": "c12", "mode": "drama", "shots": 3, "probes": ["axis_180", "camera_relative_direction"],
+      "idea": "两个人隔着桌子谈判，气氛紧张"
+    }
+  ]
+}

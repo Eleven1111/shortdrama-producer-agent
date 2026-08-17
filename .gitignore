@@ -1,0 +1,4 @@
+scripts/.bm25_index.pkl
+scripts/.bm25_index.pkl.tmp
+__pycache__/
+eval/render_loop/out/

@@ -70,6 +70,21 @@ For any character / location / prop the user wants consistent, consult `referenc
 - [ ] Style anchor ≥1
 - [ ] No AI-flavored filler
 
+### Step 5.5 — Harden constraints (`references/iteration-lessons.md`)
+Real production data (4,154 revised prompt clusters): **69.7% of revisions add length,
+and section skeletons barely change (2–6%)** — creators iterate by tightening constraints,
+not by rewriting prose. `POSITIVE CONSTRAINTS` (32.8%) and `POSITIVE LOCKS` (31.0%) are
+the most-expanded sections. So after generating, add what a first draft predictably misses:
+
+- **Five cross-project-verified baselines** (present in both source projects): diegetic
+  sound / no music · no on-screen text or watermark · natural 180-degree shutter cadence ·
+  explicit hard-cut timecodes · `all left/right = FROM CAMERA`.
+- **Per-genre** (single-project evidence, pick by fit): realist footage → not-3D-render,
+  nothing floats, hands fully formed; multi-shot continuity → one lens locked per segment,
+  180° axis, no empty first frame.
+- Never emit the source projects' own settings (British spelling, period locks, their
+  reference-matching discipline) — see §4 of that file.
+
 ### Step 6 — Deliver
 Output ONLY clean paste-ready prompt(s) + ≤3 short notes.
 
