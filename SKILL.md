@@ -1,6 +1,6 @@
 ---
 name: shortdrama-producer
-description: "跨终端通用 Seedance 短剧/视频 prompt 生产 Agent。当用户想为 Seedance 2.0/2.5（或 Higgsfield AI 等 Seedance 系平台）生成视频、只给出模糊想法、灵感碎片、剧情概念时使用。自动完成整个生产工作流：解析意图 → 检索真实生产范例 → 生成创意简报 → 产出可直接粘贴的高质量 Seedance prompt → 质检。支持单镜头（cinema/quick 两档）与短剧（多镜头/分镜/连续场景）模式。Use proactively whenever the user mentions seedance, 文生视频, video prompt, 短剧, 分镜, 视频提示词, 帮我做视频, AI 视频. 不处理：纯图像 prompt、非 Seedance 模型、实际渲染/API 调用。"
+description: "跨终端通用 Seedance 短剧/视频 prompt 生产 Agent。当用户想为 Seedance 2.0/2.5（或 Higgsfield AI 等 Seedance 系平台）生成视频、只给出模糊想法、灵感碎片、剧情概念时使用。自动完成整个生产工作流：解析意图 → 检索真实生产范例 → 生成创意简报 → 产出可直接粘贴的高质量 Seedance prompt → 质检。支持单镜头（cinema/quick 两档）与短剧（多镜头/分镜/连续场景）模式。Use proactively whenever the user mentions seedance, 文生视频, video prompt, 短剧, 分镜, 视频提示词, 帮我做视频, AI 视频. 为保证跨镜一致性而做的角色/道具设定图 prompt 属于职责内；不处理：独立图像创作（海报/插画）、非 Seedance 视频模型、实际渲染/API 调用。"
 license: MIT
 user-invocable: true
 tags: [seedance, video-prompt, creative, short-drama, sequence, workflow, agent]
@@ -41,7 +41,8 @@ and generate on the first reply no matter how partial.
 ## Triggers
 
 Use proactively when the user wants a Seedance / 文生视频 / video prompt / short-drama (短剧/多镜头/分镜) / or asks to improve an existing Seedance prompt.
-Do NOT use for: pure image prompts, non-Seedance models, actual rendering / API calls.
+Do NOT use for: standalone image creation (posters, illustrations), non-Seedance video models, actual rendering / API calls.
+Reference/setup images that serve video consistency ARE in scope — see Step 4.6.
 
 ## Workflow (run in order, autonomously)
 
@@ -83,6 +84,18 @@ Tiers: default **cinema** (600–2,000 words); "quick / 快点" → **quick** (8
 ### Step 4.5 — Appearance authority (character/environment/prop cards)
 For any character / location / prop the user wants consistent, consult `references/character_cards_visual.md` (or .json) — 1,351 real production cards (439 characters / 616 environments / 296 props), 40k+ appearance descriptions. Imitate their specificity (height, build, hair, skin, item-by-item clothing, marks) when writing `<<<anchor>>> — description`. Never paste the source project's actual characters/props wholesale — it is a style teacher, not content.
 
+### Step 4.6 — Reference images (short-drama / any cross-shot consistency)
+Text alone cannot anchor identity — **87.32% of the source corpus carries
+`reference_elements`**. Consistency is locked by *images*; `<<<name>>>` is only a pointer
+to one. For any character / prop / location appearing in more than one shot, produce a
+**three-panel character sheet prompt** first (front full-body · back full-body · close-up),
+then reference it per shot. Full protocol, templates and naming in
+`references/reference-image-protocol.md`.
+
+State changes (injured / soaked / dirty / changed clothes) are made by **editing the sheet
+into a new version**, never by re-describing the change in each shot's video prompt —
+46.8% of real character assets carry a `_vN` version suffix; one character has 28 versions.
+
 ### Step 5 — Self-check (fix and regenerate if failing)
 - [ ] OPTICS with angle degrees (47°) or mm
 - [ ] SCENE CONTEXT with light
@@ -113,13 +126,16 @@ Output ONLY clean paste-ready prompt(s) + ≤3 short notes.
 
 ## Short-drama mode (multi-shot / story)
 1. **Story breakdown** (goal/ending → beats 3-8 → scenes → shots 2-6/scene → budget ≤6/batch)
-2. **Continuity bible** (character/scene/prop anchors; referenced verbatim every shot)
-3. **Shotlist table** (| shot | scene | type | cam/focal/move | content | transition |)
-4. **Per-shot prompts** (sequence header `# shot N/total | scene | transition | start/end`; transitions: continuation / time jump / close-up; every shot: `no identity drift, characters identical across every cut`)
-5. **State machine** between batches (position / prop / light / mood)
+2. **Reference sheets** (Step 4.6) — three-panel sheet prompt for every cross-shot character/prop/location, plus edited versions for state changes
+3. **Continuity bible** (character/scene/prop anchors + which sheet version each shot uses; referenced verbatim every shot)
+4. **Shotlist table** (| shot | scene | type | cam/focal/move | content | transition |)
+5. **Per-shot prompts** (sequence header `# shot N/total | scene | transition | start/end`; transitions: continuation / time jump / close-up; every shot: `no identity drift, characters identical across every cut`)
+6. **State machine** between batches (position / prop / light / mood)
 
 ## Boundaries
-- Pure image → decline; non-Seedance models → decline; rendering/API → decline
+- **Reference/setup images that serve video consistency → in scope** (Step 4.6). Pure image
+  creation for its own sake (posters, illustrations, standalone artwork) → decline.
+- non-Seedance video models → decline; rendering/API → decline
 - IP/celebrity/likeness risk → warn, never infringe
 - Never import source-project story/characters/props into user work
 
