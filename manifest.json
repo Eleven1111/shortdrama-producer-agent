@@ -26,6 +26,7 @@
       "references/prompt-templates.md",
       "references/story-breakdown.md",
       "references/iteration-lessons.md",
+      "references/reference-image-protocol.md",
       "references/continuity-bible.md",
       "references/sequence-protocol.md",
       "references/character_cards_visual.json",
@@ -45,7 +46,8 @@
     "gold": 562,
     "source": "Higgsfield Hell Grind 115,447 + Cully Hill Boys 473,239 assets",
     "character_cards": 1607,
-    "iteration_clusters": 4154
+    "iteration_clusters": 4154,
+    "image_prompts_analyzed": 61554
   },
   "eval": {
     "retrieval": "scripts/eval_retrieval.py",
