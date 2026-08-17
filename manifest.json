@@ -25,9 +25,11 @@
       "references/clarification-protocol.md",
       "references/prompt-templates.md",
       "references/story-breakdown.md",
+      "references/iteration-lessons.md",
       "references/continuity-bible.md",
       "references/sequence-protocol.md",
       "references/character_cards_visual.json",
+      "references/reference_registry.json",
       "references/story_level/act_structure.json",
       "references/story_level/beat_patterns.json",
       "references/story_level/character_journeys.json",
@@ -39,9 +41,14 @@
   },
   "data": {
     "corpus": "scripts/seedance_corpus.jsonl.gz",
-    "docs": 5387,
+    "docs": 7824,
     "gold": 562,
     "source": "Higgsfield Hell Grind 115,447 + Cully Hill Boys 473,239 assets",
-    "character_cards": 1607
+    "character_cards": 1607,
+    "iteration_clusters": 4154
+  },
+  "eval": {
+    "retrieval": "scripts/eval_retrieval.py",
+    "render_loop": "eval/render_loop/ (A/B; 管道已验证，真实渲染未跑 — 无凭据)"
   }
 }

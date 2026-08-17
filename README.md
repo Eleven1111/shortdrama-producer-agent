@@ -18,7 +18,7 @@ A self-contained agent package. The host agent (Claude Code / Codex / WorkBuddy 
 | `SKILL.md` | Compatibility layer — lets Claude Code / WorkBuddy load the same agent as a skill. Same content as `AGENTS.md`. |
 | `agents/openai.yaml` | OpenAI metadata — UI name, description, invocation policy and tool deps for ChatGPT / Codex. |
 | `scripts/seedance_search.py` | Zero-dependency BM25 retriever (pure Python stdlib). Retrieves real production examples. |
-| `scripts/seedance_corpus.jsonl.gz` | 5,387 real Seedance production prompts (1,039 Hell Grind + 4,348 Cully Hill Boys), gold-tagged, copyright-stripped. |
+| `scripts/seedance_corpus.jsonl.gz` | 7,824 real Seedance production prompts (1,039 Hell Grind sampled + 6,785 Cully Hill Boys cluster representatives covering 937 folders), gold-tagged, copyright-stripped at query time. |
 | `references/` | Writing guide (cross-project verified), prompt templates, sequence protocol, continuity bible, character card lexicon (1,607 cards), story-level patterns (3-act pacing, character journeys, prop journeys, beat transitions, conflict templates, movement arcs). |
 | `install.sh` | One-command install / update for any supported terminal. |
 | `manifest.json` | Package metadata (version, tags, dependencies). |
@@ -48,7 +48,7 @@ Describe your idea in any language. The agent runs the whole workflow:
 > "A girl walking through a rainy alley at night, holding a wet photograph, neon reflecting in puddles — moody."
 
 1. **Parse intent** — single-shot (cinema / quick) or short-drama (multi-shot) mode
-2. **Retrieve** — BM25 search over 5,387 real production examples (auto-runs the bundled script)
+2. **Retrieve** — BM25 search over 7,824 real production examples (auto-runs the bundled script)
 3. **Brief** — internal creative brief (subject / action / setting / mood / style anchor)
 4. **Generate** — full Seedance prompt (SCENE CONTEXT → ACTIVE REFERENCES → OPTICS → ACTION → negatives → audio), 10 hard rules from verified corpus statistics
 5. **Self-check** — 8-point quality gate; rewrite until passing
@@ -66,7 +66,7 @@ python3 scripts/seedance_search.py "police helicopter chasing a white Escalade a
 
 | Item | Value |
 |---|---|
-| Retrieval corpus | 5,387 real production prompts (1,039 Hell Grind + 4,348 Cully Hill Boys) |
+| Retrieval corpus | 7,824 real production prompts (1,039 Hell Grind + 6,785 Cully Hill Boys) |
 | Gold set | 562 (Seedance 2.5 "one-shot success" regenerations, `0 Regenerations` folder) |
 | Source | Higgsfield public projects: "Hell Grind" (115,447 assets) + "Cully Hill Boys" (473,239 assets) |
 | Character lexicon | 1,607 cards (character / environment / prop) with 40k+ appearance descriptions |
@@ -98,7 +98,7 @@ Update: `git pull` in the source dir, then `./install.sh --update`, or per insta
 | `SKILL.md` | 兼容层——Claude Code / WorkBuddy 按 skill 加载同一 Agent，内容与 AGENTS.md 同源 |
 | `agents/openai.yaml` | OpenAI 元数据——ChatGPT / Codex 的 UI 名称、描述、调用策略与工具依赖声明 |
 | `scripts/seedance_search.py` | 零依赖 BM25 检索器（纯 Python stdlib），检索真实生产范例 |
-| `scripts/seedance_corpus.jsonl.gz` | 5,387 条真实 Seedance 生产 prompt（Hell Grind 1,039 + Cully Hill Boys 4,348），含金标标签、已剥离版权内容 |
+| `scripts/seedance_corpus.jsonl.gz` | 7,824 条真实 Seedance 生产 prompt（Hell Grind 1,039 采样 + Cully Hill Boys 6,785 cluster 去重代表，覆盖 937 个文件夹），含金标标签、检索时剥离版权内容 |
 | `references/` | 写作规律库（跨项目验证）、模板、序列协议、连续性圣经、角色卡词典（1,607 张）、故事级模式（3 幕节奏/角色旅程/道具跨场/节拍转场/冲突模板/调度曲线） |
 | `install.sh` | 一条命令安装/更新到任意支持的终端 |
 | `manifest.json` | 包元数据（版本、标签、依赖） |
@@ -128,7 +128,7 @@ Update: `git pull` in the source dir, then `./install.sh --update`, or per insta
 > "想做一个雨夜女孩在巷子里拿着照片走的视频，要有氛围感"
 
 1. **解析意图** — 单镜头（cinema / quick）或短剧（多镜头）模式
-2. **检索** — 对 5,387 条真实生产范例做 BM25 检索（自动运行内置脚本）
+2. **检索** — 对 7,824 条真实生产范例做 BM25 检索（自动运行内置脚本）
 3. **简报** — 内部生成创意简报（主体 / 动作 / 场景 / 氛围 / 风格锚）
 4. **生成** — 完整 Seedance prompt（SCENE CONTEXT → ACTIVE REFERENCES → OPTICS → ACTION → 负面约束 → 音频），10 条硬规则来自语料统计
 5. **质检** — 8 项自检，不过自动重写
@@ -146,7 +146,7 @@ python3 scripts/seedance_search.py "police helicopter chasing a white Escalade a
 
 | 项 | 值 |
 |---|---|
-| 检索库 | 5,387 条真实生产 prompt（Hell Grind 1,039 + Cully Hill Boys 4,348） |
+| 检索库 | 7,824 条真实生产 prompt（Hell Grind 1,039 + Cully Hill Boys 6,785） |
 | 金标集 | 562 条（Seedance 2.5 "一次成型"重生成，`0 Regenerations` 文件夹） |
 | 来源 | Higgsfield 公开项目："Hell Grind"（115,447 资产）+ "Cully Hill Boys"（473,239 资产） |
 | 角色词典 | 1,607 张卡（角色/场景/道具）+ 4 万+ 条外观描述 |
