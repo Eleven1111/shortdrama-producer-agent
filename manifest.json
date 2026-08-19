@@ -24,6 +24,7 @@
     "references": [
       "references/platform-capabilities.md",
       "references/output-modes.md",
+      "references/asset-binding.md",
       "references/seedance-writing-guide.md",
       "references/clarification-protocol.md",
       "references/prompt-templates.md",
@@ -54,6 +55,7 @@
   },
   "eval": {
     "retrieval": "scripts/eval_retrieval.py",
-    "render_loop": "eval/render_loop/ (A/B; 管道已验证，真实渲染未跑 — 无凭据)"
+    "render_loop": "eval/render_loop/ (A/B; 管道已验证，真实渲染未跑 — 无凭据)",
+    "behavior_cases": "tests/behavior-cases.json"
   }
 }

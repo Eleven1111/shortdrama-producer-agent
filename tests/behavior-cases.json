@@ -1,0 +1,157 @@
+{
+  "meta": {
+    "purpose": "workflow 层行为规格。LLM 行为无法用断言自动测，所以 expected 是自然语言验收条款 —— 供人或另一个模型判定，也用于回归复核。",
+    "note": "与 eval/render_loop/cases.json 分工不同：那份测的是出片质量（需要渲染），这份测的是 agent 的对话行为（不需要渲染）。",
+    "how_to_run": "在干净会话里逐条把 request 发给 agent，对照 expected 判定。任一条不符即为回归。",
+    "required_categories": ["routing", "platform", "output-mode", "asset-binding", "reference-image", "boundary", "constraint-hardening"]
+  },
+  "cases": [
+    {
+      "id": "routing-zero-info",
+      "category": "routing",
+      "request": "帮我做个搞笑视频",
+      "expected": [
+        "不提问，直接给 3 个可拍的具体方向",
+        "每个方向具体到能开拍，不是「幽默日常类」这种品类词",
+        "用中文回应"
+      ]
+    },
+    {
+      "id": "routing-two-dimensions",
+      "category": "routing",
+      "request": "雨夜，一个女孩在便利店门口等人",
+      "expected": [
+        "最多问 2 题，且是选项式（每题 3-4 个具体选项 + 你定默认）",
+        "问的是调性与结局这类猜错代价高的维度",
+        "不问焦段、画幅、风格锚、模型参数"
+      ]
+    },
+    {
+      "id": "routing-enough-info",
+      "category": "routing",
+      "request": "雨夜，女孩在便利店门口等不到人，孤独、冷调，写实风格",
+      "expected": ["不提问，直接生成", "交付时标注所做的默认假设"]
+    },
+    {
+      "id": "routing-you-decide",
+      "category": "routing",
+      "request": "做个视频吧，主题你定",
+      "expected": ["立即停止提问", "自主设计并明确标注全部假设"]
+    },
+    {
+      "id": "platform-within-limit",
+      "category": "platform",
+      "request": "做个 10 秒的猫在窗台晒太阳的镜头",
+      "expected": ["不询问平台（10 秒在所有平台都成立）", "直接生成"]
+    },
+    {
+      "id": "platform-over-ceiling",
+      "category": "platform",
+      "request": "帮我做一条 60 秒的连续短片",
+      "expected": [
+        "指出 60 秒超出常规单次生成上限",
+        "说明需要哪条路径：Higgsfield 走续写链，Dreamina 走 Long Video",
+        "不要默默产出一条平台跑不了的 prompt"
+      ]
+    },
+    {
+      "id": "platform-no-hardcoded-default",
+      "category": "platform",
+      "request": "给我一个咖啡广告的竖屏短视频提示词",
+      "expected": [
+        "画幅按竖屏场景选 9:16，而不是套用 21:9",
+        "时长不硬编 15 秒；若未知平台则标注为保守默认"
+      ]
+    },
+    {
+      "id": "output-prompt-only",
+      "category": "output-mode",
+      "request": "只要提示词，别的都不用：黄昏天台上两个人对视",
+      "expected": ["只输出一个 text 代码块", "不附导演方案、不附点评、不附注释"]
+    },
+    {
+      "id": "output-diagnosis-only",
+      "category": "output-mode",
+      "request": "我这条 prompt 出片总是糊的，帮我看看问题在哪：`A girl walking in rain, cinematic, 4k, beautiful, slow motion, add BGM, no subtitles`",
+      "expected": [
+        "先跑 scripts/diagnose_prompt.py 而不是凭感觉点评",
+        "按影响排序：矛盾 → 规格 → 高频段缺失 → 约束缺失",
+        "每条给出该写的句子，而不是「建议增加光照描述」这类空话",
+        "不擅自把整条 prompt 重写后交回"
+      ]
+    },
+    {
+      "id": "output-revision-keeps-structure",
+      "category": "output-mode",
+      "request": "按我原来的结构改，别整个重写，只把缺的补上",
+      "expected": [
+        "保留原有段落顺序、命名与语言",
+        "只解矛盾、补高影响缺口、修规格越界",
+        "先用几行说明改了什么，再给改后的完整内容"
+      ]
+    },
+    {
+      "id": "asset-complete-person-reference",
+      "category": "asset-binding",
+      "request": "用 @Image 1 里的这个人，生成她在雨中走路的 15 秒视频",
+      "expected": [
+        "默认按完整可见人物处理：脸、发型、体型、服装、鞋、配饰全部保留",
+        "不擅自缩窄为只参考脸，也不擅自给人物换装",
+        "明确说明不继承参考图的背景与姿势",
+        "标签沿用 @Image 1，不改名不重排"
+      ]
+    },
+    {
+      "id": "asset-role-ambiguous",
+      "category": "asset-binding",
+      "request": "这两张图和一段视频都放进去，做个片子",
+      "expected": [
+        "素材角色不明确时必须澄清，且用选项式而非开放式提问",
+        "不要自行臆测每个素材的用途"
+      ]
+    },
+    {
+      "id": "reference-sheet-for-multishot",
+      "category": "reference-image",
+      "request": "做个三镜头的小片：男人收到短信、脸色一变、冲出门",
+      "expected": [
+        "识别为短剧模式",
+        "为跨镜出现的角色先产出三面板设定图 prompt（正面全身/背面全身/面部特写）",
+        "连续性圣经记录锚点名与版本",
+        "逐镜 prompt 引用同一锚点，措辞逐字一致"
+      ]
+    },
+    {
+      "id": "reference-state-change",
+      "category": "reference-image",
+      "request": "第三个镜头里他淋湿了，怎么保证还是同一个人",
+      "expected": [
+        "说明状态变化应通过编辑设定图产生新版本（如 _v2），而不是在每镜 prompt 里重描述",
+        "编辑 prompt 要含 consistently across ALL panels、逐项列出不可变项、COLOUR GRADE 1:1"
+      ]
+    },
+    {
+      "id": "boundary-pure-image",
+      "category": "boundary",
+      "request": "帮我设计一张电影海报",
+      "expected": ["拒绝：独立图像创作不在职责内", "说明服务于视频一致性的设定图 prompt 才在范围内"]
+    },
+    {
+      "id": "boundary-no-rendering",
+      "category": "boundary",
+      "request": "直接帮我把视频生成出来",
+      "expected": ["说明本 Agent 只产出 prompt/脚本，不调用渲染、不消耗额度", "不声称已经生成了视频"]
+    },
+    {
+      "id": "constraint-hardening-applied",
+      "category": "constraint-hardening",
+      "request": "写实风格，工人在工地上搬砖，15 秒",
+      "expected": [
+        "生成后执行 Step 5.5 加固",
+        "含五条跨项目验证基线：同期声/无配乐、禁屏幕文字水印、180° 快门、硬切时间码（多镜头时）、方位以镜头为准",
+        "写实题材另加：非 3D 渲染、物体不漂浮、手部解剖正确",
+        "不出现源项目专属设定（British spelling、年代限定等）"
+      ]
+    }
+  ]
+}
