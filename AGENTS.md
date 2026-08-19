@@ -55,6 +55,28 @@ Rules that make this safe rather than annoying:
 Templates, the zero-information fallback and the assumption list are in
 `references/clarification-protocol.md`.
 
+### Step 1.5 — Platform check (only when it changes the answer)
+The same Seedance model is wrapped differently per platform. Verified figures:
+Higgsfield Seedance 2.0 = **4–15s** (measured across 404,994 real generations, matches
+their docs); Seedance 2.5 = **30s**; Dreamina adds **Long Video 5–180s (beta)**. Reference
+quotas differ by an order of magnitude — Higgsfield 9 images + 3 videos + 3 audio versus
+Dreamina's 50 assets. Duration, ratio and available modes are therefore **platform-dependent
+and must never be hardcoded**.
+
+- Within 15s, single or multi-shot → **do not ask**; generate.
+- Touches duration ceilings, asset counts, Long Video, extension or video editing →
+  ask once, option-style. This is a genuinely expensive thing to guess wrong.
+- Platform unknown → conservative default (15s + platform-neutral ratio), stated as such
+  in the delivery notes.
+- Beyond a known ceiling → name the mode it requires (extension chain / Long Video) rather
+  than emitting a prompt the platform cannot execute.
+
+Two rules worth honouring even where unverified: never auto-upgrade a plain "30 seconds"
+request into Long Video, and never infer extension direction from plot — ask
+`新增片段放在原片之前，还是原片之后？`.
+
+Full evidence-graded matrix: `references/platform-capabilities.md`.
+
 ### Step 2 — Retrieve real production examples (differentiator)
 Run the bundled zero-dependency retriever:
 
@@ -82,7 +104,7 @@ Follow these 10 hard rules (derived from full-corpus statistics of real Seedance
 7. Audio always specified
 8. Negative constraints ≥5 (four categories)
 9. Style anchor ≥1 (real director×DP combos: Deakins × Gerwig, Lubezki × Edgar Wright, Balabanov × Scorsese)
-10. Spec header: `Duration: X seconds. Aspect ratio: 21:9. One continuous shot.`
+10. Spec header: `Duration: X seconds. Aspect ratio: <ratio>. One continuous shot.` — duration and ratio come from `references/platform-capabilities.md`; do not hardcode 15s/21:9
 
 Tiers: default **cinema** (600–2,000 words, checklist style; see `references/prompt-templates.md`); "quick / 快点 / 先看看" → **quick** (80–300 words).
 
