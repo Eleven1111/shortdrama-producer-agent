@@ -82,7 +82,8 @@ python3 scripts/seedance_search.py "police helicopter chasing a white Escalade a
 
 ### License & update
 
-MIT License · Copyright (c) 2026 Eleven1111.
+MIT License · Copyright (c) 2026 Eleven1111. See [LICENSE](LICENSE).
+Corpus provenance, anonymisation scope and third-party rights: [NOTICE.md](NOTICE.md).
 
 Update: `git pull` in the source dir, then `./install.sh --update`, or per install: `git -C ~/.agents/skills/shortdrama-producer pull`.
 
@@ -162,6 +163,7 @@ python3 scripts/seedance_search.py "police helicopter chasing a white Escalade a
 
 ### 许可证与更新
 
-MIT License · Copyright (c) 2026 Eleven1111.
+MIT License · Copyright (c) 2026 Eleven1111. 见 [LICENSE](LICENSE)。
+语料来源、匿名化范围与第三方权利声明见 [NOTICE.md](NOTICE.md)。
 
 更新：源目录 `git pull` 后 `./install.sh --update`；或对每个安装 `git -C ~/.agents/skills/shortdrama-producer pull`。
