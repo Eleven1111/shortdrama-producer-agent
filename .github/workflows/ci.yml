@@ -9,7 +9,7 @@ on:
 
 jobs:
   validate:
-    name: Lint manifest + retrieval smoke test
+    name: Structure + manifest + retrieval validation
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -64,6 +64,23 @@ jobs:
               assert 'structure' in h, 'structure missing'
           print(f'smoke OK: {len(hits)} hits, top score={hits[0][\"score\"]}')
           "
+
+      - name: Structure anti-rot validation
+        run: python3 scripts/validate_structure.py
+
+      - name: Diagnoser smoke test
+        run: |
+          printf 'A girl in the rain. Add background music. Diegetic sound only, no music.\n' \
+            | python3 scripts/diagnose_prompt.py --json > /tmp/diag.json
+          python3 - <<'PY2'
+          import json
+          d = json.load(open('/tmp/diag.json'))
+          assert d['contradictions'], 'diagnoser failed to catch the music contradiction'
+          assert d['missing_sections'], 'diagnoser reported no missing sections for a bare prompt'
+          assert any('300' in w for w in d['warnings']), 'diagnoser missed the too-short warning'
+          print('diagnoser smoke OK:', len(d['contradictions']), 'contradiction(s),',
+                len(d['missing_sections']), 'missing section(s)')
+          PY2
 
       - name: install.sh syntax check
         run: bash -n install.sh && echo "install.sh syntax OK"
