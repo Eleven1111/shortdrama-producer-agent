@@ -21,6 +21,7 @@
       "scripts/seedance_corpus.jsonl.gz"
     ],
     "references": [
+      "references/platform-capabilities.md",
       "references/seedance-writing-guide.md",
       "references/clarification-protocol.md",
       "references/prompt-templates.md",

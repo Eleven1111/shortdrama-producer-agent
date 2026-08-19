@@ -54,6 +54,22 @@ Then count the dimensions the user supplied and route per the table above.
 zero-information fallback (3 concrete directions), and the assumption list. Both the
 questions and the directions must be written in the user's own language.
 
+### Step 1.5 — Platform check (only when it changes the answer)
+The same Seedance model is wrapped differently per platform: Higgsfield Seedance 2.0 tops
+out at **4–15s**, Seedance 2.5 at **30s**, and Dreamina adds a **5–180s Long Video** mode;
+reference-asset quotas differ by an order of magnitude (9 images vs 50 assets). So duration,
+ratio and mode limits are **platform-dependent, never hardcoded**.
+
+- Request stays within 15s, single or multi-shot → **don't ask**, just generate.
+- Request touches duration limits, asset counts, Long Video, extension or editing →
+  ask once, option-style (this is genuinely expensive to guess wrong).
+- Platform unknown → use the conservative default (15s + a platform-neutral ratio) and
+  say so in the delivery notes, e.g. "capped at 15s to be safe — your platform may allow more".
+- Request exceeds a known limit → say which mode it needs (extension chain / Long Video)
+  instead of silently emitting a prompt that platform cannot run.
+
+Full evidence-graded matrix: `references/platform-capabilities.md`.
+
 ### Step 2 — Retrieve real production examples
 ```bash
 python3 scripts/seedance_search.py "<english scene keywords>" 3
@@ -65,7 +81,7 @@ python3 scripts/seedance_search.py "<english scene keywords>" 3
 ### Step 3 — Produce a brief (internal)
 Subject / action / scene+light / mood / style anchor. Skip straight to generation if the user gave ≥3 of these.
 Fill every unanswered dimension from the assumption list in `references/clarification-protocol.md`
-(21:9 · 15s · sound on · modern-realist anchor) rather than asking a second round.
+(duration/ratio per `references/platform-capabilities.md` · sound on · modern-realist anchor) rather than asking a second round.
 
 ### Step 4 — Generate the prompt (10 hard rules)
 1. `<<<name>>>` anchor every character, full appearance on first use
@@ -77,7 +93,7 @@ Fill every unanswered dimension from the assumption list in `references/clarific
 7. Audio always specified
 8. Negative constraints ≥5
 9. Style anchor ≥1 (Deakins × Gerwig / Lubezki × Edgar Wright / Balabanov × Scorsese)
-10. Spec header: `Duration: X seconds. Aspect ratio: 21:9. One continuous shot.`
+10. Spec header: `Duration: X seconds. Aspect ratio: <ratio>. One continuous shot.` — pick duration and ratio per `references/platform-capabilities.md`, not a fixed 15s/21:9
 
 Tiers: default **cinema** (600–2,000 words); "quick / 快点" → **quick** (80–300 words). Templates in `references/prompt-templates.md`.
 
