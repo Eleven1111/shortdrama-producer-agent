@@ -132,6 +132,20 @@ def check_links(errors):
                     errors.append('死链: %s -> %s' % (rel, t))
 
 
+def check_legal_files(errors):
+    """LICENSE 与 NOTICE 必须存在且被 README 指到 —— 声明了 MIT 却没有 LICENSE 文件
+    是本仓库真实出现过的缺口。"""
+    for fn in ('LICENSE', 'NOTICE.md'):
+        if not os.path.isfile(os.path.join(ROOT, fn)):
+            errors.append('缺文件: %s' % fn)
+    readme = os.path.join(ROOT, 'README.md')
+    if os.path.isfile(readme):
+        t = open(readme, encoding='utf-8').read()
+        for fn in ('LICENSE', 'NOTICE.md'):
+            if fn not in t:
+                errors.append('README 未指向 %s' % fn)
+
+
 def check_placeholders(errors):
     for sub in ('SKILL.md', 'AGENTS.md', 'README.md'):
         p = os.path.join(ROOT, sub)
@@ -197,6 +211,7 @@ def main():
     check_placeholders(errors)
     check_manifest_coverage(errors)
     check_behavior_cases(errors)
+    check_legal_files(errors)
     if errors:
         print('结构校验失败：')
         for e in errors:
