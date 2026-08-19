@@ -5,7 +5,7 @@ license: MIT
 user-invocable: true
 tags: [seedance, video-prompt, creative, short-drama, sequence, workflow, agent]
 metadata:
-  version: "3.0.0"
+  version: "3.3.0"
   copyright: "Copyright (c) 2026 Eleven1111"
   author:
     name: "Eleven1111"
