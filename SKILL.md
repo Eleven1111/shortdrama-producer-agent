@@ -46,6 +46,30 @@ Reference/setup images that serve video consistency ARE in scope — see Step 4.
 
 ## Workflow (run in order, autonomously)
 
+### Step 0 — Pick the deliverable (before anything else)
+The user does not always want a new prompt. If they arrive **with an existing prompt**
+asking why it underperforms, or asking for a targeted fix, generating a fresh one is the
+wrong answer.
+
+| Mode | Trigger | Deliver |
+|---|---|---|
+| `full-direction` (default) | unspecified | brief + mapping + continuity + one paste-ready prompt |
+| `prompt-only` | 「只要提示词」/ "just the prompt" | **only** one ```text block |
+| `script-only` | 「只要脚本」/ "just the script" | playable script, no prompt wrapper |
+| `diagnosis-only` | 「为什么效果差」/ "diagnose this" | diagnosis only — **do not rewrite** |
+| `revision` | 「按原结构改」/ "keep my structure" | preserve structure, fix only what matters |
+
+For `diagnosis-only` / `revision`, run the deterministic checker first — never eyeball it:
+
+```bash
+python3 scripts/diagnose_prompt.py <prompt file>
+```
+
+It reports internal contradictions, missing sections (against the 7,824-prompt corpus),
+missing constraints (against 4,154 real revisions), and spec violations. Order findings by
+impact: contradictions → spec → missing high-frequency sections → missing constraints.
+These two modes skip Step 1 and Step 3. Full rules: `references/output-modes.md`.
+
 ### Step 1 — Parse intent + route by information
 Multiple shots / a story / scene changes / 分镜 / 多镜头 → **short-drama mode**; otherwise **single-shot mode**. Decide by content when ambiguous.
 
