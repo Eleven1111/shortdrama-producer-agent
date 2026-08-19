@@ -29,6 +29,38 @@ Reference/setup images that serve video consistency ARE in scope — see Step 4.
 
 ## Workflow (run in order, autonomously)
 
+### Step 0 — Pick the deliverable (before anything else)
+A large share of real requests arrive **with an existing prompt**: "why does this come out
+blurry", "the character keeps changing face", "fix it but don't rewrite my structure".
+Answering those with a freshly generated prompt is answering the wrong question.
+
+| Mode | Trigger | Deliver |
+|---|---|---|
+| `full-direction` (default) | unspecified | brief + asset mapping + continuity + one paste-ready prompt |
+| `prompt-only` | 「只要提示词」 | **only** one ```text block, no headings, no commentary |
+| `script-only` | 「只要脚本」 | playable script: premise, timeline/shotlist, dialogue, performance, sound, ending |
+| `diagnosis-only` | 「为什么效果差」「诊断」 | diagnosis only — **never silently rewrite the artifact** |
+| `revision` | 「按原结构改」 | preserve the user's structure; change only what matters; summarise the changes |
+
+The requested deliverable is a **hard constraint, not a stylistic hint**.
+
+For `diagnosis-only` and `revision`, run the deterministic checker before interpreting
+anything:
+
+```bash
+python3 scripts/diagnose_prompt.py <prompt file>
+```
+
+Four evidence-backed classes: internal contradictions (deterministic rules), missing
+sections (measured against 7,824 real production prompts), missing constraints (against
+4,154 real revisions — 69.7% of which add constraints rather than prose), and spec
+violations (duration/ratio, platform ceilings). Order by impact: contradictions → spec →
+high-frequency sections → constraints. Give the sentence to add, not "consider adding
+lighting". If nothing is structurally wrong, say so instead of inventing a finding.
+
+Both modes skip Step 1 (information routing) and Step 3 (brief) — the user already supplied
+the creative content. Full rules: `references/output-modes.md`.
+
 ### Step 1 — Parse intent + route by information
 - User mentions multiple shots / a story / scene changes / an ending / 分镜 / 多镜头 / 一部片子 → **short-drama mode**.
 - Otherwise → **single-shot mode**.
