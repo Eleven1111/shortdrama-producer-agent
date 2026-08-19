@@ -132,6 +132,26 @@ def check_links(errors):
                     errors.append('死链: %s -> %s' % (rel, t))
 
 
+def check_version_sync(errors):
+    """manifest.json 与 SKILL.md frontmatter 的版本号必须一致 —— 两处分叉过一次
+    （manifest 3.3.0 / SKILL 3.0.0），静默漂移没人会发现。"""
+    try:
+        mv = json.load(open(os.path.join(ROOT, 'manifest.json'), encoding='utf-8')).get('version')
+    except (OSError, json.JSONDecodeError) as e:
+        errors.append('读 manifest 版本失败: %s' % e)
+        return
+    try:
+        head = open(os.path.join(ROOT, 'SKILL.md'), encoding='utf-8').read()[:1200]
+    except OSError as e:
+        errors.append('读 SKILL.md 失败: %s' % e)
+        return
+    m = re.search(r'(?m)^\s*version:\s*"?([\d.]+)"?\s*$', head)
+    if not m:
+        errors.append('SKILL.md frontmatter 缺 version 字段')
+    elif m.group(1) != mv:
+        errors.append('版本号不一致: manifest=%s SKILL.md=%s' % (mv, m.group(1)))
+
+
 def check_legal_files(errors):
     """LICENSE 与 NOTICE 必须存在且被 README 指到 —— 声明了 MIT 却没有 LICENSE 文件
     是本仓库真实出现过的缺口。"""
@@ -211,6 +231,7 @@ def main():
     check_placeholders(errors)
     check_manifest_coverage(errors)
     check_behavior_cases(errors)
+    check_version_sync(errors)
     check_legal_files(errors)
     if errors:
         print('结构校验失败：')
