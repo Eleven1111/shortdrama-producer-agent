@@ -18,10 +18,12 @@
   "dependencies": {
     "scripts": [
       "scripts/seedance_search.py",
-      "scripts/seedance_corpus.jsonl.gz"
+      "scripts/seedance_corpus.jsonl.gz",
+      "scripts/diagnose_prompt.py"
     ],
     "references": [
       "references/platform-capabilities.md",
+      "references/output-modes.md",
       "references/seedance-writing-guide.md",
       "references/clarification-protocol.md",
       "references/prompt-templates.md",
