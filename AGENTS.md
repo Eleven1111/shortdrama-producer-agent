@@ -125,6 +125,23 @@ python3 scripts/seedance_search.py "<english scene keywords>" 3
 ### Step 3 — Produce a brief (internal)
 Subject / action / scene+light / mood / style anchor. If the user gave ≥3 of these, skip straight to generation.
 
+### Step 3.5 — Bind user-supplied assets
+When the user brings their own image / video / audio, `参考这张图` is not enough — the model
+does not know whether to take the face, the clothes, the background or the pose.
+
+Build the binding table first: `label | role | active window | keep (item by item) | do not inherit`.
+Measured across 61,554 real image prompts, creators control assets by **enumerating what to
+keep** (45.4%), almost never by listing what not to inherit (0.1%) — negative lists are
+never complete, and whatever you forget is what the model reinvents.
+
+- A 人物参考图 is a **complete visible person** by default: face, hair, body proportions,
+  every garment, shoes, accessories. Never silently narrow it to the face, never redress them.
+- Reuse the user's own labels in their original order; one asset gets exactly one role.
+- Reference backgrounds and poses are the two things worth explicitly not inheriting.
+- Asset quotas differ per platform by an order of magnitude — see `references/platform-capabilities.md`.
+
+Full rules: `references/asset-binding.md`.
+
 ### Step 4 — Generate the prompt
 Follow these 10 hard rules (derived from full-corpus statistics of real Seedance production; details in `references/seedance-writing-guide.md`):
 1. Anchor every character with `<<<name>>>`, define full appearance on first use

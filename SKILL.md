@@ -107,6 +107,23 @@ Subject / action / scene+light / mood / style anchor. Skip straight to generatio
 Fill every unanswered dimension from the assumption list in `references/clarification-protocol.md`
 (duration/ratio per `references/platform-capabilities.md` · sound on · modern-realist anchor) rather than asking a second round.
 
+### Step 3.5 — Bind user-supplied assets
+When the user brings their own image / video / audio, `参考这张图` is not enough — the model
+does not know whether to take the face, the clothes, the background or the pose.
+
+Build the binding table first: `label | role | active window | keep (item by item) | do not inherit`.
+Measured across 61,554 real image prompts, creators control assets by **enumerating what to
+keep** (45.4%), almost never by listing what not to inherit (0.1%) — negative lists are
+never complete, and whatever you forget is what the model reinvents.
+
+- A 人物参考图 is a **complete visible person** by default: face, hair, body proportions,
+  every garment, shoes, accessories. Never silently narrow it to the face, never redress them.
+- Reuse the user's own labels in their original order; one asset gets exactly one role.
+- Reference backgrounds and poses are the two things worth explicitly not inheriting.
+- Asset quotas differ per platform by an order of magnitude — see `references/platform-capabilities.md`.
+
+Full rules: `references/asset-binding.md`.
+
 ### Step 4 — Generate the prompt (10 hard rules)
 1. `<<<name>>>` anchor every character, full appearance on first use
 2. `—` separates segments

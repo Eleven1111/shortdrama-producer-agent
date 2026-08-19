@@ -24,6 +24,7 @@ REQUIRED_PHRASES = {
     'SKILL.md': [
         (r'(?m)^#+ Step 0 —', '输出模式选择（diagnosis/revision 入口）'),
         (r'(?m)^#+ Step 1\.5 —', '平台能力检查'),
+        (r'(?m)^#+ Step 3\.5 —', '用户素材绑定'),
         (r'(?m)^#+ Step 4\.6 —', '参考图设定表'),
         (r'(?m)^#+ Step 5\.5 —', '约束加固（iteration-lessons）'),
         (r'option-style questions', '新手选项式追问'),
@@ -36,6 +37,7 @@ REQUIRED_PHRASES = {
     'AGENTS.md': [
         (r'(?m)^#+ Step 0 —', '输出模式选择'),
         (r'(?m)^#+ Step 1\.5 —', '平台能力检查'),
+        (r'(?m)^#+ Step 3\.5 —', '用户素材绑定'),
         (r'(?m)^#+ Step 4\.6 —', '参考图设定表'),
         (r'(?m)^#+ Step 5\.5 —', '约束加固'),
         (r'option-style questions', '新手选项式追问'),
@@ -62,11 +64,20 @@ REQUIRED_PHRASES = {
         (r'三面板', '设定图格式'),
         (r'consistently across ALL panels', '编辑设定图的硬规则'),
     ],
+    'references/asset-binding.md': [
+        (r'45\.4%', '正面枚举保留项的实测占比'),
+        (r'完整可见人物', '人物参考图默认范围'),
+    ],
+    'references/output-modes.md': [
+        (r'diagnosis-only', '诊断模式'),
+        (r'revision', '改写模式'),
+    ],
 }
 
 # 两个入口必须同时具备的步骤（防止只改一处导致跨终端行为不一致）
 MIRRORED_STEPS = [(r'(?m)^#+ Step 0 —', 'Step 0'), (r'(?m)^#+ Step 1\.5 —', 'Step 1.5'),
-                  (r'(?m)^#+ Step 4\.6 —', 'Step 4.6'), (r'(?m)^#+ Step 5\.5 —', 'Step 5.5')]
+                  (r'(?m)^#+ Step 3\.5 —', 'Step 3.5'), (r'(?m)^#+ Step 4\.6 —', 'Step 4.6'),
+                  (r'(?m)^#+ Step 5\.5 —', 'Step 5.5')]
 
 PLACEHOLDER_RE = re.compile(r'\b(TODO|TBD|FIXME|XXX)\b')
 MD_LINK_RE = re.compile(r'\[[^\]]*\]\(([^)]+)\)')
@@ -153,6 +164,31 @@ def check_manifest_coverage(errors):
             errors.append('孤儿文件（未登记进 manifest）: %s' % rel)
 
 
+def check_behavior_cases(errors):
+    """行为规格：分类齐全、id 唯一、expected 非空 —— 防止规格被删空后 CI 仍绿。"""
+    path = os.path.join(ROOT, 'tests', 'behavior-cases.json')
+    if not os.path.isfile(path):
+        errors.append('缺文件: tests/behavior-cases.json')
+        return
+    try:
+        d = json.load(open(path, encoding='utf-8'))
+    except json.JSONDecodeError as e:
+        errors.append('behavior-cases.json 解析失败: %s' % e)
+        return
+    cases = d.get('cases') or []
+    if len(cases) < 12:
+        errors.append('行为规格用例不足 12 条（当前 %d）' % len(cases))
+    ids = [c.get('id') for c in cases]
+    if len(ids) != len(set(ids)):
+        errors.append('behavior-cases.json 存在重复 id')
+    missing = set(d.get('meta', {}).get('required_categories', [])) - {c.get('category') for c in cases}
+    if missing:
+        errors.append('行为规格缺分类: %s' % ', '.join(sorted(missing)))
+    for c in cases:
+        if not c.get('expected'):
+            errors.append('用例 %s 的 expected 为空' % c.get('id'))
+
+
 def main():
     errors = []
     check_required(errors)
@@ -160,6 +196,7 @@ def main():
     check_links(errors)
     check_placeholders(errors)
     check_manifest_coverage(errors)
+    check_behavior_cases(errors)
     if errors:
         print('结构校验失败：')
         for e in errors:
