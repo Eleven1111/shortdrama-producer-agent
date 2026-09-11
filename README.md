@@ -1,233 +1,23 @@
-# Seedance Short-Drama Producer Agent
+# shortdrama-producer-agent
 
-**Describe an idea in plain words. Get a production-grade Seedance prompt back.**
+**用大白话描述想法，拿到可直接开拍的生产级视频 prompt。**
 
-An agent that writes Seedance 2.0 / 2.5 video prompts the way working productions write
-them — because it learned from **588,686 real production assets**, not from prompt-writing
-folklore.
+shortdrama-producer 是一个视频 prompt 生产 Agent：你用日常语言说想法，它按真实剧组
+的写法产出 Seedance / 可灵 / Sora 等模型的完整 prompt。它的每条规则都追溯自
+**588,686 条真实生产资产**的测量，而不是 prompt 写作的江湖经验。
 
-Runs in Claude Code, Codex, Cursor, Windsurf, Gemini CLI, GitHub Copilot, and WorkBuddy.
-It writes prompts and scripts only — it never submits a render job or spends your credits.
+运行于 Claude Code · Codex · Cursor · Windsurf · Gemini CLI · GitHub Copilot · WorkBuddy。
+只写 prompt 和脚本——绝不提交渲染任务、绝不花你的额度。
 
-**Current release: v3.14.0** · Architecture diagrams in [docs/](docs).
+**当前版本 v3.14.0** · 架构图见 [docs/](docs)
 
-[English](#english) · [中文](#中文)
-
----
-
-## English
-
-### Quick start
-
-```bash
-git clone https://github.com/Eleven1111/shortdrama-producer-agent.git
-cd shortdrama-producer-agent && ./install.sh
-```
-
-Restart your terminal, then just talk to it:
-
-```
-雨夜，一个女孩在便利店门口等人
-```
-
-That is a complete request. You do not need to know about focal lengths, aspect ratios,
-or negative constraints — those are the agent's job.
-
-### What it does
-
-| Capability | What it means for you |
-|---|---|
-| **Retrieves real production examples** | Every prompt is modelled on how a real crew wrote that kind of shot — not on generic "cinematic, 4k" filler |
-| **Routes by how much you said** | Six vague words get three concrete directions to pick from; a detailed brief goes straight to output |
-| **Knows platform limits** | Won't hand you a 60-second prompt that your platform physically cannot run |
-| **Locks cross-shot consistency** | Character sheets and reference anchors, so faces stop drifting between cuts |
-| **Diagnoses existing prompts** | Bring your own underperforming prompt and get a data-backed list of what is missing |
-| **Hardens constraints automatically** | Adds the things a first draft predictably forgets |
-| **Speaks 10 model dialects** | Same craft layer, correct syntax for Gemini Omni, Kling, Sora, Runway, Hailuo, Jimeng, Vidu, Wan, Pika |
-
-### Why it is different
-
-Most prompt tools encode one person's taste. This one encodes **what a 588,686-asset
-production actually did**, and every rule in it traces back to a measurement.
-
-Three examples of the difference that makes:
-
-- **It knows how creators iterate.** Analysis of 4,154 real prompt revisions shows
-  **69.7% of them add constraints**, while section skeletons barely change (2–6%). So after
-  drafting, the agent tightens constraints instead of polishing prose — the thing that
-  actually moves output quality.
-- **It knows consistency is not a text problem.** **87.32%** of source assets carry
-  reference images. Repeating an appearance paragraph in every shot still drifts, so the
-  agent produces three-panel character sheets and anchors to them.
-- **It knows platform ceilings are not constants.** Duration and ratio are measured per
-  platform and never hardcoded — the same Seedance model is wrapped differently by
-  different hosts.
-
-### Evidence
-
-Nothing above is a claim without a number behind it.
-
-| Asset | Scale | Verified how |
-|---|---|---|
-| Retrieval corpus | **7,824** production prompts (937 folders, 562 gold-tagged) | folder-level Recall@1 **80.0%**, Recall@5 **100%** (`scripts/eval_retrieval.py`, fixed seed) |
-| Iteration lessons | **4,154** real prompt revisions | Constraints split into three evidence tiers; cross-project verified vs single-project |
-| Reference registry | **1,391** assets · **1,607** appearance cards | Anchor→name mapping covers **100%** of corpus anchors |
-| Image-prompt analysis | **61,554** prompts | Character-sheet format and asset-binding conventions measured, not assumed |
-| Platform matrix | **404,994** generation parameters | Every figure tagged `[measured]` / `[official]` / `[reported]` / `[unverified]` |
-
-Claims the project deliberately does **not** make are listed under
-[Honest limits](#honest-limits).
-
-### Usage
-
-The agent picks a deliverable before doing anything else:
-
-| You say | You get |
-|---|---|
-| *(nothing specific)* | Full direction: brief + asset mapping + continuity + one paste-ready prompt |
-| "只要提示词" / "just the prompt" | One `text` block, nothing else |
-| "只要脚本" / "just the script" | Playable script — no prompt wrapper |
-| "为什么效果差" / "diagnose this" | Diagnosis only — it will not silently rewrite your work |
-| "按原结构改" / "keep my structure" | Targeted revision, with a summary of what changed |
-
-**Single shot**, **short drama** (multi-shot with hard cuts) and **long-form** (≥3 episodes
-or film scale) are all supported. Short drama additionally produces a story breakdown,
-character-sheet prompts, a continuity bible and a shot list; long-form layers a five-layer
-state stack (project bible → episode bible → scene card → batch → shot) on top, with
-episode rhythm calibrated against real measured density data.
-
-Diagnose a prompt you already have:
-
-```bash
-python3 scripts/diagnose_prompt.py my-prompt.txt
-```
-
-It reports internal contradictions, missing sections (measured against the corpus), missing
-constraints (measured against real revisions), and spec violations — ordered by impact.
-
-### Workflow
-
-```
-Step 0    Pick the deliverable        full-direction / prompt-only / script-only / diagnosis / revision
-Step 1    Parse intent + route        single shot / short drama / long-form (≥3 episodes or film)
-Step 1.5  Model & platform check      dialect routing when a non-Seedance model is named
-Step 2    Retrieve real examples      BM25 over 7,824 production prompts
-Step 3    Build the brief             unanswered dimensions come from the assumption list
-Step 3.5  Bind your assets            what to keep, item by item
-Step 4    Generate                    10 hard rules + fidelity budget + ending profiles
-Step 4.5  Appearance authority        1,607 real appearance cards
-Step 4.6  Reference images            three-panel character sheets for cross-shot consistency
-Step 5    Self-check                  12-gate quality gate (quick-ref) + anti-slop repair
-Step 5.5  Harden constraints          add what first drafts predictably miss
-Step 6    Deliver                     clean, paste-ready
-```
-
-### Architecture
-
-![End-to-end information flow](docs/architecture-e2e.svg)
-*End-to-end flow: input → routing → knowledge (pulled on demand) → generation (single-shot / short-drama pipelines) → QC with a fail loop back into generation → delivery. The dashed band at the bottom is the dev-time harness, not part of the runtime.*
-
-![Short-drama per-shot loop](docs/architecture-shot-loop.svg)
-*Short-drama mode runs a loop per shot: beat buckets → per-shot prompt → continuity gates → user acceptance → state machine → next shot. Only accepted shots enter canon; failures are looked up in the failure atlas, not re-rolled blind.*
-
-![Long-form five-layer state stack](docs/architecture-longform.svg)
-*Long-form mode (≥3 episodes / ≥60 shots / film) layers a five-state-stack protocol on top: project bible → episode bible → scene card → batch state machine → shot, each with its own freeze point; all short-drama rules stay in force.*
-
-### Repository layout
-
-```
-shortdrama-producer-agent/
-├── AGENTS.md                    # Agent definition — cross-terminal standard
-├── SKILL.md                     # Skill-compatible layer (Claude Code / WorkBuddy)
-├── agents/openai.yaml           # OpenAI metadata
-├── install.sh                   # One-command install, auto-detects terminals
-├── scripts/
-│   ├── seedance_search.py       # Zero-dependency BM25 retriever
-│   ├── seedance_corpus.jsonl.gz # 7,824 production prompts
-│   ├── diagnose_prompt.py       # Data-backed prompt diagnosis
-│   ├── continuity_check.py      # Batch-level continuity chain checker
-│   ├── eval_retrieval.py        # Retrieval quality evaluation
-│   └── validate_structure.py    # Structural anti-rot checks
-├── references/                  # craft libraries, protocols & data (27 registered)
-│   ├── quick-ref.md             #   Level-0 routing card + 12 delivery gates
-│   ├── model-adaptation.md      #   dialects: Omni / Kling / Sora / Runway / Hailuo…
-│   ├── directorial-craft.md     #   14 sections: motion, light, blocking, budget, endings
-│   ├── anti-slop-lexicon.md     #   six slop classes + per-genre refusals
-│   ├── longform-protocol.md     #   ≥3 episodes / film: five-layer state stack
-│   ├── style-bible.md           #   series-level look governance
-│   ├── platform-capabilities.md #   evidence-graded platform matrix
-│   ├── iteration-lessons.md     #   what 4,154 revisions changed
-│   └── story_level/             #   act structure, character journeys, beat patterns
-├── docs/                        # architecture diagrams (SVG)
-├── tests/behavior-cases.json    # 17 workflow behaviour specs
-└── eval/render_loop/            # A/B render experiment harness
-```
-
-### Design philosophy
-
-**Every rule earns its place with a measurement.** If a guideline cannot be traced to
-corpus statistics, it does not go in. Where evidence is second-hand or unverified, it is
-labelled as such rather than presented as fact.
-
-**Autonomy means you never do technical work — not that the agent never asks.** It handles
-focal length, ratio, style anchors and model parameters silently. It asks only about things
-that are expensive to guess wrong, always as concrete options, never as open questions,
-and never more than one round.
-
-**Learn the writing, never take the content.** The corpus teaches structure and phrasing.
-Source-project characters, props and world settings are on an explicit blocklist and must
-never reach your output.
-
-**Verification over assertion.** Retrieval quality is measured, not asserted. Structural
-checks are fault-injection tested. The render loop's arithmetic was validated against
-constructed data before shipping.
-
-### Boundaries
-
-- **Writes prompts and scripts only.** Never submits a render job, never spends credits,
-  never claims a video was generated.
-- **Reference/setup images for video consistency are in scope.** Standalone image
-  creation (posters, illustrations) is not.
-- **Models: Seedance native.** Gemini Omni / Kling / Sora / Runway / Hailuo / Jimeng /
-  Vidu / Wan / Pika are supported as dialect translation — the craft layer does not change.
-- **Never imports source-project stories, characters or props into your work.**
-
-### Honest limits
-
-- **Output quality has not been validated against actual renders.** An A/B harness exists
-  (`eval/render_loop/`) with 24 prompts prepared, but the renders have not been run. Until
-  they are, no claim is made about real-world output quality.
-- Retrieval covers Hell Grind at 0.9% sampling; Cully Hill Boys is cluster-deduplicated at
-  full folder coverage.
-- Platform figures for Dreamina modes are second-hand and marked unverified. **Runtime UI
-  always takes precedence over this repository.**
-
-### Verification
-
-```bash
-python3 scripts/validate_structure.py   # structural anti-rot
-python3 scripts/eval_retrieval.py       # retrieval quality, fixed seed
-```
-
-CI runs both on every PR, plus manifest linting, retrieval and diagnoser smoke tests,
-`install.sh` syntax, and README bilingual completeness.
-
-### License
-
-MIT License · Copyright (c) 2026 Eleven1111. See [LICENSE](LICENSE).
-Corpus provenance, anonymisation scope and third-party rights: [NOTICE.md](NOTICE.md).
-Concept-level distillations with attribution: [Emily2040/seedance-2.0](https://github.com/Emily2040/seedance-2.0) (MIT)
-and [slipknot0130/Film-Production-Toolkit](https://github.com/slipknot0130/Film-Production-Toolkit).
-
-```bash
-./install.sh --update    # update an existing install
-```
+语言：[中文](#中文) · [English](#english)
 
 ---
 
 ## 中文
 
-### 快速开始
+### 30 秒上手
 
 ```bash
 git clone https://github.com/Eleven1111/shortdrama-producer-agent.git
@@ -240,64 +30,59 @@ cd shortdrama-producer-agent && ./install.sh
 雨夜，一个女孩在便利店门口等人
 ```
 
-这就是一条完整请求。你不需要懂焦段、画幅、负面约束——那是 Agent 的活。
+这就是一条完整请求。焦段、画幅、负面约束、平台上限——都是 Agent 的活，你不需要懂。
 
-### 它做什么
+### FABE：它凭什么值得用
 
-| 能力 | 对你意味着什么 |
-|---|---|
-| **检索真实生产范例** | 每条 prompt 都照着真实剧组怎么写这类镜头来写，不是「cinematic, 4k」这类套话 |
-| **按你说了多少来分流** | 六个字的模糊想法给你三个可拍方向挑；信息足够就直接出片 |
-| **知道平台限制** | 不会给你一条 60 秒的 prompt，而你的平台根本跑不了 |
-| **锁定跨镜一致性** | 角色设定图 + 锚点引用，脸不再一镜一个样 |
-| **诊断已有 prompt** | 把你自己写的、效果不好的 prompt 拿来，给你一份有数据依据的缺口清单 |
-| **自动加固约束** | 补上初稿必然会漏的东西 |
-| **会说 10 种模型方言** | 工艺层不变，语法切换：Gemini Omni、可灵、Sora、Runway、海螺、即梦、Vidu、Wan、Pika |
+每行按「特征 → 优势 → 收益 → 证据」读完，30 秒判断适不适合你：
 
-### 凭什么不一样
+| 特征 Feature | 优势 Advantage | 收益 Benefit（对你） | 证据 Evidence |
+|---|---|---|---|
+| **语料驱动生成**：每条 prompt 先检索 7,824 条真实生产范例，模仿真实写法 | 形态落在真实生产的安全区，不是「cinematic, 4k」套话 | 首次可用率高，少交试错学费 | folder 级 Recall@1 **80.0%**、Recall@5 **100%**（固定种子可复现，`scripts/eval_retrieval.py`） |
+| **导演工艺层**（14 节）：一镜一动机、光=情绪、保真预算、终点画像、2D 媒介语法 | 从「语料里大家怎么写」升级到「为什么这么写」 | 镜头有导演意图，成片有戏，不飘 | 每条工艺可追溯测量，二手经验标注置信度 |
+| **跨镜一致性机制**：三面板设定图 + 锚点逐字复用 + 版本注册表 | 一致性靠图锁定，不靠重复文本 | 同一角色全剧一张脸 | 真实资产 **87.32%** 带参考图；**46.8%** 带 `_vN` 版本 |
+| **三级生产模式**：单镜 → 短剧（镜间闭环）→ 长片（五层状态栈） | 每级是前级的严格超集，规则不换体系 | 从一条 prompt 到一部剧，同一套方法 | 集内节奏用 **137 场 / 42 转场 / 14 冲突模式**实测数据校准 |
+| **10 种模型方言路由** | 工艺层不变，只翻译语法 | 换模型不用重学 | 每族方言依据官方文档调研，置信度分级标注 |
+| **交付前机械化质检**：12 道门 + 反渣词库 + 连续性链检查，fail 回炉 | 交付前拦截，不是交付后道歉 | 你拿到的都是过闸成品 | 4,154 组真实修订统计支撑；结构校验做过故障注入测试 |
 
-大多数 prompt 工具封装的是某个人的审美。这个封装的是**一个 58.8 万条资产的真实生产
-项目实际怎么做**，每条规则都能追溯到一次测量。
+### 架构
 
-三个例子说明这个差别有多实在：
+三张图看懂全部信息流（SVG 源文件在 [docs/](docs)）：
 
-- **它知道创作者是怎么改的。** 4,154 组真实修订的分析显示：**69.7% 的修订是在加约束**，
-  而段落骨架几乎不动（增删仅 2–6%）。所以 Agent 出完初稿后去加固约束，而不是润色文采
-  ——前者才是真正影响成片的那一半。
-- **它知道一致性不是文本问题。** 源资产里 **87.32%** 带参考图。同一段外观描述在每个
-  镜头重写十遍，脸照样漂。所以 Agent 会先产三面板角色设定图，再用锚点引用它。
-- **它知道平台上限不是常量。** 时长与画幅按平台实测，绝不写死——同一个 Seedance 模型，
-  不同平台封装出来的能力不一样。
+![端到端信息流](docs/architecture-e2e.svg)
+*端到端流转：输入 → 路由 → 知识层（按需拉取）→ 生成层（单镜 / 短剧双管线）→ 质检层（fail 红色虚线回炉）→ 输出层。底部虚线框为开发期 harness，不进运行时。*
 
-### 证据
+![短剧镜间闭环](docs/architecture-shot-loop.svg)
+*短剧模式每镜一轮循环：节拍桶分账 → 逐镜 prompt → 连续性闸门 → 用户接受 → 状态机更新 → 下一镜。只有已接受镜头进入 canon。*
 
-上面每一句都有数字撑着。
+![长片五层状态栈](docs/architecture-longform.svg)
+*长片模式（≥3 集 / ≥60 镜 / 电影）叠加五层状态栈：项目圣经 → 集圣经 → 场景卡 → 批次状态机 → 镜，每层各有冻结点。*
 
-| 资产 | 规模 | 怎么验证的 |
+### 三种生产模式
+
+| 模式 | 触发 | 你额外拿到 |
 |---|---|---|
-| 检索语料 | **7,824** 条生产 prompt（覆盖 937 个文件夹，562 条金标） | folder 级 Recall@1 **80.0%**、Recall@5 **100%**（`scripts/eval_retrieval.py`，固定种子） |
-| 迭代教训 | **4,154** 组真实修订 | 约束分三层证据强度：跨项目验证 / 单项目高频 / 项目专属黑名单 |
-| 参考资产注册表 | **1,391** 个资产 · **1,607** 张外观卡 | 锚点→名称映射覆盖语料中 **100%** 的锚点 |
-| 图像 prompt 分析 | **61,554** 条 | 设定图格式与素材绑定写法是实测出来的，不是想当然 |
-| 平台能力矩阵 | **404,994** 条生成参数 | 每条标注 `[实证]` / `[官方]` / `[报道]` / `[未验证]` |
+| 单镜头 | 一条需求 | 一条可粘贴 prompt（cinema 600-2000 词 / quick 80-300） |
+| 短剧 | 多镜头 / 分镜 | 故事拆解 · 角色设定图 prompt · 连续性圣经 · 分镜表 · 镜间状态机 |
+| 长片 | ≥3 集 / ≥60 镜 / 电影 | 五层状态栈 · 集内节奏实测校准 · 风格先导批 · 跨集版本注册表 |
 
-本项目**刻意不做**的声称，见 [诚实的边界](#诚实的边界)。
+### 模型方言
 
-### 使用方法
+Seedance 原生。点名其他模型时自动翻译方言（工艺层不变）：
+**Gemini Omni · 可灵 Kling · Sora · Runway · 海螺 Hailuo · 即梦 Jimeng · Vidu · Wan · Pika**。
+每族方言（时长上限 / 对白引号 / 音频写法 / 参考槽位）依据官方文档调研，置信度分级。
 
-Agent 动手之前先选交付物：
+### 使用方式
+
+Agent 动手前先选交付物：
 
 | 你说 | 你拿到 |
 |---|---|
-| *（没特别说）* | 完整方案：简报 + 素材映射 + 连续性 + 一条可粘贴 prompt |
+| *（没特别说）* | 完整方案：简报 + 素材映射 + 连续性 + 可粘贴 prompt |
 | 「只要提示词」 | 一个 `text` 代码块，别的都没有 |
 | 「只要脚本」 | 可拍脚本，不含 prompt 外壳 |
-| 「为什么效果差」 | 只诊断——不会擅自把你的东西重写一遍 |
+| 「为什么效果差」 | 只诊断——不会擅自重写你的东西 |
 | 「按原结构改」 | 定点修改，并说明改了什么 |
-
-**单镜头**、**短剧**（多镜头硬切）与**长片**（≥3 集或电影规格）都支持。短剧模式会额外
-产出故事拆解、角色设定图 prompt、连续性圣经和分镜表；长片模式在其上叠加五层状态栈
-（项目圣经 → 集圣经 → 场景卡 → 批次 → 镜），集内节奏用真实密度数据校准。
 
 诊断你已有的 prompt：
 
@@ -305,115 +90,185 @@ Agent 动手之前先选交付物：
 python3 scripts/diagnose_prompt.py my-prompt.txt
 ```
 
-它会报出内部矛盾、缺失段落（对照语料实测）、缺失约束（对照真实修订）与规格问题，
-按影响排序。
+### 安装
 
-### 工作流
-
-```
-Step 0    选交付物            完整方案 / 只要prompt / 只要脚本 / 诊断 / 改写
-Step 1    解析意图 + 分流      单镜 / 短剧 / 长片（≥3 集或电影规格）
-Step 1.5  模型与平台检查       点名非 Seedance 模型时做方言路由
-Step 2    检索真实范例         对 7,824 条生产 prompt 做 BM25
-Step 3    生成简报            没答的维度走假设清单
-Step 3.5  绑定你的素材         逐项写清保留什么
-Step 4    生成                全语料统计出的 10 条硬规则 + 保真预算 + 终点画像
-Step 4.5  外观权威            1,607 张真实外观卡
-Step 4.6  参考图              三面板设定图，锁跨镜一致性
-Step 5    自检                12 道质量门（quick-ref）+ 反渣修复
-Step 5.5  加固约束            补上初稿必然会漏的
-Step 6    交付                干净、可直接粘贴
-```
-
-### 架构
-
-![端到端信息流](docs/architecture-e2e.svg)
-*端到端流转：输入 → 路由 → 知识层（按需拉取）→ 生成层（单镜 / 短剧双管线）→ 质检层（fail 红色虚线回炉生成层）→ 输出层。底部虚线框为开发期 harness，不进运行时。*
-
-![短剧镜间闭环](docs/architecture-shot-loop.svg)
-*短剧模式每镜一轮循环：节拍桶分账 → 逐镜 prompt → 连续性闸门 → 用户接受 → 状态机更新 → 下一镜。只有已接受镜头进入 canon；失败先查失败图谱，不凭感觉重roll。*
-
-![长片五层状态栈](docs/architecture-longform.svg)
-*长片模式（≥3 集 / ≥60 镜 / 电影）在短剧规则之上叠加五层状态栈：项目圣经 → 集圣经 → 场景卡 → 批次状态机 → 镜，每层各有冻结点。*
-
-### 目录结构
-
-```
-shortdrama-producer-agent/
-├── AGENTS.md                    # Agent 定义 —— 跨终端标准
-├── SKILL.md                     # skill 兼容层（Claude Code / WorkBuddy）
-├── agents/openai.yaml           # OpenAI 元数据
-├── install.sh                   # 一条命令安装，自动检测终端
-├── scripts/
-│   ├── seedance_search.py       # 零依赖 BM25 检索器
-│   ├── seedance_corpus.jsonl.gz # 7,824 条生产 prompt
-│   ├── diagnose_prompt.py       # 数据驱动的 prompt 诊断
-│   ├── continuity_check.py      # 批次级连续性链核对
-│   ├── eval_retrieval.py        # 检索质量评测
-│   └── validate_structure.py    # 结构防腐校验
-├── references/                  # 工艺库、协议与知识数据（manifest 登记 27 项）
-│   ├── quick-ref.md             #   Level-0 速查卡 + 交付前 12 门
-│   ├── model-adaptation.md      #   方言：Omni / 可灵 / Sora / Runway / 海螺…
-│   ├── directorial-craft.md     #   14 节：运动/光/调度/预算/终点画像
-│   ├── anti-slop-lexicon.md     #   六类渣词 + 题材禁区
-│   ├── longform-protocol.md     #   ≥3 集 / 电影：五层状态栈
-│   ├── style-bible.md           #   剧集级美学治理
-│   ├── platform-capabilities.md #   带证据分级的平台矩阵
-│   ├── iteration-lessons.md     #   4,154 组修订改了什么
-│   └── story_level/             #   幕结构、角色旅程、节拍模式
-├── docs/                        # 架构图（SVG）
-├── tests/behavior-cases.json    # 17 条 workflow 行为规格
-└── eval/render_loop/            # A/B 渲染实验框架
+```bash
+./install.sh                          # 自动检测终端
+./install.sh --target codex           # 指定终端
+./install.sh --update                 # 更新已安装版本
 ```
 
 ### 设计哲学
 
-**每条规则都要用一次测量换取自己的位置。** 追溯不到语料统计的经验，就不写进去。
-证据是二手或未经验证的，就如实标注，不当成事实呈现。
-
-**自主不等于从不发问，而是你永远不做技术活。** 焦段、画幅、风格锚、模型参数由 Agent
-静默处理；只有「猜错代价高」的维度才问你，而且一律给具体选项、绝不用开放问句、
-最多问一轮。
-
-**学写法，不拿内容。** 语料教的是结构与措辞。源项目的角色、道具、世界观设定进了
-明确的黑名单，绝不允许出现在你的产出里。
-
-**验证优先于断言。** 检索质量是测出来的，不是声称的；结构校验做过故障注入；渲染回环
-的算术先用构造数据验过才交付。
-
-### 边界
-
-- **只产出 prompt 与脚本。** 绝不提交渲染任务、不消耗额度、不声称已经生成了视频。
-- **服务于视频一致性的参考图/设定图属于职责内**；独立图像创作（海报、插画）不做。
-- **模型支持：Seedance 原生。** Gemini Omni / 可灵 / Sora / Runway / 海螺 / 即梦 /
-  Vidu / Wan / Pika 以方言翻译支持——工艺层不变。
-- **绝不把源项目的故事、角色、道具搬进你的作品。**
+- **每条规则都用一次测量换取自己的位置。** 追溯不到统计的经验不进库；二手证据如实标注。
+- **自主 = 你永远不做技术活**，不是 Agent 从不提问。只有「猜错代价高」的维度才问，
+  一律给具体选项，最多一轮。
+- **学写法，不拿内容。** 源项目的角色、道具、世界观在明确黑名单里，绝不进你的产出。
 
 ### 诚实的边界
 
-- **产出质量尚未用真实渲染验证过。** A/B 实验框架（`eval/render_loop/`）已就绪、
-  24 条 prompt 已备好，但渲染没有跑。在那批数据出来之前，本项目不对真实成片质量
-  做任何声称。
-- 检索语料中 Hell Grind 为 0.9% 采样；Cully Hill Boys 为 cluster 去重后的全文件夹覆盖。
-- Dreamina 各模式的平台数据是二手来源、标注为未验证。**运行时 UI 永远优先于本仓库。**
+- **产出质量尚未用真实渲染验证。** A/B 框架（`eval/render_loop/`）就绪、24 条 prompt
+  已备、金丝雀纪律已立，但渲染未跑。在那之前，本项目不对真实成片质量做任何声称。
+- 检索语料中 Hell Grind 为 0.9% 采样；Cully Hill Boys 为 cluster 去重后全文件夹覆盖。
+- 平台数据二手来源标注未验证。**运行时 UI 永远优先于本仓库。**
 
 ### 验证
 
 ```bash
-python3 scripts/validate_structure.py   # 结构防腐
+python3 scripts/validate_structure.py   # 结构防腐（契约·镜像·死链）
 python3 scripts/eval_retrieval.py       # 检索质量，固定种子
+python3 scripts/continuity_check.py     # 短剧批次连续性链核对
 ```
 
-CI 在每个 PR 上跑这两项，外加 manifest 校验、检索与诊断器冒烟测试、`install.sh`
-语法检查、README 双语完整性。
+### 致谢
+
+本项目站在这些项目的肩膀上，特此感谢：
+
+- **[Emily2040/seedance-2.0](https://github.com/Emily2040/seedance-2.0)**（MIT，by @iamemily2050）
+  —— 反渣词库六类渣词与题材禁区、2D/动漫媒介语法、终点画像、失败图谱、
+  续写五模式、保真预算分配、金丝雀渲染纪律均蒸馏自其 Skill OS v6.7，全部按本项目
+  红线裁剪并标注来源。
+- **[slipknot0130/Film-Production-Toolkit](https://github.com/slipknot0130/Film-Production-Toolkit)**
+  —— 本次蒸馏旅程的入口：其对照分析报告指明了 Emily2040 仓库这一更优来源。
+- 语料来源项目（Hell Grind / Cully Hill Boys 公开资产）的创作者们——匿名化处理见
+  [NOTICE.md](NOTICE.md)。
 
 ### 许可证
 
-MIT License · Copyright (c) 2026 Eleven1111. 见 [LICENSE](LICENSE)。
-语料来源、匿名化范围与第三方权利声明见 [NOTICE.md](NOTICE.md)。
-概念级蒸馏致谢：[Emily2040/seedance-2.0](https://github.com/Emily2040/seedance-2.0)（MIT）与
-[slipknot0130/Film-Production-Toolkit](https://github.com/slipknot0130/Film-Production-Toolkit)。
+MIT License · Copyright (c) 2026 Eleven1111 · [LICENSE](LICENSE) ·
+语料来源与第三方权利声明：[NOTICE.md](NOTICE.md)
+
+---
+
+## English
+
+### Quick start in 30 seconds
 
 ```bash
-./install.sh --update    # 更新已安装版本
+git clone https://github.com/Eleven1111/shortdrama-producer-agent.git
+cd shortdrama-producer-agent && ./install.sh
 ```
+
+Restart your terminal, then just talk:
+
+```
+A rainy night. A girl waiting outside a convenience store.
+```
+
+That is a complete request. Focal lengths, aspect ratios, negative constraints and
+platform ceilings are the agent's job, not yours.
+
+### Why this agent (FABE)
+
+Each row reads Feature → Advantage → Benefit → Evidence:
+
+| Feature | Advantage | Benefit (to you) | Evidence |
+|---|---|---|---|
+| **Corpus-driven generation**: every prompt is grounded in 7,824 retrieved real production prompts | Output lands in the safe zone of how crews actually write | High first-try usability, less tuition paid in failed renders | Folder-level Recall@1 **80.0%**, Recall@5 **100%** (fixed seed, `scripts/eval_retrieval.py`) |
+| **Directorial craft layer** (14 sections): one intention per shot, light = emotion, fidelity budget, ending profiles, 2D medium grammar | Upgrades from "how corpora write" to "why this, here" | Shots carry intent; footage feels directed, not generated | Every rule traces to a measurement; second-hand knowledge is confidence-labelled |
+| **Cross-shot consistency**: three-panel character sheets + verbatim anchors + version registry | Identity is locked by images, not repeated text | One face for the whole series | **87.32%** of source assets carry references; **46.8%** carry `_vN` versions |
+| **Three production modes**: single shot → short drama (per-shot loop) → long-form (five-layer state stack) | Each level is a strict superset of the last — one system throughout | The same method scales from one prompt to a series | Episode rhythm calibrated on **137 scenes / 42 transitions / 14 conflict patterns** of real data |
+| **10 model dialects** | Craft layer unchanged, syntax translated | Switch models without relearning | Each dialect researched from official docs, confidence-graded |
+| **Mechanical pre-delivery QC**: 12 gates + anti-slop lexicon + continuity chain check, fail loops back | Catches problems before delivery, not after | You only ever receive gated output | Backed by 4,154 real revision statistics; structural checks are fault-injection tested |
+
+### Architecture
+
+Three diagrams cover the whole information flow (SVG sources in [docs/](docs)):
+
+![End-to-end information flow](docs/architecture-e2e.svg)
+*Input → routing → knowledge (pulled on demand) → generation (single-shot / short-drama pipelines) → QC with a fail loop back into generation → delivery. The dashed band at the bottom is the dev-time harness.*
+
+![Short-drama per-shot loop](docs/architecture-shot-loop.svg)
+*Short drama runs one loop per shot: beat buckets → per-shot prompt → continuity gates → user acceptance → state machine → next shot. Only accepted shots enter canon.*
+
+![Long-form five-layer state stack](docs/architecture-longform.svg)
+*Long-form (≥3 episodes / ≥60 shots / film) layers a five-state-stack protocol on top: project bible → episode bible → scene card → batch state machine → shot, each with its own freeze point.*
+
+### Three production modes
+
+| Mode | Trigger | You additionally get |
+|---|---|---|
+| Single shot | one request | one paste-ready prompt (cinema 600-2000 words / quick 80-300) |
+| Short drama | multi-shot / storyboard | story breakdown · character-sheet prompts · continuity bible · shotlist · per-shot state machine |
+| Long-form | ≥3 episodes / ≥60 shots / film | five-layer state stack · measured episode rhythm · style-pilot batch · cross-episode version registry |
+
+### Model dialects
+
+Seedance native. Naming another model triggers dialect translation (craft layer unchanged):
+**Gemini Omni · Kling · Sora · Runway · Hailuo · Jimeng · Vidu · Wan · Pika**.
+Each dialect (duration ceilings, dialogue quoting, audio phrasing, reference slots) is
+researched from official documentation and confidence-graded.
+
+### Usage
+
+The agent picks a deliverable first:
+
+| You say | You get |
+|---|---|
+| *(unspecified)* | Full direction: brief + asset mapping + continuity + one paste-ready prompt |
+| "just the prompt" | One `text` block, nothing else |
+| "just the script" | Playable script, no prompt wrapper |
+| "diagnose this" | Diagnosis only — no silent rewrite |
+| "keep my structure" | Targeted revision, changes summarised |
+
+Diagnose an existing prompt:
+
+```bash
+python3 scripts/diagnose_prompt.py my-prompt.txt
+```
+
+### Install
+
+```bash
+./install.sh                          # auto-detects terminals
+./install.sh --target codex           # pick a terminal
+./install.sh --update                 # update an existing install
+```
+
+### Design philosophy
+
+- **Every rule earns its place with a measurement.** Guidelines that cannot be traced to
+  statistics do not ship; second-hand evidence is labelled as such.
+- **Autonomy means you never do technical work** — not that the agent never asks. It asks
+  only about expensive-to-guess dimensions, always with concrete options, one round max.
+- **Learn the writing, never take the content.** Source-project characters, props and
+  world settings are blocklisted from your output.
+
+### Honest limits
+
+- **Output quality is not yet validated against real renders.** The A/B harness
+  (`eval/render_loop/`) is ready, 24 prompts are prepared, canary discipline is in place —
+  but the renders have not been run. No claim is made about real-world output quality
+  until then.
+- Retrieval covers Hell Grind at 0.9% sampling; Cully Hill Boys is cluster-deduplicated
+  at full folder coverage.
+- Second-hand platform figures are marked unverified. **Runtime UI always takes
+  precedence over this repository.**
+
+### Verification
+
+```bash
+python3 scripts/validate_structure.py   # structural anti-rot
+python3 scripts/eval_retrieval.py       # retrieval quality, fixed seed
+python3 scripts/continuity_check.py     # short-drama continuity chain check
+```
+
+### Acknowledgements
+
+This project stands on the shoulders of:
+
+- **[Emily2040/seedance-2.0](https://github.com/Emily2040/seedance-2.0)** (MIT, by
+  @iamemily2050) — the anti-slop lexicon and genre refusals, 2D/anime medium grammar,
+  ending profiles, failure atlas, five continuation modes, fidelity budget allocation and
+  the canary render discipline are all distilled from its Skill OS v6.7, re-cut against
+  this project's red lines with source attribution.
+- **[slipknot0130/Film-Production-Toolkit](https://github.com/slipknot0130/Film-Production-Toolkit)**
+  — the entry point of this distillation journey: its comparison report pointed to the
+  Emily2040 repository as the stronger upstream source.
+- The creators behind the source corpora (public Hell Grind / Cully Hill Boys assets) —
+  anonymisation scope in [NOTICE.md](NOTICE.md).
+
+### License
+
+MIT License · Copyright (c) 2026 Eleven1111 · [LICENSE](LICENSE) ·
+Corpus provenance and third-party rights: [NOTICE.md](NOTICE.md)
