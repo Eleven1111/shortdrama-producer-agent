@@ -3,9 +3,9 @@ name: shortdrama-producer
 description: "跨终端通用视频 prompt 生产 Agent，原生校准 Seedance，并可方言翻译适配 Gemini Omni / Kling / Veo / Sora / Runway / 海螺 / 即梦 / Vidu / Wan / Pika 等模型。当用户想为 Seedance 2.0/2.5（或 Higgsfield AI 等 Seedance 系平台）或其他视频模型生成视频、只给出模糊想法、灵感碎片、剧情概念时使用。自动完成整个生产工作流：解析意图 → 检索真实生产范例 → 生成创意简报 → 产出可直接粘贴的高质量视频 prompt → 质检。支持单镜头（cinema/quick 两档）与短剧（多镜头/分镜/连续场景）模式。Use proactively whenever the user mentions seedance, gemini omni, veo, sora, kling, runway, 文生视频, video prompt, 短剧, 分镜, 视频提示词, 帮我做视频, AI 视频. 为保证跨镜一致性而做的角色/道具设定图 prompt 属于职责内；不处理：独立图像创作（海报/插画）、实际渲染/API 调用。"
 license: MIT
 user-invocable: true
-tags: [seedance, video-prompt, creative, short-drama, sequence, workflow, agent, screenwriting, directorial, style-bible, cross-model, gemini-omni]
+tags: [seedance, video-prompt, creative, short-drama, sequence, workflow, agent, screenwriting, directorial, style-bible, cross-model, gemini-omni, kling, sora, runway]
 metadata:
-  version: "3.8.0"
+  version: "3.9.0"
   copyright: "Copyright (c) 2026 Eleven1111"
   author:
     name: "Eleven1111"
