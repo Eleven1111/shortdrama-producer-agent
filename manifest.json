@@ -1,6 +1,6 @@
 {
   "name": "shortdrama-producer",
-  "version": "3.12.0",
+  "version": "3.13.0",
   "type": "agent-package",
   "entrypoints": {
     "AGENTS.md": "2026 cross-tool standard (Codex / Cursor / Windsurf / Gemini CLI / Copilot / Claude Code)",
@@ -31,7 +31,8 @@
     "scripts": [
       "scripts/seedance_search.py",
       "scripts/seedance_corpus.jsonl.gz",
-      "scripts/diagnose_prompt.py"
+      "scripts/diagnose_prompt.py",
+      "scripts/continuity_check.py"
     ],
     "references": [
       "references/anti-slop-lexicon.md",
@@ -45,6 +46,7 @@
       "references/output-modes.md",
       "references/platform-capabilities.md",
       "references/prompt-templates.md",
+      "references/quick-ref.md",
       "references/reference-image-protocol.md",
       "references/reference_registry.json",
       "references/screenwriting-craft.md",

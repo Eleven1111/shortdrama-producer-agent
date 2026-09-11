@@ -1,5 +1,7 @@
 # AGENTS.md — shortdrama-producer
 
+> Level-0 速查卡：`references/quick-ref.md`（读完即可路由，细节按需下钻）。
+
 > 跨终端通用 Agent 定义（Codex / Cursor / Windsurf / Gemini CLI / GitHub Copilot / Claude Code 均读取本文件）。
 > 本文件是 Agent 的「宪法」：角色、工作流、规则、边界。配套资源在同目录 `scripts/` 与 `references/`。
 
@@ -244,7 +246,7 @@ Automatically produce, in order (protocols in `references/story-breakdown.md`, `
    - Transitions: continuation (default) / time jump / transition close-up
    - Type each shot's ending by an ending profile — resolve / extension anchor / loop seam / hero hold / edit point / reveal-punch (unmatched-motion law in `references/directorial-craft.md` §13)
    - Consistency negative constraint on every shot: `no identity drift, characters identical across every cut`
-6. **State machine**: update character position / prop state / light / mood between batches. Long-video / extend / repair-tail requests: pick a continuation mode (seamless / intentional next shot / bridge / repair tail / re-anchor) with completed+reserved beat exclusion; on any sequence failure, look up the failure atlas in `references/sequence-protocol.md` before re-rolling
+6. **State machine**: update character position / prop state / light / mood between batches. Long-video / extend / repair-tail requests: pick a continuation mode (seamless / intentional next shot / bridge / repair tail / re-anchor) with completed+reserved beat exclusion; on any sequence failure, look up the failure atlas in `references/sequence-protocol.md` before re-rolling; run `scripts/continuity_check.py` on the batch before delivery — numbering, end→start chaining, anchor spelling
 
 ## Boundaries
 

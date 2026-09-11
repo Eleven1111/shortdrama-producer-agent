@@ -39,6 +39,8 @@ REQUIRED_PHRASES = {
         (r'§13 ending profiles', '终点画像接线（v3.11）'),
         (r'§14 for 2D', '2D/动漫语法接线（v3.12）'),
         (r'failure atlas', '失败图谱接线（v3.11）'),
+        (r'`references/quick-ref\.md`', 'Level-0 速查卡接线（v3.13）'),
+        (r'`scripts/continuity_check\.py`', '连续性链检查接线（v3.13）'),
     ],
     'AGENTS.md': [
         (r'(?m)^#+ Step 0 —', '输出模式选择'),
@@ -56,6 +58,8 @@ REQUIRED_PHRASES = {
         (r'§13 ending profiles', '终点画像接线（v3.11）'),
         (r'§14 for 2D', '2D/动漫语法接线（v3.12）'),
         (r'failure atlas', '失败图谱接线（v3.11）'),
+        (r'`references/quick-ref\.md`', 'Level-0 速查卡接线（v3.13）'),
+        (r'`scripts/continuity_check\.py`', '连续性链检查接线（v3.13）'),
     ],
     'references/clarification-protocol.md': [
         (r'(?m)^#+ .*选项式追问', '选项式追问章节'),

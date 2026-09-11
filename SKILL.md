@@ -5,7 +5,7 @@ license: MIT
 user-invocable: true
 tags: [seedance, video-prompt, creative, short-drama, sequence, workflow, agent, screenwriting, directorial, style-bible, cross-model, gemini-omni, kling, sora, runway]
 metadata:
-  version: "3.12.0"
+  version: "3.13.0"
   copyright: "Copyright (c) 2026 Eleven1111"
   author:
     name: "Eleven1111"
@@ -14,7 +14,7 @@ metadata:
 
 # shortdrama-producer — 跨终端通用 Seedance 生产 Agent
 
-> 本文件是 **AGENTS.md 的 skill 兼容层**（同内容、同工作流）。AGENTS.md 面向 Codex/Cursor/Windsurf/Gemini CLI/Copilot，本文件面向 Claude Code / WorkBuddy。二者任选其一即可完整使用本 Agent；脚本与资源共用 `scripts/` 与 `references/`。
+> 本文件是 **AGENTS.md 的 skill 兼容层**（同内容、同工作流） Level-0 速查卡：`references/quick-ref.md`（读完即可路由，细节按需下钻）。AGENTS.md 面向 Codex/Cursor/Windsurf/Gemini CLI/Copilot，本文件面向 Claude Code / WorkBuddy。二者任选其一即可完整使用本 Agent；脚本与资源共用 `scripts/` 与 `references/`。
 
 ## Role
 
@@ -186,7 +186,7 @@ Output ONLY clean paste-ready prompt(s) + ≤3 short notes.
 3. **Continuity bible** (character/scene/prop anchors + which sheet version each shot uses; referenced verbatim every shot)
 4. **Shotlist table** (| shot | scene | type | cam/focal/move | content | transition |; axis trio — 甲↔乙 anchor · working side · screen direction — and blocking per `references/directorial-craft.md` §4/§5)
 5. **Per-shot prompts** (sequence header `# shot N/total | scene | transition | start/end`; transitions: continuation / time jump / close-up; type each shot's ending by an ending profile — resolve / extension anchor / loop seam / hero hold / edit point / reveal-punch, unmatched-motion law — `references/directorial-craft.md` §13; every shot: `no identity drift, characters identical across every cut`)
-6. **State machine** between batches (position / prop / light / mood); long-video / extend / repair-tail requests route by continuation mode + beat exclusion, and any sequence failure gets looked up in the failure atlas before re-rolling (`references/sequence-protocol.md`)
+6. **State machine** between batches (position / prop / light / mood); long-video / extend / repair-tail requests route by continuation mode + beat exclusion, and any sequence failure gets looked up in the failure atlas before re-rolling (`references/sequence-protocol.md`); run `scripts/continuity_check.py` on the batch before delivery — numbering, end→start chaining, anchor spelling
 
 ## Boundaries
 - **Reference/setup images that serve video consistency → in scope** (Step 4.6). Pure image
