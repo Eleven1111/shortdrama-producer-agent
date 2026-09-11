@@ -14,6 +14,7 @@
 | 「为什么效果差」 | diagnosis-only：先跑 `scripts/diagnose_prompt.py`，**不重写** |
 | 「按我的结构改」 | revision：保结构，只修要害 |
 | 短剧/多镜头/分镜 | 短剧模式（story breakdown → 设定图 → 圣经 → shotlist → 逐镜） |
+| ≥3 集 / ≥60 镜 / 电影 | 长片协议叠加（五层状态栈 · `longform-protocol.md`），短剧规则全部继续生效 |
 | 点名其他模型 | Step 1.5 → `model-adaptation.md` 方言翻译，工艺层不动 |
 | 跨镜角色/道具一致 | Step 4.6 设定图协议 |
 

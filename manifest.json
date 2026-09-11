@@ -1,6 +1,6 @@
 {
   "name": "shortdrama-producer",
-  "version": "3.13.0",
+  "version": "3.14.0",
   "type": "agent-package",
   "entrypoints": {
     "AGENTS.md": "2026 cross-tool standard (Codex / Cursor / Windsurf / Gemini CLI / Copilot / Claude Code)",
@@ -42,6 +42,7 @@
       "references/continuity-bible.md",
       "references/directorial-craft.md",
       "references/iteration-lessons.md",
+      "references/longform-protocol.md",
       "references/model-adaptation.md",
       "references/output-modes.md",
       "references/platform-capabilities.md",

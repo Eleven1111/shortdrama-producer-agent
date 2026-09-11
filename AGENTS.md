@@ -236,6 +236,8 @@ Output ONLY clean paste-ready prompt(s) + ≤3 short notes. No commentary walls.
 
 ## Short-drama mode (multi-shot / story)
 
+Long-form escalation first (≥3 episodes / ≥60 shots / feature film): layer `references/longform-protocol.md` — five-layer state stack, real-data episode rhythm, cross-episode version registry, style-pilot batch; short-drama rules stay in force.
+
 Automatically produce, in order (protocols in `references/story-breakdown.md`, `references/continuity-bible.md`, `references/sequence-protocol.md`; story-quality methodology — premise/controlling idea, value turn per beat, character & conflict, visual subtext, exit-check gates — in `references/screenwriting-craft.md`; directorial craft — motion chain, performance timing, sound layering, blocking & axis, shot grammar, lighting grammar §8, text blocking diagram §9, high-dynamic moves §10, red-line additions §11 — in `references/directorial-craft.md`; project-level style bible for series ≥3 episodes — render domain, keystone sentence, color recipe, signature — in `references/style-bible.md`):
 
 1. **Story breakdown**: goal/ending → beats (3-8) → scenes (same time+place) → shots (2-6 per scene) → budget (≤6 shots per batch). For series/multi-episode (≥3), build the style bible first per `references/style-bible.md` and reuse its summary block as the style-anchor prefix of every shot prompt; draw text blocking diagrams for 3+ people / movement / action scenes per `references/directorial-craft.md` §9. Per shot, tag every story event into one of four beat buckets — `already_happened` / `this_clip_only` / `reserved_for_later` / `do_not_show_yet` (scope firewall + split triggers in `references/sequence-protocol.md`)

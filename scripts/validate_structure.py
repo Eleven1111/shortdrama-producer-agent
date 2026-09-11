@@ -41,6 +41,7 @@ REQUIRED_PHRASES = {
         (r'failure atlas', '失败图谱接线（v3.11）'),
         (r'`references/quick-ref\.md`', 'Level-0 速查卡接线（v3.13）'),
         (r'`scripts/continuity_check\.py`', '连续性链检查接线（v3.13）'),
+        (r'`references/longform-protocol\.md`', '长片协议接线（v3.14）'),
     ],
     'AGENTS.md': [
         (r'(?m)^#+ Step 0 —', '输出模式选择'),
@@ -60,6 +61,7 @@ REQUIRED_PHRASES = {
         (r'failure atlas', '失败图谱接线（v3.11）'),
         (r'`references/quick-ref\.md`', 'Level-0 速查卡接线（v3.13）'),
         (r'`scripts/continuity_check\.py`', '连续性链检查接线（v3.13）'),
+        (r'`references/longform-protocol\.md`', '长片协议接线（v3.14）'),
     ],
     'references/clarification-protocol.md': [
         (r'(?m)^#+ .*选项式追问', '选项式追问章节'),
