@@ -89,7 +89,25 @@ ACTIVE REFERENCES
 - 一个镜头引用哪一版，取决于该镜头在剧情中的**状态时点** —— 受伤后的镜头引用受伤版。
 - 锚点名在整部片子里**逐字复用**，不要改写（写进连续性圣经，见 `continuity-bible.md`）。
 
-## 五、与视频工作流的衔接
+## 五、首尾帧角色绑定（FLF2V / 首帧尾帧）
+
+> 蒸馏自 Emily2040/seedance-2.0（MIT）`first-last-frame-guide.md`（Emily2040/seedance-2.0）。
+
+首尾帧模式下，两张图不是普通的参考图，而是**状态锚**：首帧定义从哪开始，尾帧定义到哪结束。正文只写**过渡逻辑**（运镜行为、光线连续性、音频意图、保持不变项），不重新描述两张图里已有的画面。
+
+绑定措辞（正文内声明角色）：
+
+| 角色 | 中文 | English |
+|---|---|---|
+| 首帧 | `@图片1 为首帧` | `@Image1 is the first frame` |
+| 尾帧 | `@图片2 为尾帧` | `@Image2 is the last frame` |
+| 身份锁 | `保持同一主体、服装、形状和场景逻辑` | `preserve the same subject, outfit, shape, scene logic` |
+| 只做过渡 | `只生成两帧之间的连续动作，中间不跳切` | `generate only the continuous motion between the two frames, no jump cut` |
+| 终点目标 | `以尾帧为最终画面目标` | `treat the last frame as the final visual target` |
+
+要点：① 首尾帧与身份参考**不混用**——一张图一次一个角色；② 尾帧是终点不是氛围参考，`Keep everything else unchanged` 之外不加新事件；③ 与序列协议的 end state 对齐——上一镜的真实尾帧（保存返回帧）就是下一镜的首帧候选；④ 具体平台字段名（first/last 槽位）以 `platform-capabilities.md` 为准，措辞只保证语义生效。
+
+## 六、与视频工作流的衔接
 
 短剧模式下的正确顺序：
 

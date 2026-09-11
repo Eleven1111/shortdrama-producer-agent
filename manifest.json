@@ -1,6 +1,6 @@
 {
   "name": "shortdrama-producer",
-  "version": "3.9.0",
+  "version": "3.10.0",
   "type": "agent-package",
   "entrypoints": {
     "AGENTS.md": "2026 cross-tool standard (Codex / Cursor / Windsurf / Gemini CLI / Copilot / Claude Code)",
@@ -34,30 +34,31 @@
       "scripts/diagnose_prompt.py"
     ],
     "references": [
-      "references/platform-capabilities.md",
+      "references/anti-slop-lexicon.md",
+      "references/asset-binding.md",
+      "references/character_cards_visual.json",
+      "references/clarification-protocol.md",
+      "references/continuity-bible.md",
+      "references/directorial-craft.md",
+      "references/iteration-lessons.md",
       "references/model-adaptation.md",
       "references/output-modes.md",
-      "references/asset-binding.md",
-      "references/seedance-writing-guide.md",
-      "references/clarification-protocol.md",
+      "references/platform-capabilities.md",
       "references/prompt-templates.md",
-      "references/story-breakdown.md",
-      "references/screenwriting-craft.md",
-      "references/directorial-craft.md",
-      "references/style-bible.md",
-      "references/iteration-lessons.md",
       "references/reference-image-protocol.md",
-      "references/continuity-bible.md",
-      "references/sequence-protocol.md",
-      "references/character_cards_visual.json",
       "references/reference_registry.json",
+      "references/screenwriting-craft.md",
+      "references/seedance-writing-guide.md",
+      "references/sequence-protocol.md",
+      "references/story-breakdown.md",
       "references/story_level/act_structure.json",
       "references/story_level/beat_patterns.json",
       "references/story_level/character_journeys.json",
       "references/story_level/conflict_patterns.json",
       "references/story_level/movement_arcs.json",
       "references/story_level/prop_journeys.json",
-      "references/story_level/story_patterns.md"
+      "references/story_level/story_patterns.md",
+      "references/style-bible.md"
     ]
   },
   "data": {

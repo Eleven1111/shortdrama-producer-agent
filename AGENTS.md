@@ -176,7 +176,7 @@ Use these as the *verified story rhythm*, not generic screenwriting advice. For 
 - [ ] Negative constraints ≥5
 - [ ] Audio section present
 - [ ] Style anchor ≥1
-- [ ] No AI-flavored filler ("cinematic masterpiece" etc.)
+- [ ] No AI-flavored filler ("cinematic masterpiece" etc.) → repair per `references/anti-slop-lexicon.md` (six slop classes: classify → adjudicate → replace with shootable decisions; useful style labels stay)
 
 If any check fails, rewrite the prompt until it passes before delivering.
 
