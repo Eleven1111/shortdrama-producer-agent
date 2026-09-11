@@ -1,11 +1,11 @@
 ---
 name: shortdrama-producer
-description: "跨终端通用 Seedance 短剧/视频 prompt 生产 Agent。当用户想为 Seedance 2.0/2.5（或 Higgsfield AI 等 Seedance 系平台）生成视频、只给出模糊想法、灵感碎片、剧情概念时使用。自动完成整个生产工作流：解析意图 → 检索真实生产范例 → 生成创意简报 → 产出可直接粘贴的高质量 Seedance prompt → 质检。支持单镜头（cinema/quick 两档）与短剧（多镜头/分镜/连续场景）模式。Use proactively whenever the user mentions seedance, 文生视频, video prompt, 短剧, 分镜, 视频提示词, 帮我做视频, AI 视频. 为保证跨镜一致性而做的角色/道具设定图 prompt 属于职责内；不处理：独立图像创作（海报/插画）、非 Seedance 视频模型、实际渲染/API 调用。"
+description: "跨终端通用视频 prompt 生产 Agent，原生校准 Seedance，并可方言翻译适配 Kling / Veo / Sora / Runway / 海螺 / 即梦 / Vidu / Wan / Pika 等模型。当用户想为 Seedance 2.0/2.5（或 Higgsfield AI 等 Seedance 系平台）或其他视频模型生成视频、只给出模糊想法、灵感碎片、剧情概念时使用。自动完成整个生产工作流：解析意图 → 检索真实生产范例 → 生成创意简报 → 产出可直接粘贴的高质量视频 prompt → 质检。支持单镜头（cinema/quick 两档）与短剧（多镜头/分镜/连续场景）模式。Use proactively whenever the user mentions seedance, kling, veo, sora, runway, 文生视频, video prompt, 短剧, 分镜, 视频提示词, 帮我做视频, AI 视频. 为保证跨镜一致性而做的角色/道具设定图 prompt 属于职责内；不处理：独立图像创作（海报/插画）、实际渲染/API 调用。"
 license: MIT
 user-invocable: true
-tags: [seedance, video-prompt, creative, short-drama, sequence, workflow, agent, screenwriting, directorial, style-bible]
+tags: [seedance, video-prompt, creative, short-drama, sequence, workflow, agent, screenwriting, directorial, style-bible, cross-model]
 metadata:
-  version: "3.6.0"
+  version: "3.7.0"
   copyright: "Copyright (c) 2026 Eleven1111"
   author:
     name: "Eleven1111"
@@ -78,11 +78,8 @@ Then count the dimensions the user supplied and route per the table above.
 zero-information fallback (3 concrete directions), and the assumption list. Both the
 questions and the directions must be written in the user's own language.
 
-### Step 1.5 — Platform check (only when it changes the answer)
-The same Seedance model is wrapped differently per platform: Higgsfield Seedance 2.0 tops
-out at **4–15s**, Seedance 2.5 at **30s**, and Dreamina adds a **5–180s Long Video** mode;
-reference-asset quotas differ by an order of magnitude (9 images vs 50 assets). So duration,
-ratio and mode limits are **platform-dependent, never hardcoded**.
+### Step 1.5 — Model & platform check (only when it changes the answer)
+The same underlying model is wrapped differently per platform (see `references/platform-capabilities.md`), and **different models need different prompt dialects** — when the user names a non-Seedance target (Kling / Veo / Sora / Runway / Hailuo / Vidu / Wan / Pika…), route per `references/model-adaptation.md`: declare the nine capability axes, then translate the dialect (structure mapping, camera-vocabulary fallback, same-pass vs silent audio plan, reference-conditioning mapping) without changing the craft layer. So duration, ratio, audio and mode limits are **model- and platform-dependent, never hardcoded**.
 
 - Request stays within 15s, single or multi-shot → **don't ask**, just generate.
 - Request touches duration limits, asset counts, Long Video, extension or editing →
@@ -194,7 +191,7 @@ Output ONLY clean paste-ready prompt(s) + ≤3 short notes.
 ## Boundaries
 - **Reference/setup images that serve video consistency → in scope** (Step 4.6). Pure image
   creation for its own sake (posters, illustrations, standalone artwork) → decline.
-- non-Seedance video models → decline; rendering/API → decline
+- non-Seedance video models → supported as **dialect translation** via `references/model-adaptation.md` (craft layer unchanged); rendering/API → decline
 - IP/celebrity/likeness risk → warn, never infringe
 - Never import source-project story/characters/props into user work
 

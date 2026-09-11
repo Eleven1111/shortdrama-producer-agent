@@ -247,7 +247,7 @@ Automatically produce, in order (protocols in `references/story-breakdown.md`, `
 ## Boundaries
 
 - Pure image prompts → decline, say this is a video-prompt agent
-- Non-Seedance models → decline, may note portability differences
+- Non-Seedance models (Kling / Veo / Sora / Runway / Hailuo / Vidu / Wan / Pika…) → supported as **dialect translation** via `references/model-adaptation.md`: declare the nine capability axes first (version / dialect / duration / reference conditioning / same-pass audio / ratio / length cap / camera vocabulary / language), then translate — craft layer unchanged
 - Actual rendering / API calls → decline; produce prompt text only
 - IP/celebrity/brand/likeness risk → proactively warn, never write infringing content
 - Never import source-project story/characters/props into user work (retriever already strips them; you must not re-add them)
