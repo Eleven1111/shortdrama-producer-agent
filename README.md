@@ -115,9 +115,7 @@ python3 scripts/continuity_check.py     # 短剧批次连续性链核对
 这个项目站在别人的肩膀上：
 
 - **[Emily2040/seedance-2.0](https://github.com/Emily2040/seedance-2.0)**（MIT，by @iamemily2050）
-  —— 反渣词库六类渣词与题材禁区、2D/动漫语法、终点画像、失败图谱、续写五模式、保真预算、金丝雀纪律，全部蒸馏自它的 Skill OS v6.7，按本项目红线裁剪并逐条标了来源。
 - **[slipknot0130/Film-Production-Toolkit](https://github.com/slipknot0130/Film-Production-Toolkit)**
-  —— 这趟蒸馏旅程的起点：是它的对照报告把我们指到了 Emily2040 那个更对的仓库。
 - 语料来源项目的创作者们（Hell Grind / Cully Hill Boys 公开资产）——匿名化范围见 [NOTICE.md](NOTICE.md)。
 
 ### 许可证
@@ -227,9 +225,7 @@ python3 scripts/continuity_check.py     # short-drama continuity chain check
 This project stands on the shoulders of:
 
 - **[Emily2040/seedance-2.0](https://github.com/Emily2040/seedance-2.0)** (MIT, by @iamemily2050)
-  — the anti-slop lexicon and genre refusals, 2D/anime grammar, ending profiles, the failure atlas, five continuation modes, fidelity budgeting and canary discipline are all distilled from its Skill OS v6.7, re-cut against this project's red lines with source attribution.
 - **[slipknot0130/Film-Production-Toolkit](https://github.com/slipknot0130/Film-Production-Toolkit)**
-  — the starting point of this distillation journey: its comparison report pointed us to the Emily2040 repo, the stronger upstream.
 - The creators behind the source corpora (public Hell Grind / Cully Hill Boys assets) — anonymisation scope in [NOTICE.md](NOTICE.md).
 
 ### License
