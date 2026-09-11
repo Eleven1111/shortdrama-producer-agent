@@ -222,3 +222,26 @@
 **一条总律：错不在"动没动"，在"没被下游接住的运动"。** Extension anchor 必须把 open motion（未完动作矢量）写显式，下一镜从它开场；Loop seam 必须与开头四项相位匹配（三缺一=可见跳变）；Hero hold 与 Reveal/punch 结尾的余动是**缺陷**不是保险。最常见的错误恰恰是反射性地加漂移让结尾"显得活"——先选画像，再写最后一拍。
 
 **镜头尺寸×风险速查**：远景/大远景里的小脸与文字必漂，别要求面部表演；特写保持机位稳+动作小；微距避免大动作与文字重绘。
+
+---
+
+## 14. 2D/动漫媒介语法（Direct the Medium, Not a Camera Rig）
+
+> 蒸馏自 Emily2040/seedance-2.0（MIT）`2d-anime-grammar.md`。适用于热血校园/数学动画等一切 2D/赛璐璐线——**语料盲区**：47 万资产语料是真人实拍系，本节是其补偿。
+
+**核心律 [field]**：prompt 第一句先声明媒介（`hand-drawn 2D animation, cel-shaded characters over a painted background`），且**全句禁用摄影词汇**——镜头/bokeh/景深/焦距/机身词会把输出拽向照片感或假移轴。这是 §11 红线"禁写焦距数值"的媒介级加强版。
+
+| 层 | 写法 | 要点 |
+|---|---|---|
+| 图层 | 赛璐璐主体压在绘画背景上 | 背景滚动作纵深；前景剪影滑动快于远景天际线=视差 |
+| 定格 | 显式声明什么不动 | **held frame 是媒介特性不是失败**，别当 bug 修 |
+| 动作 | burst vs held 交替 | "a burst of fluid full animation as she turns, then a held frame on her expression"；打击帧 `a single high-contrast impact frame on the hit` |
+| 时序 | `animated on twos` 经典赛璐璐节奏 | `on ones` 只留给展示镜头 |
+| 速度线/拖影 | `speed lines streak the background during the dash` | 手臂挥击 `her arm smears across the swing` |
+| 跟随 | 发丝/布料/外套在身体停后继续落定 | follow-through 证明动量 |
+| "镜头" | 摄影台 = 架在画作上方 | 平移绘画背景/推向定格面部/垂直下摇塔作——每镜一个动机运动照旧；**禁 dolly/handheld shake/lens-breathing** |
+| 光 | 光是**画出来的**不是渲染的 | 硬双色 cel 阴影；沿下颌的干净形状轮廓光；高光画成眼里的白楔形 |
+| 声音 | 风格化优于真实拟音 | 拖影配 whoosh、打击帧配 sharp sting、held frame 环境声抽空 |
+| 风格安全 | 描述**技法+年代+调色板** | `1990s hand-painted TV-anime look with grainy film texture` 安全；点名工作室/作品/在世画师走版权警告（见 SKILL.md Boundaries） |
+
+**儿童内容附加两点**（取自同源 Kids 题材范例，配套数学动画线）：机位降到**孩子的身高**讲孩子的世界；表演用小而弹的动作+专注微表情，让情绪"被发现而非表演"——题材禁区（纸屑/夸张反应/镜头旋转/童谣提示）见 anti-slop-lexicon §7。

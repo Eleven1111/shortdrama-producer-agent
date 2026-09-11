@@ -156,6 +156,7 @@ Follow these 10 hard rules (derived from full-corpus statistics of real Seedance
 10. Spec header: `Duration: X seconds. Aspect ratio: <ratio>. One continuous shot.` — duration and ratio come from `references/platform-capabilities.md`; do not hardcode 15s/21:9
 
 Tiers: default **cinema** (600–2,000 words, checklist style; see `references/prompt-templates.md`); "quick / 快点 / 先看看" → **quick** (80–300 words).
+Directorial craft — motion chain, performance timing, sound layering, blocking & axis, shot grammar — in `references/directorial-craft.md`. Apply §1/§2/§3 to every shot's ACTION/AUDIO segments; §4/§5 to shotlist design; §12 fidelity budget (one primary spend per generation); §13 ending profiles; §14 for 2D/anime/children's-style projects (medium grammar, no photographic vocabulary).
 
 ### Step 4.5 — Story-level consultation (for sequence / short-drama / arc questions)
 When the request is sequence-level (story arc, beat structure, act transitions, character journey, prop consistency across scenes), consult `references/story_level/story_patterns.md` (速查表) and the JSON files alongside it:
@@ -176,7 +177,7 @@ Use these as the *verified story rhythm*, not generic screenwriting advice. For 
 - [ ] Negative constraints ≥5
 - [ ] Audio section present
 - [ ] Style anchor ≥1
-- [ ] No AI-flavored filler ("cinematic masterpiece" etc.) → repair per `references/anti-slop-lexicon.md` (six slop classes: classify → adjudicate → replace with shootable decisions; useful style labels stay)
+- [ ] No AI-flavored filler ("cinematic masterpiece" etc.) → repair per `references/anti-slop-lexicon.md` (six slop classes: classify → adjudicate → replace with shootable decisions; useful style labels stay; genre stock-solution refusals in §7 go into that genre's negative constraints)
 
 If any check fails, rewrite the prompt until it passes before delivering.
 
@@ -235,7 +236,7 @@ Output ONLY clean paste-ready prompt(s) + ≤3 short notes. No commentary walls.
 
 Automatically produce, in order (protocols in `references/story-breakdown.md`, `references/continuity-bible.md`, `references/sequence-protocol.md`; story-quality methodology — premise/controlling idea, value turn per beat, character & conflict, visual subtext, exit-check gates — in `references/screenwriting-craft.md`; directorial craft — motion chain, performance timing, sound layering, blocking & axis, shot grammar, lighting grammar §8, text blocking diagram §9, high-dynamic moves §10, red-line additions §11 — in `references/directorial-craft.md`; project-level style bible for series ≥3 episodes — render domain, keystone sentence, color recipe, signature — in `references/style-bible.md`):
 
-1. **Story breakdown**: goal/ending → beats (3-8) → scenes (same time+place) → shots (2-6 per scene) → budget (≤6 shots per batch). For series/multi-episode (≥3), build the style bible first per `references/style-bible.md` and reuse its summary block as the style-anchor prefix of every shot prompt; draw text blocking diagrams for 3+ people / movement / action scenes per `references/directorial-craft.md` §9
+1. **Story breakdown**: goal/ending → beats (3-8) → scenes (same time+place) → shots (2-6 per scene) → budget (≤6 shots per batch). For series/multi-episode (≥3), build the style bible first per `references/style-bible.md` and reuse its summary block as the style-anchor prefix of every shot prompt; draw text blocking diagrams for 3+ people / movement / action scenes per `references/directorial-craft.md` §9. Per shot, tag every story event into one of four beat buckets — `already_happened` / `this_clip_only` / `reserved_for_later` / `do_not_show_yet` (scope firewall + split triggers in `references/sequence-protocol.md`)
 2. **Reference sheets** (Step 4.6): three-panel character-sheet prompt for every element appearing in more than one shot; edited versions (`_vN`) for state changes
 3. **Continuity bible**: character/scene/prop definitions (series-level anchors) plus which sheet version each shot uses; every shot prompt references the bible verbatim, never rewritten
 4. **Shotlist table**: | shot | scene | shot type | cam/focal/move | content | transition |

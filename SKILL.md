@@ -5,7 +5,7 @@ license: MIT
 user-invocable: true
 tags: [seedance, video-prompt, creative, short-drama, sequence, workflow, agent, screenwriting, directorial, style-bible, cross-model, gemini-omni, kling, sora, runway]
 metadata:
-  version: "3.11.0"
+  version: "3.12.0"
   copyright: "Copyright (c) 2026 Eleven1111"
   author:
     name: "Eleven1111"
@@ -134,7 +134,7 @@ Full rules: `references/asset-binding.md`.
 10. Spec header: `Duration: X seconds. Aspect ratio: <ratio>. One continuous shot.` — pick duration and ratio per `references/platform-capabilities.md`, not a fixed 15s/21:9
 
 Tiers: default **cinema** (600–2,000 words); "quick / 快点" → **quick** (80–300 words). Templates in `references/prompt-templates.md`.
-Directorial craft — how to design the motion chain, performance timing, sound layering, blocking & axis, shot grammar — in `references/directorial-craft.md`. Apply §1/§2/§3 to every shot's ACTION/AUDIO segments; §4/§5 to shotlist design.
+Directorial craft — how to design the motion chain, performance timing, sound layering, blocking & axis, shot grammar — in `references/directorial-craft.md`. Apply §1/§2/§3 to every shot's ACTION/AUDIO segments; §4/§5 to shotlist design; §12 fidelity budget (one primary spend per generation); §13 ending profiles; §14 for 2D/anime/children's-style projects (medium grammar, no photographic vocabulary).
 
 ### Step 4.5 — Appearance authority (character/environment/prop cards)
 For any character / location / prop the user wants consistent, consult `references/character_cards_visual.md` (or .json) — 1,351 real production cards (439 characters / 616 environments / 296 props), 40k+ appearance descriptions. Imitate their specificity (height, build, hair, skin, item-by-item clothing, marks) when writing `<<<anchor>>> — description`. Never paste the source project's actual characters/props wholesale — it is a style teacher, not content.
@@ -159,7 +159,7 @@ into a new version**, never by re-describing the change in each shot's video pro
 - [ ] Negative constraints ≥5
 - [ ] Audio present
 - [ ] Style anchor ≥1
-- [ ] No AI-flavored filler
+- [ ] No AI-flavored filler → repair per `references/anti-slop-lexicon.md` (six slop classes; genre stock-solution refusals in §7 go into that genre's negative constraints)
 
 ### Step 5.5 — Harden constraints (`references/iteration-lessons.md`)
 Real production data (4,154 revised prompt clusters): **69.7% of revisions add length,
