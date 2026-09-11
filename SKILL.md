@@ -1,11 +1,11 @@
 ---
 name: shortdrama-producer
-description: "跨终端通用视频 prompt 生产 Agent，原生校准 Seedance，并可方言翻译适配 Kling / Veo / Sora / Runway / 海螺 / 即梦 / Vidu / Wan / Pika 等模型。当用户想为 Seedance 2.0/2.5（或 Higgsfield AI 等 Seedance 系平台）或其他视频模型生成视频、只给出模糊想法、灵感碎片、剧情概念时使用。自动完成整个生产工作流：解析意图 → 检索真实生产范例 → 生成创意简报 → 产出可直接粘贴的高质量视频 prompt → 质检。支持单镜头（cinema/quick 两档）与短剧（多镜头/分镜/连续场景）模式。Use proactively whenever the user mentions seedance, kling, veo, sora, runway, 文生视频, video prompt, 短剧, 分镜, 视频提示词, 帮我做视频, AI 视频. 为保证跨镜一致性而做的角色/道具设定图 prompt 属于职责内；不处理：独立图像创作（海报/插画）、实际渲染/API 调用。"
+description: "跨终端通用视频 prompt 生产 Agent，原生校准 Seedance，并可方言翻译适配 Gemini Omni / Kling / Veo / Sora / Runway / 海螺 / 即梦 / Vidu / Wan / Pika 等模型。当用户想为 Seedance 2.0/2.5（或 Higgsfield AI 等 Seedance 系平台）或其他视频模型生成视频、只给出模糊想法、灵感碎片、剧情概念时使用。自动完成整个生产工作流：解析意图 → 检索真实生产范例 → 生成创意简报 → 产出可直接粘贴的高质量视频 prompt → 质检。支持单镜头（cinema/quick 两档）与短剧（多镜头/分镜/连续场景）模式。Use proactively whenever the user mentions seedance, gemini omni, veo, sora, kling, runway, 文生视频, video prompt, 短剧, 分镜, 视频提示词, 帮我做视频, AI 视频. 为保证跨镜一致性而做的角色/道具设定图 prompt 属于职责内；不处理：独立图像创作（海报/插画）、实际渲染/API 调用。"
 license: MIT
 user-invocable: true
-tags: [seedance, video-prompt, creative, short-drama, sequence, workflow, agent, screenwriting, directorial, style-bible, cross-model]
+tags: [seedance, video-prompt, creative, short-drama, sequence, workflow, agent, screenwriting, directorial, style-bible, cross-model, gemini-omni]
 metadata:
-  version: "3.7.0"
+  version: "3.8.0"
   copyright: "Copyright (c) 2026 Eleven1111"
   author:
     name: "Eleven1111"
@@ -79,7 +79,7 @@ zero-information fallback (3 concrete directions), and the assumption list. Both
 questions and the directions must be written in the user's own language.
 
 ### Step 1.5 — Model & platform check (only when it changes the answer)
-The same underlying model is wrapped differently per platform (see `references/platform-capabilities.md`), and **different models need different prompt dialects** — when the user names a non-Seedance target (Kling / Veo / Sora / Runway / Hailuo / Vidu / Wan / Pika…), route per `references/model-adaptation.md`: declare the nine capability axes, then translate the dialect (structure mapping, camera-vocabulary fallback, same-pass vs silent audio plan, reference-conditioning mapping) without changing the craft layer. So duration, ratio, audio and mode limits are **model- and platform-dependent, never hardcoded**.
+The same underlying model is wrapped differently per platform (see `references/platform-capabilities.md`), and **different models need different prompt dialects** — when the user names a non-Seedance target (Gemini Omni / Kling / Veo / Sora / Runway / Hailuo / Vidu / Wan / Pika…), route per `references/model-adaptation.md`: declare the nine capability axes, then translate the dialect (structure mapping, camera-vocabulary fallback, same-pass vs silent audio plan, reference-conditioning mapping; Gemini Omni has its own dialect section §7 — write-less + constraint language, no-quote dialogue, `[0-3s]` timecode, ≤10s per gen with Extend chain) without changing the craft layer. So duration, ratio, audio and mode limits are **model- and platform-dependent, never hardcoded**.
 
 - Request stays within 15s, single or multi-shot → **don't ask**, just generate.
 - Request touches duration limits, asset counts, Long Video, extension or editing →

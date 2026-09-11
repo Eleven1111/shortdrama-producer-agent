@@ -28,8 +28,9 @@ shortdrama-producer 的原生规范（OPTICS/`<<<锚>>>`/`—`分段/负面约�
 | 模型 | 原生时长 | 画幅 | 原生音频 | 参考方式 | 方言要点 |
 |---|---|---|---|---|---|
 | **Seedance 2.0/2.5**（本 Agent 原生规范） | 4-15s / ≤30s（●●●） | 21:9 主流 | ✅ 同轨完整时间线 | 多槽参考（9-50 资产） | 英文长正文；OPTICS 分段；`<<<锚>>>`；负面词吃得动 |
+| **Gemini Omni / Omni Flash 1.1**（Google 最新，官方宣布在 Gemini app 取代 Veo 3.1） | 单次 ≤10s；可续写扩展（每次 +10s，总长 ≤40s，Omni 1.1 Flash）（●●●） | 16:9/9:16/1:1；360p 预览→720p/1080p/4K（●●●） | ✅ 同轨（对白+SFX+配乐，随提示生成）（●●●） | **任意组合输入**：text/image/video/audio 文件同喂（image_0.png / video_0.mp4 / audio_0.wav）；支持首尾帧控制；视频作输入续写，上下文读 10s（Veo 只读最后 1s） | **写少不写多**：官方"不必像 Veo 那样规定到细节，讲清要什么即可"；约束语言>描述堆量——漂移时补约束而不是加描述；五维结构（镜头景别与运动/主体/风格/光照/音频）；对白**不加引号**（冒号引出，防渲染字幕）；支持 `[0-3s]` 时间码语法；文字渲染准确可读；同 seed+逐字复用角色描述锁一致性；会话式"改一点+Keep everything else the same"编辑链。详见 §7 |
 | **Kling 2.5/2.6/3.0** | 10s / 30s / 3.0 支持 15s 智能分镜（●●●） | 16:9/9:16/1:1，1080p-4K | ⚠️ SFX/环境强，对白同轨弱（●●○）；3.0 音画同步升级（●●○） | 首帧/首尾帧/多参考 | 6-10s 竖屏是甜点区；人物动作物理感强；**4+ 运动元素场景劣化**；画面内英文文字易乱码；英文短正文即可，无需 OPTICS 密度 |
-| **Veo 3.1** | ≤60s，甜点 5-10s（●●○ 各源 8-60s 不一） | 16:9/9:16/1:1/4:3 | ✅ 对白+SFX+配乐全同轨（●●●） | 首帧/参考 | 复杂多元素 prompt 遵从度最佳、物理最佳、文字渲染最佳；吃长结构化英文正文，最接近 Seedance 写法可平移 |
+| **Veo 3.1** | ≤60s，甜点 5-10s（●●○ 各源 8-60s 不一） | 16:9/9:16/1:1/4:3 | ✅ 对白+SFX+配乐全同轨（●●●） | 首帧/参考 | 精确指令式方言（Omni 的反面）；**在 Gemini app 正被 Omni 取代，Flow 中暂仍可用**——新项目默认路由 Omni，存量 Veo 项目照旧 |
 | **Sora 2** | ≤20s，甜点 10-20s（●●●） | 16:9/9:16/1:1 | ⚠️ 有音频整合但各源口径不一（●○○） | 文生为主 | 电影构图感最强、写实最强；**风格化/动漫弱**；跨镜角色一致性较好；中等长度英文 |
 | **Runway Gen-4/4.5** | 16s（Gen-4.5；●●○ 单源称 40s） | 16:9/9:16/1:1/4:5 | ❌ 无原生音频，后期配（●●●） | 参考图系统最佳 | 运镜控制最精准（motion brush/camera control）；人物一致性靠参考图最好；提示词按"运镜指令+画面"写，声音段写职责供后期 |
 | **Hailuo / MiniMax H3** | 6-10s（●●●） | 720p-1080p | ⚠️ 版本差异（●○○） | full-reference（reference_video + reference_image 组合，见 drama-skills H3 方言） | 人物一致性/动漫强；中文或英文短正文；**务必核实版本方言再写参考槽位** |
@@ -73,3 +74,51 @@ shortdrama-producer 的原生规范（OPTICS/`<<<锚>>>`/`—`分段/负面约�
 - [ ] 声音段写的是"完整时间线"还是"职责说明"（按 same_pass/silent 正确选择）？
 - [ ] 逐字对白保留原语言？字幕/文字叠加层显式关闭？
 - [ ] 参考槽位与挂载次序一致，无"首帧+参考图"混用？
+
+## 7. Gemini Omni 方言（Google 最新视频模型，官方文档蒸馏）
+
+> 依据：Google Cloud 官方 best-practices / Gemini API omni 文档 / DeepMind prompt guide（2026-05 I/O 发布 Omni Flash，1.1 Flash API 2026-06 预览）。与 Veo 的根本差异：**Omni 继承 Gemini 的世界知识与推理，官方原话"不必像 Veo 那样在 prompt 里规定到细节——讲清要什么，让模型自己把细节带出来"**。
+
+### 7.1 五维 prompt 结构（官方示例拆解）
+
+```
+[镜头景别与运动] + [主体] + [风格/情绪] + [光照] + [音频]
+```
+示例骨架：`A wide-angle tracking shot glides gently across...（镜头） revealing a colossal chrome bean（主体）, cinematic and awe-inspiring ambiance（风格）, as a brilliant sun crests behind（光照）, underscored by a majestic orchestral score（音频）`
+- 风格维只需给情绪词，不用展开细节；光照必须答"光从哪来+什么质感"。
+- **写少不写多**：漂移的修复通常是**补一条缺失的约束**，而不是加长描述。这与 Seedance 的"加长收紧"迭代方向相反——先加约束，再考虑加细节。
+
+### 7.2 独有语法（其他模型没有的）
+
+1. **对白不加引号**：用冒号引出——`A woman says: My name is Clara.`（引号会诱发模型把话渲染成字幕）。
+2. **时间码语法**：`[0-3s] A person is walking [3-6s] They stop and turn [6-10s] They start running`；也可自然语言 `After 3 seconds, a woman enters the scene` / `At 5s the chorus starts`。做分镜节奏、快速剪辑序列时用。
+3. **单场景强制**：短正文必须显式写 `In a single unbroken scene / single continuous shot / No scene cuts`，否则模型会自作主张叙事剪辑（它会"编故事"）。
+4. **负面极简**：`No dialogue / No embellishments / No extra sound effects`——一行一条，不堆长负面列表。
+5. **任意组合输入**：prompt 里直接引用文件——`Dynamic sci-fi film style video based on image_0.png. Elements light up similar to video_0.mp4 synchronized to the beat of the music from audio_0.wav`。图+视频+音频可同时作条件。
+6. **视频续写**：`Extend this video` / `The scene continues`——每次 +10s，总长 ≤40s；模型读前 10s 作上下文（角色/光照/叙事连续），最后几帧会被无缝改接。
+7. **会话式编辑链**：`Make this video anime` / `Add a cat that jumps onto his lap, he begins to pet it. Keep everything else the same.`——编辑指令要短，复杂长编辑指令反而引发意外改动。
+8. **文字渲染可读**：Omni 能准确渲染画面内文字（招牌/字幕条/车牌），需要可读文字时直接写内容与位置；不想要文字时用无引号对白规则+负面 `No text overlays`。
+9. **一致性双锁**：角色描述**逐字复用**（官方做法）+ **same seed 参数**。`<<<锚>>>` 的"逐字复用"思想在此天然成立：把角色卡描述块原样粘进每条 prompt，只改动作/场景部分。
+10. **成本纪律**：先 360p 预览验证构想，选中后再升 720p/1080p/4K。
+
+### 7.3 shortdrama-producer 规范 → Omni 方言转换
+
+| 我们的规范 | Omni 写法 |
+|---|---|
+| `Duration: 15s. Aspect ratio: 21:9. One continuous shot.` | 单次 ≤10s → 超过 10s 的镜**拆两镜**（预算重排）或用 Extend 链（≤40s）；spec header 保留 `One continuous shot, no scene cuts` 字样（单场景强制） |
+| `<<<name>>> — 外观描述` | 保留，同一角色描述块逐字复用每镜；用户走 API 时配 same seed |
+| OPTICS `47°(≈50mm)` | 参数数值照删（`medium shot, eye-level`） |
+| `—` 破折号分段 | 拍平为五维自然语言流；长正文不占优——约束优先于描述 |
+| 负面约束列表 ≥5 条 | 压成 2-3 条极简 `No X` 行（No dialogue 需求除外）；其余负面转正面写法 |
+| 对白预算 4.1 字/秒 | 同轨音频沿用；**冒号引对白、无引号** |
+| 多槽参考资产 | 改用 `image_0.png / video_0.mp4 / audio_0.wav` 文件引用法，按挂载顺序编号 |
+| 转场 hard cut / match cut | 短镜内不切（单场景强制）；跨镜转场走多镜拼接，或用时间码语法做镜内节奏 |
+| 短剧 6 镜/批 | 每镜 ≤10s 重排预算；>10s 的戏剧节拍用 Extend 链（注意 Extend 会改接最后几帧，状态机 end state 可能被微调） |
+
+### 7.4 Omni 自检（在通用自检之上追加）
+
+- [ ] 对白全部冒号引出、无引号？
+- [ ] 需要单镜头的镜写了 `single continuous shot / no scene cuts`？
+- [ ] 时长 ≤10s 或已规划 Extend 链（并告知 Extend 的帧改接风险）？
+- [ ] 漂移修复走"补约束"而不是"加描述"？
+- [ ] 走了 360p 预览→再升档的成本纪律？
