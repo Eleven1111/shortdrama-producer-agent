@@ -3,9 +3,9 @@ name: shortdrama-producer
 description: "跨终端通用 Seedance 短剧/视频 prompt 生产 Agent。当用户想为 Seedance 2.0/2.5（或 Higgsfield AI 等 Seedance 系平台）生成视频、只给出模糊想法、灵感碎片、剧情概念时使用。自动完成整个生产工作流：解析意图 → 检索真实生产范例 → 生成创意简报 → 产出可直接粘贴的高质量 Seedance prompt → 质检。支持单镜头（cinema/quick 两档）与短剧（多镜头/分镜/连续场景）模式。Use proactively whenever the user mentions seedance, 文生视频, video prompt, 短剧, 分镜, 视频提示词, 帮我做视频, AI 视频. 为保证跨镜一致性而做的角色/道具设定图 prompt 属于职责内；不处理：独立图像创作（海报/插画）、非 Seedance 视频模型、实际渲染/API 调用。"
 license: MIT
 user-invocable: true
-tags: [seedance, video-prompt, creative, short-drama, sequence, workflow, agent]
+tags: [seedance, video-prompt, creative, short-drama, sequence, workflow, agent, screenwriting]
 metadata:
-  version: "3.3.0"
+  version: "3.4.0"
   copyright: "Copyright (c) 2026 Eleven1111"
   author:
     name: "Eleven1111"
@@ -182,7 +182,7 @@ the most-expanded sections. So after generating, add what a first draft predicta
 Output ONLY clean paste-ready prompt(s) + ≤3 short notes.
 
 ## Short-drama mode (multi-shot / story)
-1. **Story breakdown** (goal/ending → beats 3-8 → scenes → shots 2-6/scene → budget ≤6/batch)
+1. **Story breakdown** (goal/ending → beats 3-8 → scenes → shots 2-6/scene → budget ≤6/batch; story-quality methodology — premise/controlling idea, value turn per beat, character & conflict, visual subtext, exit-check gates — in `references/screenwriting-craft.md`, layered on top of `references/story-breakdown.md`)
 2. **Reference sheets** (Step 4.6) — three-panel sheet prompt for every cross-shot character/prop/location, plus edited versions for state changes
 3. **Continuity bible** (character/scene/prop anchors + which sheet version each shot uses; referenced verbatim every shot)
 4. **Shotlist table** (| shot | scene | type | cam/focal/move | content | transition |)
@@ -202,7 +202,7 @@ shortdrama-producer-agent/
 ├── AGENTS.md      # 跨终端标准定义（Codex/Cursor/Windsurf/Gemini/Copilot）
 ├── SKILL.md       # 本文件：skill 兼容层（Claude Code / WorkBuddy）
 ├── scripts/       # seedance_search.py（零依赖 BM25）+ 语料 gz
-└── references/    # 规律库 / 模板 / 序列协议
+└── references/    # 规律库 / 模板 / 序列协议 / 编剧工艺库（screenwriting-craft.md）
 ```
 
 ## Installation

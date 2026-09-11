@@ -1,6 +1,6 @@
 {
   "name": "shortdrama-producer",
-  "version": "3.3.0",
+  "version": "3.4.0",
   "type": "agent-package",
   "entrypoints": {
     "AGENTS.md": "2026 cross-tool standard (Codex / Cursor / Windsurf / Gemini CLI / Copilot / Claude Code)",
@@ -8,7 +8,16 @@
     "agents/openai.yaml": "OpenAI metadata (ChatGPT / Codex)"
   },
   "description": "跨终端通用 Seedance 短剧/视频 prompt 生产 Agent：用户描述想法后自动完成 解析意图 → 检索真实生产范例 → 生成简报 → 产出可粘贴 prompt → 质检。单镜头（cinema/quick）与短剧（拆解+连续性圣经+shotlist+连续 prompt）模式。",
-  "tags": ["seedance", "video-prompt", "creative", "short-drama", "sequence", "workflow", "agent"],
+  "tags": [
+    "seedance",
+    "video-prompt",
+    "creative",
+    "short-drama",
+    "sequence",
+    "workflow",
+    "agent",
+    "screenwriting"
+  ],
   "license": "MIT",
   "author": {
     "name": "Eleven1111",
@@ -29,6 +38,7 @@
       "references/clarification-protocol.md",
       "references/prompt-templates.md",
       "references/story-breakdown.md",
+      "references/screenwriting-craft.md",
       "references/iteration-lessons.md",
       "references/reference-image-protocol.md",
       "references/continuity-bible.md",
