@@ -1,6 +1,6 @@
 {
   "name": "shortdrama-producer",
-  "version": "3.5.0",
+  "version": "3.6.0",
   "type": "agent-package",
   "entrypoints": {
     "AGENTS.md": "2026 cross-tool standard (Codex / Cursor / Windsurf / Gemini CLI / Copilot / Claude Code)",
@@ -17,7 +17,8 @@
     "workflow",
     "agent",
     "screenwriting",
-    "directorial"
+    "directorial",
+    "style-bible"
   ],
   "license": "MIT",
   "author": {
@@ -41,6 +42,7 @@
       "references/story-breakdown.md",
       "references/screenwriting-craft.md",
       "references/directorial-craft.md",
+      "references/style-bible.md",
       "references/iteration-lessons.md",
       "references/reference-image-protocol.md",
       "references/continuity-bible.md",

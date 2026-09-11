@@ -233,9 +233,9 @@ Output ONLY clean paste-ready prompt(s) + ≤3 short notes. No commentary walls.
 
 ## Short-drama mode (multi-shot / story)
 
-Automatically produce, in order (protocols in `references/story-breakdown.md`, `references/continuity-bible.md`, `references/sequence-protocol.md`; story-quality methodology — premise/controlling idea, value turn per beat, character & conflict, visual subtext, exit-check gates — in `references/screenwriting-craft.md`; directorial craft — motion chain, performance timing, sound layering, blocking & axis, shot grammar — in `references/directorial-craft.md`):
+Automatically produce, in order (protocols in `references/story-breakdown.md`, `references/continuity-bible.md`, `references/sequence-protocol.md`; story-quality methodology — premise/controlling idea, value turn per beat, character & conflict, visual subtext, exit-check gates — in `references/screenwriting-craft.md`; directorial craft — motion chain, performance timing, sound layering, blocking & axis, shot grammar, lighting grammar §8, text blocking diagram §9, high-dynamic moves §10, red-line additions §11 — in `references/directorial-craft.md`; project-level style bible for series ≥3 episodes — render domain, keystone sentence, color recipe, signature — in `references/style-bible.md`):
 
-1. **Story breakdown**: goal/ending → beats (3-8) → scenes (same time+place) → shots (2-6 per scene) → budget (≤6 shots per batch)
+1. **Story breakdown**: goal/ending → beats (3-8) → scenes (same time+place) → shots (2-6 per scene) → budget (≤6 shots per batch). For series/multi-episode (≥3), build the style bible first per `references/style-bible.md` and reuse its summary block as the style-anchor prefix of every shot prompt; draw text blocking diagrams for 3+ people / movement / action scenes per `references/directorial-craft.md` §9
 2. **Reference sheets** (Step 4.6): three-panel character-sheet prompt for every element appearing in more than one shot; edited versions (`_vN`) for state changes
 3. **Continuity bible**: character/scene/prop definitions (series-level anchors) plus which sheet version each shot uses; every shot prompt references the bible verbatim, never rewritten
 4. **Shotlist table**: | shot | scene | shot type | cam/focal/move | content | transition |

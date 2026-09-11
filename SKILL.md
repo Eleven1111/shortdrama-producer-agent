@@ -3,9 +3,9 @@ name: shortdrama-producer
 description: "跨终端通用 Seedance 短剧/视频 prompt 生产 Agent。当用户想为 Seedance 2.0/2.5（或 Higgsfield AI 等 Seedance 系平台）生成视频、只给出模糊想法、灵感碎片、剧情概念时使用。自动完成整个生产工作流：解析意图 → 检索真实生产范例 → 生成创意简报 → 产出可直接粘贴的高质量 Seedance prompt → 质检。支持单镜头（cinema/quick 两档）与短剧（多镜头/分镜/连续场景）模式。Use proactively whenever the user mentions seedance, 文生视频, video prompt, 短剧, 分镜, 视频提示词, 帮我做视频, AI 视频. 为保证跨镜一致性而做的角色/道具设定图 prompt 属于职责内；不处理：独立图像创作（海报/插画）、非 Seedance 视频模型、实际渲染/API 调用。"
 license: MIT
 user-invocable: true
-tags: [seedance, video-prompt, creative, short-drama, sequence, workflow, agent, screenwriting, directorial]
+tags: [seedance, video-prompt, creative, short-drama, sequence, workflow, agent, screenwriting, directorial, style-bible]
 metadata:
-  version: "3.5.0"
+  version: "3.6.0"
   copyright: "Copyright (c) 2026 Eleven1111"
   author:
     name: "Eleven1111"
@@ -128,7 +128,7 @@ Full rules: `references/asset-binding.md`.
 1. `<<<name>>>` anchor every character, full appearance on first use
 2. `—` separates segments
 3. Shot triplet: position / focal / movement
-4. Scene light: quality + tone + atmosphere (≥2)
+4. Scene light: quality + tone + atmosphere (≥2) — write it via the lighting grammar in `references/directorial-craft.md` §8 (direction=emotion, contrast ratio ladder, practical source with declared origin, one atmosphere medium)
 5. People texture: skin / hair / clothing / face
 6. Acting direction (cinema tier)
 7. Audio always specified
@@ -183,8 +183,9 @@ the most-expanded sections. So after generating, add what a first draft predicta
 Output ONLY clean paste-ready prompt(s) + ≤3 short notes.
 
 ## Short-drama mode (multi-shot / story)
+0. **Style bible** (series/multi-episode only, ≥3 episodes): build the project style bible per `references/style-bible.md` (render domain + keystone sentence + color recipe with hex/ratio/banned colors + signature), then reuse its summary block verbatim as the style-anchor prefix of every shot prompt; single one-off shorts may skip or use the 10-minute lite version
 1. **Story breakdown** (goal/ending → beats 3-8 → scenes → shots 2-6/scene → budget ≤6/batch; story-quality methodology — premise/controlling idea, value turn per beat, character & conflict, visual subtext, exit-check gates — in `references/screenwriting-craft.md`, layered on top of `references/story-breakdown.md`)
-2. **Reference sheets** (Step 4.6) — three-panel sheet prompt for every cross-shot character/prop/location, plus edited versions for state changes
+2. **Reference sheets** (Step 4.6) — three-panel sheet prompt for every cross-shot character/prop/location, plus edited versions for state changes; for scenes with 3+ people, movement, or action, draw a text blocking diagram first (`references/directorial-craft.md` §9 — axis jumps, unmotivated light and spatial amnesia die on paper)
 3. **Continuity bible** (character/scene/prop anchors + which sheet version each shot uses; referenced verbatim every shot)
 4. **Shotlist table** (| shot | scene | type | cam/focal/move | content | transition |; axis trio — 甲↔乙 anchor · working side · screen direction — and blocking per `references/directorial-craft.md` §4/§5)
 5. **Per-shot prompts** (sequence header `# shot N/total | scene | transition | start/end`; transitions: continuation / time jump / close-up; every shot: `no identity drift, characters identical across every cut`)
@@ -203,7 +204,7 @@ shortdrama-producer-agent/
 ├── AGENTS.md      # 跨终端标准定义（Codex/Cursor/Windsurf/Gemini/Copilot）
 ├── SKILL.md       # 本文件：skill 兼容层（Claude Code / WorkBuddy）
 ├── scripts/       # seedance_search.py（零依赖 BM25）+ 语料 gz
-└── references/    # 规律库 / 模板 / 序列协议 / 编剧工艺库 / 导演工艺库
+└── references/    # 规律库 / 模板 / 序列协议 / 编剧工艺库 / 导演工艺库 / 美学圣经
 ```
 
 ## Installation
