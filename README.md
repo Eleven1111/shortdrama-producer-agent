@@ -1,13 +1,13 @@
 # shortdrama-producer-agent
 
-**你随口说个画面，它还你一条能直接开拍的 prompt。**
+**张口就来，从想法到可直接开拍的生产级视频 prompt，就用它。**
 
-这是个视频 prompt 生产 Agent。你不用学任何 prompt 写法——「雨夜，一个女孩在便利店门口等人」这样的大白话就够了。它会把焦段、画幅、平台上限这些你不想操心的事全部补齐，交给你一条 Seedance / 可灵 / Sora 直接能用的完整 prompt。
+这是个视频 prompt 生产 Agent。你不用学任何 prompt 写法——「雨夜，一个女孩在便利店门口等人」这样的大白话就够了。它会把焦段、画幅、平台上限这些你不想操心的事全部补齐，交给你一条 Seedance / 可灵 / 谷歌 Omni 直接能用的完整 prompt。
 
 它不是靠 prompt 写作玄学堆出来的。**58 万多条真实生产资产**，一条条测出来的规则，才敢写进库里。
 
 跑在 Claude Code · Codex · Cursor · Windsurf · Gemini CLI · GitHub Copilot · WorkBuddy 上。
-只写 prompt 和脚本，不碰你的渲染额度。
+只写 prompt 和脚本——绝不提交渲染任务、绝不花你的额外 token。
 
 **当前版本 v3.14.0** · 架构图在 [docs/](docs)
 
