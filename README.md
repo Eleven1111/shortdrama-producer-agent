@@ -1,13 +1,12 @@
 # shortdrama-producer-agent
 
-**用大白话描述想法，拿到可直接开拍的生产级视频 prompt。**
+** 张口就来，从想法到可直接开拍的生产级视频 prompt，就用它。**
 
-shortdrama-producer 是一个视频 prompt 生产 Agent：你用日常语言说想法，它按真实剧组
-的写法产出 Seedance / 可灵 / Sora 等模型的完整 prompt。它的每条规则都追溯自
+shortdrama-producer 是一个视频 prompt 生产 Agent：你用日常语言说想法，它按真实剧组 的写法产出 Seedance / 可灵 / 谷歌 Omni 等模型的完整 prompt。它的每条规则都追溯自
 **588,686 条真实生产资产**的测量，而不是 prompt 写作的江湖经验。
 
 运行于 Claude Code · Codex · Cursor · Windsurf · Gemini CLI · GitHub Copilot · WorkBuddy。
-只写 prompt 和脚本——绝不提交渲染任务、绝不花你的额度。
+只写 prompt 和脚本——绝不提交渲染任务、绝不花你的额外的 token。
 
 **当前版本 v3.14.0** · 架构图见 [docs/](docs)
 
