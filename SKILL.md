@@ -3,9 +3,9 @@ name: shortdrama-producer
 description: "跨终端通用视频 prompt 生产 Agent，原生校准 Seedance，并可方言翻译适配 Gemini Omni / Kling / Veo / Sora / Runway / 海螺 / 即梦 / Vidu / Wan / Pika 等模型。当用户想为 Seedance 2.0/2.5（或 Higgsfield AI 等 Seedance 系平台）或其他视频模型生成视频、只给出模糊想法、灵感碎片、剧情概念时使用。自动完成整个生产工作流：解析意图 → 检索真实生产范例 → 生成创意简报 → 产出可直接粘贴的高质量视频 prompt → 质检。支持单镜头（cinema/quick 两档）与短剧（多镜头/分镜/连续场景）模式。Use proactively whenever the user mentions seedance, gemini omni, veo, sora, kling, runway, 文生视频, video prompt, 短剧, 分镜, 视频提示词, 帮我做视频, AI 视频. 为保证跨镜一致性而做的角色/道具设定图 prompt 属于职责内；不处理：独立图像创作（海报/插画）、实际渲染/API 调用。"
 license: MIT
 user-invocable: true
-tags: [seedance, video-prompt, creative, short-drama, sequence, workflow, agent, screenwriting, directorial, style-bible, cross-model, gemini-omni, kling, sora, runway]
+tags: [seedance, video-prompt, creative, short-drama, sequence, workflow, agent, screenwriting, directorial, style-bible, cross-model, gemini-omni, kling, sora, runway, concept-symposium, human-in-the-loop]
 metadata:
-  version: "3.14.0"
+  version: "3.15.0"
   copyright: "Copyright (c) 2026 Eleven1111"
   author:
     name: "Eleven1111"
@@ -37,6 +37,15 @@ Only ever ask about things that are **expensive to guess wrong** — tone, endin
 level. Everything else comes from the assumption list. Never ask open questions
 (`what mood do you want?`); always give 3–4 concrete options plus a "you decide" default,
 and generate on the first reply no matter how partial.
+
+**One deeper path exists, for users who want to *develop* the idea rather than just receive it:**
+the **概念神仙会 (concept symposium)** — an opt-in, pre-generation collaboration in which you
+diverge across structurally different viewpoints, the user holds the deciding power, and you
+converge into a one-page concept card. It plugs in between Step 1 and Step 3, never forces
+itself on someone who just wants a prompt, and never touches the generation/QC pipeline.
+Full protocol: `references/concept-symposium.md`. Enter it when the user says 先聊聊 / 一起想想 /
+头脑风暴 / 先别急着做 / 我们碰一碰 / 概念还没定 / 神仙会 — or offer it **once** (never twice)
+when a 1–2-dimension user is visibly trying to develop rather than to describe.
 
 ## Triggers
 
@@ -72,6 +81,23 @@ These two modes skip Step 1 and Step 3. Full rules: `references/output-modes.md`
 
 ### Step 1 — Parse intent + route by information
 Multiple shots / a story / scene changes / 分镜 / 多镜头 → **short-drama mode**; otherwise **single-shot mode**. Decide by content when ambiguous.
+
+**Before counting dimensions, check for the concept-symposium branch.** If the user signals
+they want to *develop the concept with you before generation* (先聊聊 / 一起想想 /
+头脑风暴 / 先别急着做 / 我们碰一碰 / 概念还没定 / 神仙会), do **not** run the fast
+clarification path — enter the **概念神仙会** (`references/concept-symposium.md`):
+
+1. **摊牌** — surface only the axes that are still genuinely open (tone / ending / realism /
+   genre promise); never the technical axes.
+2. **开脑洞** — emit K structurally-different pitches, one per seat (编剧 / 导演 / 制片人 /
+   **捣蛋鬼** / 观众代言), one line each, **no ranking, no filtering**, and the 捣蛋鬼 seat must
+   raise a real challenge or the round is not done.
+3. **收官** — converge into a one-page **concept card**, naming the trade-offs and the cuts.
+
+The user holds the deciding power throughout; you only diverge and assist convergence
+(axiom #1). On exit, the concept card feeds straight into Step 3 (single-shot) or
+`story-breakdown.md`'s goal / ending / beats (short-drama). If the user goes quiet or says
+"直接做吧", converge to the best guess and proceed — never keep probing.
 
 Then count the dimensions the user supplied and route per the table above.
 `references/clarification-protocol.md` has the option-style question templates, the

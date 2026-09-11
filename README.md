@@ -9,7 +9,7 @@
 跑在 Claude Code · Codex · Cursor · Windsurf · Gemini CLI · GitHub Copilot · WorkBuddy 上。
 只写 prompt 和脚本——绝不提交渲染任务、绝不花你的额外 token。
 
-**当前版本 v3.14.0** · 架构图在 [docs/](docs)
+**当前版本 v3.15.0** · 架构图在 [docs/](docs)
 
 语言：[中文](#中文) · [English](#english)
 
@@ -63,6 +63,20 @@ cd shortdrama-producer-agent && ./install.sh
 | 一个镜头 | 说一条需求 | 一条能直接粘贴的 prompt（完整版 600-2000 词 / 快速版 80-300 词） |
 | 一部短剧 | 说要多镜头 / 分镜 | 故事拆解 · 角色设定图 prompt · 连续性圣经 · 分镜表 · 镜间状态机 |
 | 一部长片 | ≥3 集 / ≥60 镜 / 电影 | 五层状态栈 · 实测校准的集内节奏 · 风格先导批 · 跨集版本注册表 |
+
+### 想先聊清楚再动手？
+
+不确定要什么，或者脑子里只有个模糊念头？说一句「先聊聊」就进概念神仙会——Agent 不急着出 prompt，先跟你把概念碰出来：
+
+| 幕 | Agent 干什么 | 你干什么 |
+|---|---|---|
+| **摊牌** | 复述你的想法，只挑出还没定的岔路（最多 3 条） | 随便答一句，或者跳过 |
+| **开脑洞** | 五席各异构视角各出一条方案（编剧 / 导演 / 制片人 / 捣蛋鬼 / 观众代言），一行一条，**不排序** | 点编号、组合，或者说「都不对」 |
+| **收官** | 收敛成一张**概念卡**（logline / 戏核 / 冲突 / 调性 / 结局），写明砍了什么、为什么 | 确认，或者把砍掉的捞回来 |
+
+规矩来自「神仙会」的六条运行公理，最要紧的一条：**Agent 只管发散，拍板权永远在你手里。** 另外「捣蛋鬼」每轮必须真挑一次刺（专治 AI 顺着你说）。定稿的概念卡直接喂给后面的生产，不白聊。
+
+不想聊？完全不影响——不进神仙会的话一切照旧（≥3 个维度直接做，1–2 个维度问 ≤2 题）。
 
 ### 怎么用
 
@@ -173,6 +187,20 @@ Three diagrams cover the whole information flow (SVG sources in [docs/](docs)):
 | One shot | a single request | one paste-ready prompt (full 600-2000 words / quick 80-300) |
 | A short drama | multi-shot / storyboard | story breakdown · character-sheet prompts · continuity bible · shotlist · per-shot state machine |
 | A long-form piece | ≥3 episodes / ≥60 shots / film | five-layer state stack · measured episode rhythm · style-pilot batch · cross-episode version registry |
+
+### Want to talk it through first?
+
+Not sure what you want, or only have a blurry hunch? Say "先聊聊" and you're in the concept symposium — the agent stops reaching for a prompt and settles the idea with you instead:
+
+| Act | What the agent does | What you do |
+|---|---|---|
+| **Framing** | Restates your idea; surfaces only the forks still open (3 max) | Drop a line back, or skip it |
+| **Divergence** | Five structurally different seats each pitch one option (screenwriter / director / producer / **troublemaker** / audience advocate) — one line each, **no ranking** | Pick numbers, combine them, or say "none of these" |
+| **Convergence** | Converges into a one-page **concept card** (logline / spine / conflict / tone / ending), naming what was cut and why | Confirm, or fish a cut option back out |
+
+The rules come from the six axioms of the 神仙会 running style. The one that matters most: **the agent only diverges — the deciding power is always yours.** And the "troublemaker" seat must land a real challenge every round (an antidote to AI agreeing with everything). The finished concept card feeds straight into production.
+
+Not in the mood? Nothing changes — skip the symposium and it behaves exactly as before (generate on ≥3 dimensions, ask ≤2 questions on 1–2).
 
 ### How to use it
 

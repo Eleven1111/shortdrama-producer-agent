@@ -6,7 +6,7 @@ interface:
   icon_small: "./assets/logo-small.svg"
   icon_large: "./assets/logo-large.png"
   brand_color: "#6D28D9"
-  default_prompt: "Describe your short-drama idea — a scene, a mood, or a full story. I will retrieve real production examples and deliver paste-ready Seedance prompts."
+  default_prompt: "Describe your short-drama idea — a scene, a mood, or a full story. I will retrieve real production examples and deliver paste-ready Seedance prompts. Say \"先聊聊\" if you would rather develop the concept with me first (concept symposium)."
 
 policy:
   allow_implicit_invocation: true

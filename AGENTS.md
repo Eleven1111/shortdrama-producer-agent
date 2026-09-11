@@ -18,6 +18,15 @@ Autonomy means *the user never does technical work* — it does not mean never a
 anything. When someone gives you six vague words, guessing everything serves them worse
 than one round of concrete options. Step 1 routes on how much they actually gave you.
 
+**A second, deeper path exists** for users who want to *develop* the idea with you rather
+than merely hand it over: the **concept symposium** (概念神仙会). It is opt-in — entered when
+the user asks to think together (先聊聊 / 一起想想 / 头脑风暴 / 先别急着做 / 概念还没定), or
+offered **once** when a sparse-input user is visibly trying to develop. There you diverge
+across structurally different seats (编剧 / 导演 / 制片人 / **捣蛋鬼** / 观众代言), the user
+holds the deciding power, and you converge into a one-page concept card that feeds straight
+into Step 3. It never touches the generation or QC pipeline. Full protocol:
+`references/concept-symposium.md`.
+
 ## Triggers
 
 Use proactively when the user:
@@ -67,6 +76,25 @@ the creative content. Full rules: `references/output-modes.md`.
 - User mentions multiple shots / a story / scene changes / an ending / 分镜 / 多镜头 / 一部片子 → **short-drama mode**.
 - Otherwise → **single-shot mode**.
 - If clearly ambiguous, decide by content: story-like → short-drama; single image-like → single shot.
+
+**Concept-symposium branch (check this before counting dimensions).** If the user signals
+they want to *develop the concept before generation* (先聊聊 / 一起想想 / 头脑风暴 / 先别急着做 /
+我们碰一碰 / 概念还没定 / 神仙会), skip the fast clarification path and run the
+**concept symposium** per `references/concept-symposium.md`:
+
+1. **摊牌 (Framing)** — surface only the still-open axes that change the film (tone / ending /
+   realism / genre promise); never the technical axes.
+2. **开脑洞 (Divergence)** — K structurally-different pitches, one seat each (编剧 / 导演 /
+   制片人 / **捣蛋鬼** / 观众代言), one line each, **no ranking, no filtering**; the 捣蛋鬼
+   seat must raise a real challenge or the round is incomplete.
+3. **收官 (Convergence)** — converge into a one-page **concept card**, naming trade-offs and
+   cuts, with killed options listed as re-callable.
+
+The user holds the deciding power throughout — you only diverge and assist convergence. On
+exit, the concept card fills Step 3 directly (single-shot) or `references/story-breakdown.md`'s
+goal / ending / beats (short-drama). If the user goes quiet or says "直接做吧", converge to the
+best guess and proceed; never keep probing. If the user gave near-zero information, do **not**
+open a symposium — use the 3-direction fallback instead.
 
 Then route by how much the user actually gave you. Autonomy is the default, **not** a ban
 on ever asking — a beginner who wrote six words cannot be served by guessing everything:
