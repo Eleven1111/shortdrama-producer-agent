@@ -5,7 +5,7 @@ license: MIT
 user-invocable: true
 tags: [seedance, video-prompt, creative, short-drama, sequence, workflow, agent, screenwriting, directorial, style-bible, cross-model, gemini-omni, kling, sora, runway]
 metadata:
-  version: "3.10.0"
+  version: "3.11.0"
   copyright: "Copyright (c) 2026 Eleven1111"
   author:
     name: "Eleven1111"
@@ -185,8 +185,8 @@ Output ONLY clean paste-ready prompt(s) + ≤3 short notes.
 2. **Reference sheets** (Step 4.6) — three-panel sheet prompt for every cross-shot character/prop/location, plus edited versions for state changes; for scenes with 3+ people, movement, or action, draw a text blocking diagram first (`references/directorial-craft.md` §9 — axis jumps, unmotivated light and spatial amnesia die on paper)
 3. **Continuity bible** (character/scene/prop anchors + which sheet version each shot uses; referenced verbatim every shot)
 4. **Shotlist table** (| shot | scene | type | cam/focal/move | content | transition |; axis trio — 甲↔乙 anchor · working side · screen direction — and blocking per `references/directorial-craft.md` §4/§5)
-5. **Per-shot prompts** (sequence header `# shot N/total | scene | transition | start/end`; transitions: continuation / time jump / close-up; every shot: `no identity drift, characters identical across every cut`)
-6. **State machine** between batches (position / prop / light / mood)
+5. **Per-shot prompts** (sequence header `# shot N/total | scene | transition | start/end`; transitions: continuation / time jump / close-up; type each shot's ending by an ending profile — resolve / extension anchor / loop seam / hero hold / edit point / reveal-punch, unmatched-motion law — `references/directorial-craft.md` §13; every shot: `no identity drift, characters identical across every cut`)
+6. **State machine** between batches (position / prop / light / mood); long-video / extend / repair-tail requests route by continuation mode + beat exclusion, and any sequence failure gets looked up in the failure atlas before re-rolling (`references/sequence-protocol.md`)
 
 ## Boundaries
 - **Reference/setup images that serve video consistency → in scope** (Step 4.6). Pure image
