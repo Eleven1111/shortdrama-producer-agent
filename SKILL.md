@@ -3,9 +3,9 @@ name: shortdrama-producer
 description: "跨终端通用视频 prompt 生产 Agent，原生校准 Seedance，并可方言翻译适配 Gemini Omni / Kling / Veo / Sora / Runway / 海螺 / 即梦 / Vidu / Wan / Pika 等模型。当用户想为 Seedance 2.0/2.5（或 Higgsfield AI 等 Seedance 系平台）或其他视频模型生成视频、只给出模糊想法、灵感碎片、剧情概念时使用。自动完成整个生产工作流：解析意图 → 检索真实生产范例 → 生成创意简报 → 产出可直接粘贴的高质量视频 prompt → 质检。支持单镜头（cinema/quick 两档）与短剧（多镜头/分镜/连续场景）模式。Use proactively whenever the user mentions seedance, gemini omni, veo, sora, kling, runway, 文生视频, video prompt, 短剧, 分镜, 视频提示词, 帮我做视频, AI 视频. 为保证跨镜一致性而做的角色/道具设定图 prompt 属于职责内；不处理：独立图像创作（海报/插画）、实际渲染/API 调用。"
 license: MIT
 user-invocable: true
-tags: [seedance, video-prompt, creative, short-drama, sequence, workflow, agent, screenwriting, directorial, style-bible, cross-model, gemini-omni, kling, sora, runway, concept-symposium, human-in-the-loop]
+tags: [seedance, video-prompt, creative, short-drama, sequence, workflow, agent, screenwriting, directorial, style-bible, cross-model, gemini-omni, kling, sora, runway, concept-symposium, human-in-the-loop, meeting-protocol, multi-agent]
 metadata:
-  version: "3.15.0"
+  version: "3.16.0"
   copyright: "Copyright (c) 2026 Eleven1111"
   author:
     name: "Eleven1111"
@@ -46,6 +46,14 @@ itself on someone who just wants a prompt, and never touches the generation/QC p
 Full protocol: `references/concept-symposium.md`. Enter it when the user says 先聊聊 / 一起想想 /
 头脑风暴 / 先别急着做 / 我们碰一碰 / 概念还没定 / 神仙会 — or offer it **once** (never twice)
 when a 1–2-dimension user is visibly trying to develop rather than to describe.
+
+**And when the work itself should be challenged rather than described:** the **meeting layer**
+(会议层, `references/meeting-protocol.md`) is an opt-in, agent-to-agent review layer that adds a
+centralized arbiter (统筹 agent) plus a mandated troublemaker to the *skeleton* — the story- and
+character-level decisions that Step 5's format-only self-check never touches. It is **off by
+default** (its quality benefit has no A/B evidence yet) and degrades honestly when the runtime
+cannot isolate contexts. Turn it on when the user says 开会 / 走会议层 / 严格模式 / 要评审记录, or
+on a revision round of multi-shot work.
 
 ## Triggers
 
@@ -176,6 +184,36 @@ then reference it per shot. Full protocol, templates and naming in
 State changes (injured / soaked / dirty / changed clothes) are made by **editing the sheet
 into a new version**, never by re-describing the change in each shot's video prompt —
 46.8% of real character assets carry a `_vN` version suffix; one character has 28 versions.
+
+### Step 4.7 — Meeting layer (optional, agent-to-agent)
+
+**Off by default.** Opt in via `references/meeting-protocol.md` when the user says 开会 /
+走会议层 / 严格模式 / 要评审记录, or on a revision round of multi-shot work. It layers three
+optional meetings on top and **replaces no Step**:
+
+| Layer | Inserts at | Triggers |
+|---|---|---|
+| 提案会 | after Step 3 / before Step 4 | intent ≤2 dimensions, or low retrieval confidence in Step 2 |
+| 人物会 | around Step 4.5 | a new character, or a binding-table conflict (**almost never skippable**) |
+| 评审会 | before Step 5 | short-drama mode, or ≥1 prior revision round |
+
+**Ordering is mandatory — collective verdict first, format self-check second:**
+
+```
+Step 4.6 → 评审会 → 统筹裁决（三态）→ 按裁决修订 → Step 5 (gate) → Step 5.5 → Step 6
+```
+
+Each layer runs 3–4 heterogeneous agents (提案 ×2–3 + critic + troublemaker; the 统筹 arbiter is
+the decider and is **not** counted in N) through five stages: 独立提案 → 低带宽互评 → 统筹裁决 →
+收敛后独立复述 → 末段合成（MoA 式）. It exists to fill one specific hole: **Step 5 challenges
+format, never the skeleton — no one is authorised to question the story.** The critique schema
+carries `target_id / issue_type / severity / falsifiable_reason`, and doubles as an audit trail.
+
+⚠️ Two honesty constraints, both binding:
+- If the runtime cannot isolate contexts, **never report sequential role-play as independent
+  proposals** — label it Tier 2/3 per the protocol.
+- The 30% budget ceiling and the A/B thresholds are **design proposals, not measured results**.
+  Never present this layer's output as validated.
 
 ### Step 5 — Self-check (fix and regenerate if failing)
 - [ ] OPTICS with angle degrees (47°) or mm

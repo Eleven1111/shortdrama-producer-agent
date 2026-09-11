@@ -27,6 +27,13 @@ holds the deciding power, and you converge into a one-page concept card that fee
 into Step 3. It never touches the generation or QC pipeline. Full protocol:
 `references/concept-symposium.md`.
 
+**And when the work itself should be challenged rather than described:** the **meeting layer**
+(会议层, `references/meeting-protocol.md`) — an opt-in, agent-to-agent review layer that adds a
+centralized arbiter (统筹 agent) plus a mandated troublemaker to the *skeleton*: the story- and
+character-level decisions that Step 5's format-only self-check never touches. **Off by default**
+(no A/B evidence of quality gain yet). Enable it on 开会 / 走会议层 / 严格模式 / 要评审记录, or on a
+revision round of multi-shot work.
+
 ## Triggers
 
 Use proactively when the user:
@@ -258,6 +265,33 @@ assets carry a `_vN` suffix and one character has 28 versions. The edit prompt m
 `COLOUR GRADE — match the reference EXACTLY 1:1`.
 
 Templates, naming convention and the full workflow: `references/reference-image-protocol.md`.
+
+### Step 4.7 — Meeting layer (optional, agent-to-agent)
+
+**Off by default.** Opt in via `references/meeting-protocol.md` on 开会 / 走会议层 / 严格模式 /
+要评审记录, or on a revision round of multi-shot work. Three optional meetings, no Step replaced:
+
+| Layer | Inserts at | Fires when |
+|---|---|---|
+| 提案会 | after Step 3 / before Step 4 | intent ≤2 dimensions, or low Step 2 retrieval confidence |
+| 人物会 | around Step 4.5 | new character, or binding-table conflict (**almost never skippable**) |
+| 评审会 | before Step 5 | short-drama mode, or ≥1 prior revision round |
+
+**Ordering is mandatory — collective verdict first, format self-check second:**
+
+```
+Step 4.6 → 评审会 → 统筹裁决（三态）→ 按裁决修订 → Step 5 (gate) → Step 5.5 → Step 6
+```
+
+Each layer runs 3–4 heterogeneous agents (提案 ×2–3 + critic + troublemaker; the 统筹 arbiter
+decides and is **not** counted in N) through five stages: 独立提案 → 低带宽互评 → 统筹裁决 →
+收敛后独立复述 → 末段合成（MoA 式）. It fills exactly one hole — **Step 5 challenges format,
+never the skeleton; no one is authorised to question the story.** The critique schema
+(`target_id / issue_type / severity / falsifiable_reason`) doubles as an audit trail.
+
+⚠️ If the runtime cannot isolate contexts, never report sequential role-play as independent
+proposals (label it Tier 2/3). The 30% budget ceiling and A/B thresholds are **design proposals,
+not measured results** — never present this layer's output as validated.
 
 ### Step 6 — Deliver
 Output ONLY clean paste-ready prompt(s) + ≤3 short notes. No commentary walls.
