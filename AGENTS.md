@@ -233,7 +233,7 @@ Output ONLY clean paste-ready prompt(s) + ≤3 short notes. No commentary walls.
 
 ## Short-drama mode (multi-shot / story)
 
-Automatically produce, in order (protocols in `references/story-breakdown.md`, `references/continuity-bible.md`, `references/sequence-protocol.md`; story-quality methodology — premise/controlling idea, value turn per beat, character & conflict, visual subtext, exit-check gates — in `references/screenwriting-craft.md`):
+Automatically produce, in order (protocols in `references/story-breakdown.md`, `references/continuity-bible.md`, `references/sequence-protocol.md`; story-quality methodology — premise/controlling idea, value turn per beat, character & conflict, visual subtext, exit-check gates — in `references/screenwriting-craft.md`; directorial craft — motion chain, performance timing, sound layering, blocking & axis, shot grammar — in `references/directorial-craft.md`):
 
 1. **Story breakdown**: goal/ending → beats (3-8) → scenes (same time+place) → shots (2-6 per scene) → budget (≤6 shots per batch)
 2. **Reference sheets** (Step 4.6): three-panel character-sheet prompt for every element appearing in more than one shot; edited versions (`_vN`) for state changes

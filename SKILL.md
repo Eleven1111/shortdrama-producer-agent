@@ -3,9 +3,9 @@ name: shortdrama-producer
 description: "跨终端通用 Seedance 短剧/视频 prompt 生产 Agent。当用户想为 Seedance 2.0/2.5（或 Higgsfield AI 等 Seedance 系平台）生成视频、只给出模糊想法、灵感碎片、剧情概念时使用。自动完成整个生产工作流：解析意图 → 检索真实生产范例 → 生成创意简报 → 产出可直接粘贴的高质量 Seedance prompt → 质检。支持单镜头（cinema/quick 两档）与短剧（多镜头/分镜/连续场景）模式。Use proactively whenever the user mentions seedance, 文生视频, video prompt, 短剧, 分镜, 视频提示词, 帮我做视频, AI 视频. 为保证跨镜一致性而做的角色/道具设定图 prompt 属于职责内；不处理：独立图像创作（海报/插画）、非 Seedance 视频模型、实际渲染/API 调用。"
 license: MIT
 user-invocable: true
-tags: [seedance, video-prompt, creative, short-drama, sequence, workflow, agent, screenwriting]
+tags: [seedance, video-prompt, creative, short-drama, sequence, workflow, agent, screenwriting, directorial]
 metadata:
-  version: "3.4.0"
+  version: "3.5.0"
   copyright: "Copyright (c) 2026 Eleven1111"
   author:
     name: "Eleven1111"
@@ -137,6 +137,7 @@ Full rules: `references/asset-binding.md`.
 10. Spec header: `Duration: X seconds. Aspect ratio: <ratio>. One continuous shot.` — pick duration and ratio per `references/platform-capabilities.md`, not a fixed 15s/21:9
 
 Tiers: default **cinema** (600–2,000 words); "quick / 快点" → **quick** (80–300 words). Templates in `references/prompt-templates.md`.
+Directorial craft — how to design the motion chain, performance timing, sound layering, blocking & axis, shot grammar — in `references/directorial-craft.md`. Apply §1/§2/§3 to every shot's ACTION/AUDIO segments; §4/§5 to shotlist design.
 
 ### Step 4.5 — Appearance authority (character/environment/prop cards)
 For any character / location / prop the user wants consistent, consult `references/character_cards_visual.md` (or .json) — 1,351 real production cards (439 characters / 616 environments / 296 props), 40k+ appearance descriptions. Imitate their specificity (height, build, hair, skin, item-by-item clothing, marks) when writing `<<<anchor>>> — description`. Never paste the source project's actual characters/props wholesale — it is a style teacher, not content.
@@ -185,7 +186,7 @@ Output ONLY clean paste-ready prompt(s) + ≤3 short notes.
 1. **Story breakdown** (goal/ending → beats 3-8 → scenes → shots 2-6/scene → budget ≤6/batch; story-quality methodology — premise/controlling idea, value turn per beat, character & conflict, visual subtext, exit-check gates — in `references/screenwriting-craft.md`, layered on top of `references/story-breakdown.md`)
 2. **Reference sheets** (Step 4.6) — three-panel sheet prompt for every cross-shot character/prop/location, plus edited versions for state changes
 3. **Continuity bible** (character/scene/prop anchors + which sheet version each shot uses; referenced verbatim every shot)
-4. **Shotlist table** (| shot | scene | type | cam/focal/move | content | transition |)
+4. **Shotlist table** (| shot | scene | type | cam/focal/move | content | transition |; axis trio — 甲↔乙 anchor · working side · screen direction — and blocking per `references/directorial-craft.md` §4/§5)
 5. **Per-shot prompts** (sequence header `# shot N/total | scene | transition | start/end`; transitions: continuation / time jump / close-up; every shot: `no identity drift, characters identical across every cut`)
 6. **State machine** between batches (position / prop / light / mood)
 
@@ -202,7 +203,7 @@ shortdrama-producer-agent/
 ├── AGENTS.md      # 跨终端标准定义（Codex/Cursor/Windsurf/Gemini/Copilot）
 ├── SKILL.md       # 本文件：skill 兼容层（Claude Code / WorkBuddy）
 ├── scripts/       # seedance_search.py（零依赖 BM25）+ 语料 gz
-└── references/    # 规律库 / 模板 / 序列协议 / 编剧工艺库（screenwriting-craft.md）
+└── references/    # 规律库 / 模板 / 序列协议 / 编剧工艺库 / 导演工艺库
 ```
 
 ## Installation
