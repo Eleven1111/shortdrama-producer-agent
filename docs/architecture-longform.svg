@@ -1,0 +1,56 @@
+<svg viewBox="0 0 680 430" width="100%" role="img" xmlns="http://www.w3.org/2000/svg">
+<title>Long-form five-layer state stack</title>
+<desc>Long-form mode (≥3 episodes / ≥60 shots / film): project bible, episode bible, scene card, batch state machine, shot layer — each with its freeze point; right column holds episode rhythm, cross-episode continuity, film-specific nodes and harness hooks.</desc>
+<defs>
+<marker id="arrow3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+<path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</marker>
+</defs>
+<text x="340" y="28" text-anchor="middle" style="font-size:14px;font-weight:500" fill="#2C2C2A">Long-form (≥3 episodes / ≥60 shots / film) · five-layer state stack</text>
+<text x="340" y="48" text-anchor="middle" style="font-size:11px" fill="#5F5E5A">An overlay layer: all short-drama rules stay in force; this layer handles only the longer time span</text>
+<g><rect x="60" y="64" width="400" height="56" rx="8" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.5"/>
+<text x="80" y="84" style="font-size:12px;font-weight:500" fill="#26215C">Project · style bible + keystone sentence</text>
+<text x="80" y="102" style="font-size:11px" fill="#534AB7">frozen for the whole film · changes = explicit revision</text>
+<text x="440" y="92" text-anchor="end" dominant-baseline="central" style="font-size:11px" fill="#534AB7">freeze once</text></g>
+<path d="M260 120 L260 136" fill="none" stroke="#5F5E5A" stroke-width="1.5" marker-end="url(#arrow3)"/>
+<g><rect x="60" y="140" width="400" height="56" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+<text x="80" y="160" style="font-size:12px;font-weight:500" fill="#0C447C">Episode · episode bible</text>
+<text x="80" y="178" style="font-size:11px" fill="#185FA5">episode keystone + beat table + character version list + end hook</text>
+<text x="440" y="168" text-anchor="end" dominant-baseline="central" style="font-size:11px" fill="#185FA5">freeze per episode</text></g>
+<path d="M260 196 L260 212" fill="none" stroke="#5F5E5A" stroke-width="1.5" marker-end="url(#arrow3)"/>
+<g><rect x="60" y="216" width="400" height="56" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text x="80" y="236" style="font-size:12px;font-weight:500" fill="#04342C">Scene · scene card</text>
+<text x="80" y="254" style="font-size:11px" fill="#0F6E56">location / axis / light key / character versions on set</text>
+<text x="440" y="244" text-anchor="end" dominant-baseline="central" style="font-size:11px" fill="#0F6E56">freeze per scene</text></g>
+<path d="M260 272 L260 288" fill="none" stroke="#5F5E5A" stroke-width="1.5" marker-end="url(#arrow3)"/>
+<g><rect x="60" y="292" width="400" height="56" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="0.5"/>
+<text x="80" y="312" style="font-size:12px;font-weight:500" fill="#412402">Batch · ≤6 shots + state machine</text>
+<text x="80" y="330" style="font-size:11px" fill="#854F0B">position · props · light · mood, updated per batch</text>
+<text x="440" y="320" text-anchor="end" dominant-baseline="central" style="font-size:11px" fill="#854F0B">update per batch</text></g>
+<path d="M260 348 L260 364" fill="none" stroke="#5F5E5A" stroke-width="1.5" marker-end="url(#arrow3)"/>
+<g><rect x="60" y="368" width="400" height="50" rx="8" fill="#EAF3DE" stroke="#3B6D11" stroke-width="0.5"/>
+<text x="80" y="386" style="font-size:12px;font-weight:500" fill="#173404">Shot · sequence header + per-shot prompt</text>
+<text x="80" y="404" style="font-size:11px" fill="#3B6D11">accepted = canon (single source of truth)</text>
+<text x="440" y="393" text-anchor="end" dominant-baseline="central" style="font-size:11px" fill="#3B6D11">update per shot</text></g>
+<g><rect x="492" y="64" width="148" height="70" rx="8" fill="#FFFFFF" stroke="#534AB7" stroke-width="0.5"/>
+<text x="566" y="86" text-anchor="middle" dominant-baseline="central" style="font-size:12px;font-weight:500" fill="#26215C">Episode rhythm</text>
+<text x="566" y="104" text-anchor="middle" dominant-baseline="central" style="font-size:11px" fill="#534AB7">four-act density ramp</text>
+<text x="566" y="120" text-anchor="middle" dominant-baseline="central" style="font-size:11px" fill="#534AB7">climax 0→163 measured</text></g>
+<g><rect x="492" y="150" width="148" height="70" rx="8" fill="#FFFFFF" stroke="#534AB7" stroke-width="0.5"/>
+<text x="566" y="172" text-anchor="middle" dominant-baseline="central" style="font-size:12px;font-weight:500" fill="#26215C">Cross-episode continuity</text>
+<text x="566" y="190" text-anchor="middle" dominant-baseline="central" style="font-size:11px" fill="#534AB7">version registry · prop journeys</text>
+<text x="566" y="206" text-anchor="middle" dominant-baseline="central" style="font-size:11px" fill="#534AB7">timeline · dual-registered crossovers</text></g>
+<g><rect x="492" y="236" width="148" height="86" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="0.5"/>
+<text x="566" y="258" text-anchor="middle" dominant-baseline="central" style="font-size:12px;font-weight:500" fill="#412402">Film-specific</text>
+<text x="566" y="276" text-anchor="middle" dominant-baseline="central" style="font-size:11px" fill="#854F0B">style-pilot batch, 3-5 shots</text>
+<text x="566" y="292" text-anchor="middle" dominant-baseline="central" style="font-size:11px" fill="#854F0B">becomes whole-film canon</text>
+<text x="566" y="308" text-anchor="middle" dominant-baseline="central" style="font-size:11px" fill="#854F0B">breather quota · retake economy</text></g>
+<g><rect x="492" y="338" width="148" height="80" rx="8" fill="#FFFFFF" stroke="#888780" stroke-width="0.5"/>
+<text x="566" y="360" text-anchor="middle" dominant-baseline="central" style="font-size:12px;font-weight:500" fill="#2C2C2A">Harness hooks</text>
+<text x="566" y="378" text-anchor="middle" dominant-baseline="central" style="font-size:11px" fill="#5F5E5A">full-chain continuity_check per episode</text>
+<text x="566" y="394" text-anchor="middle" dominant-baseline="central" style="font-size:11px" fill="#5F5E5A">pilot batch = A/B testbed</text></g>
+<path d="M464 92 L488 92" fill="none" stroke="#5F5E5A" stroke-width="1" stroke-dasharray="4 3"/>
+<path d="M464 168 L488 168" fill="none" stroke="#5F5E5A" stroke-width="1" stroke-dasharray="4 3"/>
+<path d="M464 244 L488 260" fill="none" stroke="#5F5E5A" stroke-width="1" stroke-dasharray="4 3"/>
+<path d="M464 393 L488 378" fill="none" stroke="#5F5E5A" stroke-width="1" stroke-dasharray="4 3"/>
+</svg>

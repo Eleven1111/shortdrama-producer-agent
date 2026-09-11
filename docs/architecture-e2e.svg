@@ -1,0 +1,142 @@
+<svg viewBox="0 0 680 1160" width="100%" role="img" xmlns="http://www.w3.org/2000/svg">
+<title>shortdrama-producer v3.14.0 end-to-end information flow</title>
+<desc>Six layers from user input through routing, knowledge, generation, QC to delivery; dev-time harness at the bottom. Red dashed edge is the QC fail loop back into generation.</desc>
+<defs>
+<marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+<path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</marker>
+</defs>
+<text x="340" y="30" text-anchor="middle" style="font-size:14px;font-weight:500" fill="#2C2C2A">shortdrama-producer v3.14.0 · end-to-end information flow</text>
+<g>
+<rect x="40" y="52" width="600" height="86" rx="12" fill="#F1EFE8" stroke="#888780" stroke-width="0.5"/>
+<text x="56" y="72" style="font-size:12px;font-weight:500" fill="#444441">Input</text>
+<g><rect x="56" y="82" width="131" height="42" rx="8" fill="#FFFFFF" stroke="#888780" stroke-width="0.5"/>
+<text x="121" y="99" text-anchor="middle" dominant-baseline="central" style="font-size:12px;font-weight:500" fill="#2C2C2A">Vague idea</text>
+<text x="121" y="114" text-anchor="middle" dominant-baseline="central" style="font-size:11px" fill="#5F5E5A">3 directions, no questions</text></g>
+<g><rect x="199" y="82" width="131" height="42" rx="8" fill="#FFFFFF" stroke="#888780" stroke-width="0.5"/>
+<text x="264" y="99" text-anchor="middle" dominant-baseline="central" style="font-size:12px;font-weight:500" fill="#2C2C2A">Clear brief</text>
+<text x="264" y="114" text-anchor="middle" dominant-baseline="central" style="font-size:11px" fill="#5F5E5A">≥3 dims → straight to work</text></g>
+<g><rect x="342" y="82" width="131" height="42" rx="8" fill="#FFFFFF" stroke="#888780" stroke-width="0.5"/>
+<text x="407" y="99" text-anchor="middle" dominant-baseline="central" style="font-size:12px;font-weight:500" fill="#2C2C2A">Existing prompt</text>
+<text x="407" y="114" text-anchor="middle" dominant-baseline="central" style="font-size:11px" fill="#5F5E5A">diagnosis / revision</text></g>
+<g><rect x="485" y="82" width="131" height="42" rx="8" fill="#FFFFFF" stroke="#888780" stroke-width="0.5"/>
+<text x="550" y="99" text-anchor="middle" dominant-baseline="central" style="font-size:12px;font-weight:500" fill="#2C2C2A">Your assets</text>
+<text x="550" y="114" text-anchor="middle" dominant-baseline="central" style="font-size:11px" fill="#5F5E5A">image · video · audio binding</text></g>
+</g>
+<path d="M340 140 L340 156" fill="none" stroke="#5F5E5A" stroke-width="1.5" marker-end="url(#arrow)"/>
+<g>
+<rect x="40" y="162" width="600" height="152" rx="12" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+<text x="56" y="182" style="font-size:12px;font-weight:500" fill="#0C447C">Routing — Step 0 / 1 / 1.5</text>
+<g><rect x="57" y="192" width="106" height="30" rx="8" fill="#FFFFFF" stroke="#378ADD" stroke-width="0.5"/>
+<text x="110" y="207" text-anchor="middle" dominant-baseline="central" style="font-size:11px" fill="#0C447C">full direction</text></g>
+<g><rect x="172" y="192" width="106" height="30" rx="8" fill="#FFFFFF" stroke="#378ADD" stroke-width="0.5"/>
+<text x="225" y="207" text-anchor="middle" dominant-baseline="central" style="font-size:11px" fill="#0C447C">prompt only</text></g>
+<g><rect x="287" y="192" width="106" height="30" rx="8" fill="#FFFFFF" stroke="#378ADD" stroke-width="0.5"/>
+<text x="340" y="207" text-anchor="middle" dominant-baseline="central" style="font-size:11px" fill="#0C447C">script only</text></g>
+<g><rect x="402" y="192" width="106" height="30" rx="8" fill="#FFFFFF" stroke="#378ADD" stroke-width="0.5"/>
+<text x="455" y="207" text-anchor="middle" dominant-baseline="central" style="font-size:11px" fill="#0C447C">diagnosis</text></g>
+<g><rect x="517" y="192" width="106" height="30" rx="8" fill="#FFFFFF" stroke="#378ADD" stroke-width="0.5"/>
+<text x="570" y="207" text-anchor="middle" dominant-baseline="central" style="font-size:11px" fill="#0C447C">revision</text></g>
+<g><rect x="57" y="234" width="270" height="56" rx="8" fill="#FFFFFF" stroke="#185FA5" stroke-width="0.5"/>
+<text x="192" y="254" text-anchor="middle" dominant-baseline="central" style="font-size:12px;font-weight:500" fill="#0C447C">Step 1 mode + clarification</text>
+<text x="192" y="272" text-anchor="middle" dominant-baseline="central" style="font-size:11px" fill="#185FA5">single shot vs short drama vs long-form</text></g>
+<g><rect x="343" y="234" width="270" height="56" rx="8" fill="#FFFFFF" stroke="#185FA5" stroke-width="0.5"/>
+<text x="478" y="254" text-anchor="middle" dominant-baseline="central" style="font-size:12px;font-weight:500" fill="#0C447C">Step 1.5 dialect routing</text>
+<text x="478" y="272" text-anchor="middle" dominant-baseline="central" style="font-size:11px" fill="#185FA5">Seedance native + Omni/Kling/Sora…</text></g>
+</g>
+<path d="M340 318 L340 334" fill="none" stroke="#5F5E5A" stroke-width="1.5" marker-end="url(#arrow)"/>
+<g>
+<rect x="40" y="338" width="600" height="192" rx="12" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.5"/>
+<text x="56" y="358" style="font-size:12px;font-weight:500" fill="#3C3489">Knowledge — pulled on demand, informs judgment, never overrides craft</text>
+<g><rect x="57" y="370" width="178" height="64" rx="8" fill="#FFFFFF" stroke="#534AB7" stroke-width="0.5"/>
+<text x="146" y="392" text-anchor="middle" dominant-baseline="central" style="font-size:12px;font-weight:500" fill="#26215C">Corpus retrieval · Step 2</text>
+<text x="146" y="410" text-anchor="middle" dominant-baseline="central" style="font-size:11px" fill="#534AB7">BM25 · 7,824 real prompts</text></g>
+<g><rect x="247" y="370" width="178" height="64" rx="8" fill="#FFFFFF" stroke="#534AB7" stroke-width="0.5"/>
+<text x="336" y="392" text-anchor="middle" dominant-baseline="central" style="font-size:12px;font-weight:500" fill="#26215C">Directorial craft</text>
+<text x="336" y="410" text-anchor="middle" dominant-baseline="central" style="font-size:11px" fill="#534AB7">directorial-craft §1-14</text></g>
+<g><rect x="437" y="370" width="178" height="64" rx="8" fill="#FFFFFF" stroke="#534AB7" stroke-width="0.5"/>
+<text x="526" y="392" text-anchor="middle" dominant-baseline="central" style="font-size:12px;font-weight:500" fill="#26215C">story_level data</text>
+<text x="526" y="410" text-anchor="middle" dominant-baseline="central" style="font-size:11px" fill="#534AB7">14 conflict patterns · beats · arcs</text></g>
+<g><rect x="57" y="446" width="271" height="64" rx="8" fill="#FFFFFF" stroke="#534AB7" stroke-width="0.5"/>
+<text x="192" y="468" text-anchor="middle" dominant-baseline="central" style="font-size:12px;font-weight:500" fill="#26215C">Anti-slop lexicon</text>
+<text x="192" y="486" text-anchor="middle" dominant-baseline="central" style="font-size:11px" fill="#534AB7">six slop classes · genre refusals §7</text></g>
+<g><rect x="343" y="446" width="271" height="64" rx="8" fill="#FFFFFF" stroke="#534AB7" stroke-width="0.5"/>
+<text x="478" y="468" text-anchor="middle" dominant-baseline="central" style="font-size:12px;font-weight:500" fill="#26215C">Appearance layer</text>
+<text x="478" y="486" text-anchor="middle" dominant-baseline="central" style="font-size:11px" fill="#534AB7">1,351 character cards · three-panel sheets</text></g>
+</g>
+<path d="M340 534 L340 550" fill="none" stroke="#5F5E5A" stroke-width="1.5" marker-end="url(#arrow)"/>
+<g>
+<rect x="40" y="554" width="600" height="205" rx="12" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text x="56" y="574" style="font-size:12px;font-weight:500" fill="#085041">Generation — Step 3 / 3.5 / 4 / 4.6</text>
+<text x="188" y="594" text-anchor="middle" style="font-size:11px;font-weight:500" fill="#085041">Single-shot pipeline</text>
+<g><rect x="57" y="600" width="262" height="38" rx="8" fill="#FFFFFF" stroke="#0F6E56" stroke-width="0.5"/>
+<text x="188" y="613" text-anchor="middle" dominant-baseline="central" style="font-size:12px;font-weight:500" fill="#04342C">Brief</text>
+<text x="188" y="628" text-anchor="middle" dominant-baseline="central" style="font-size:11px" fill="#0F6E56">unanswered dims from assumption list</text></g>
+<g><rect x="57" y="646" width="262" height="38" rx="8" fill="#FFFFFF" stroke="#0F6E56" stroke-width="0.5"/>
+<text x="188" y="659" text-anchor="middle" dominant-baseline="central" style="font-size:12px;font-weight:500" fill="#04342C">Asset binding table</text>
+<text x="188" y="674" text-anchor="middle" dominant-baseline="central" style="font-size:11px" fill="#0F6E56">one asset, one role · enumerate keeps</text></g>
+<g><rect x="57" y="692" width="262" height="38" rx="8" fill="#FFFFFF" stroke="#0F6E56" stroke-width="0.5"/>
+<text x="188" y="705" text-anchor="middle" dominant-baseline="central" style="font-size:12px;font-weight:500" fill="#04342C">10 hard rules</text>
+<text x="188" y="720" text-anchor="middle" dominant-baseline="central" style="font-size:11px" fill="#0F6E56">cinema 600-2000 words / quick 80-300</text></g>
+<text x="474" y="594" text-anchor="middle" style="font-size:11px;font-weight:500" fill="#085041">Short-drama pipeline</text>
+<g><rect x="343" y="600" width="262" height="32" rx="8" fill="#FFFFFF" stroke="#0F6E56" stroke-width="0.5"/>
+<text x="474" y="610" text-anchor="middle" dominant-baseline="central" style="font-size:12px;font-weight:500" fill="#04342C">Beat buckets</text>
+<text x="474" y="624" text-anchor="middle" dominant-baseline="central" style="font-size:11px" fill="#0F6E56">four buckets + scope firewall</text></g>
+<g><rect x="343" y="638" width="262" height="32" rx="8" fill="#FFFFFF" stroke="#0F6E56" stroke-width="0.5"/>
+<text x="474" y="648" text-anchor="middle" dominant-baseline="central" style="font-size:12px;font-weight:500" fill="#04342C">Character-sheet prompts</text>
+<text x="474" y="662" text-anchor="middle" dominant-baseline="central" style="font-size:11px" fill="#0F6E56">three panels · state edits _vN</text></g>
+<g><rect x="343" y="676" width="262" height="32" rx="8" fill="#FFFFFF" stroke="#0F6E56" stroke-width="0.5"/>
+<text x="474" y="686" text-anchor="middle" dominant-baseline="central" style="font-size:12px;font-weight:500" fill="#04342C">Continuity bible + shotlist</text>
+<text x="474" y="700" text-anchor="middle" dominant-baseline="central" style="font-size:11px" fill="#0F6E56">verbatim anchors · axis discipline</text></g>
+<g><rect x="343" y="714" width="262" height="32" rx="8" fill="#FFFFFF" stroke="#0F6E56" stroke-width="0.5"/>
+<text x="474" y="724" text-anchor="middle" dominant-baseline="central" style="font-size:12px;font-weight:500" fill="#04342C">Per-shot prompts</text>
+<text x="474" y="738" text-anchor="middle" dominant-baseline="central" style="font-size:11px" fill="#0F6E56">sequence header start/end · fidelity budget §12</text></g>
+</g>
+<path d="M340 763 L340 779" fill="none" stroke="#5F5E5A" stroke-width="1.5" marker-end="url(#arrow)"/>
+<g>
+<rect x="40" y="783" width="600" height="112" rx="12" fill="#FAEEDA" stroke="#854F0B" stroke-width="0.5"/>
+<text x="56" y="803" style="font-size:12px;font-weight:500" fill="#633806">QC — every shot, fail loops back</text>
+<g><rect x="56" y="815" width="131" height="64" rx="8" fill="#FFFFFF" stroke="#854F0B" stroke-width="0.5"/>
+<text x="121" y="837" text-anchor="middle" dominant-baseline="central" style="font-size:12px;font-weight:500" fill="#412402">12 gates</text>
+<text x="121" y="855" text-anchor="middle" dominant-baseline="central" style="font-size:11px" fill="#854F0B">quick-ref checklist</text></g>
+<g><rect x="199" y="815" width="131" height="64" rx="8" fill="#FFFFFF" stroke="#854F0B" stroke-width="0.5"/>
+<text x="264" y="837" text-anchor="middle" dominant-baseline="central" style="font-size:12px;font-weight:500" fill="#412402">Slop repair</text>
+<text x="264" y="855" text-anchor="middle" dominant-baseline="central" style="font-size:11px" fill="#854F0B">classify → adjudicate → replace</text></g>
+<g><rect x="342" y="815" width="131" height="64" rx="8" fill="#FFFFFF" stroke="#854F0B" stroke-width="0.5"/>
+<text x="407" y="837" text-anchor="middle" dominant-baseline="central" style="font-size:12px;font-weight:500" fill="#412402">Harden · Step 5.5</text>
+<text x="407" y="855" text-anchor="middle" dominant-baseline="central" style="font-size:11px" fill="#854F0B">4,154 revision statistics</text></g>
+<g><rect x="485" y="815" width="131" height="64" rx="8" fill="#FFFFFF" stroke="#854F0B" stroke-width="0.5"/>
+<text x="550" y="837" text-anchor="middle" dominant-baseline="central" style="font-size:12px;font-weight:500" fill="#412402">continuity_check</text>
+<text x="550" y="855" text-anchor="middle" dominant-baseline="central" style="font-size:11px" fill="#854F0B">numbering · chaining · anchors</text></g>
+<path d="M470 813 L470 765" fill="none" stroke="#A32D2D" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#arrow)"/>
+<text x="478" y="792" style="font-size:11px" fill="#A32D2D">fail → regenerate</text>
+</g>
+<path d="M340 899 L340 915" fill="none" stroke="#5F5E5A" stroke-width="1.5" marker-end="url(#arrow)"/>
+<g>
+<rect x="40" y="919" width="600" height="92" rx="12" fill="#EAF3DE" stroke="#3B6D11" stroke-width="0.5"/>
+<text x="56" y="939" style="font-size:12px;font-weight:500" fill="#27500A">Delivery — Step 6, paste-ready only</text>
+<g><rect x="57" y="951" width="178" height="44" rx="8" fill="#FFFFFF" stroke="#3B6D11" stroke-width="0.5"/>
+<text x="146" y="967" text-anchor="middle" dominant-baseline="central" style="font-size:12px;font-weight:500" fill="#173404">Video prompt</text>
+<text x="146" y="984" text-anchor="middle" dominant-baseline="central" style="font-size:11px" fill="#3B6D11">paste-ready + ≤3 notes</text></g>
+<g><rect x="247" y="951" width="178" height="44" rx="8" fill="#FFFFFF" stroke="#3B6D11" stroke-width="0.5"/>
+<text x="336" y="967" text-anchor="middle" dominant-baseline="central" style="font-size:12px;font-weight:500" fill="#173404">Sheet prompt</text>
+<text x="336" y="984" text-anchor="middle" dominant-baseline="central" style="font-size:11px" fill="#3B6D11">render image first → attach as reference</text></g>
+<g><rect x="437" y="951" width="178" height="44" rx="8" fill="#FFFFFF" stroke="#3B6D11" stroke-width="0.5"/>
+<text x="526" y="967" text-anchor="middle" dominant-baseline="central" style="font-size:12px;font-weight:500" fill="#173404">Dialect prompt</text>
+<text x="526" y="984" text-anchor="middle" dominant-baseline="central" style="font-size:11px" fill="#3B6D11">Omni/Kling/Sora… syntax</text></g>
+</g>
+<path d="M340 1015 L340 1031" fill="none" stroke="#888780" stroke-width="1" stroke-dasharray="4 3"/>
+<g>
+<rect x="40" y="1035" width="600" height="104" rx="12" fill="#FFFFFF" stroke="#888780" stroke-width="0.5" stroke-dasharray="5 4"/>
+<text x="56" y="1055" style="font-size:12px;font-weight:500" fill="#444441">Dev-time harness — not part of the runtime</text>
+<g><rect x="57" y="1067" width="178" height="56" rx="8" fill="#F1EFE8" stroke="#888780" stroke-width="0.5"/>
+<text x="146" y="1087" text-anchor="middle" dominant-baseline="central" style="font-size:12px;font-weight:500" fill="#2C2C2A">validate_structure</text>
+<text x="146" y="1105" text-anchor="middle" dominant-baseline="central" style="font-size:11px" fill="#5F5E5A">contracts · mirrors · dead links</text></g>
+<g><rect x="247" y="1067" width="178" height="56" rx="8" fill="#F1EFE8" stroke="#888780" stroke-width="0.5"/>
+<text x="336" y="1087" text-anchor="middle" dominant-baseline="central" style="font-size:12px;font-weight:500" fill="#2C2C2A">behavior-cases</text>
+<text x="336" y="1105" text-anchor="middle" dominant-baseline="central" style="font-size:11px" fill="#5F5E5A">17 workflow behaviour specs</text></g>
+<g><rect x="437" y="1067" width="178" height="56" rx="8" fill="#F1EFE8" stroke="#888780" stroke-width="0.5"/>
+<text x="526" y="1087" text-anchor="middle" dominant-baseline="central" style="font-size:12px;font-weight:500" fill="#2C2C2A">render_loop A/B</text>
+<text x="526" y="1105" text-anchor="middle" dominant-baseline="central" style="font-size:11px" fill="#5F5E5A">blind binary rubric + canary</text></g>
+</g>
+</svg>

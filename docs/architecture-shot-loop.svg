@@ -1,0 +1,44 @@
+<svg viewBox="0 0 680 400" width="100%" role="img" xmlns="http://www.w3.org/2000/svg">
+<title>Short-drama per-shot loop</title>
+<desc>Per-shot cycle: beat buckets, per-shot prompt, continuity gates, user acceptance, state machine update — with failure atlas and continuation modes as support nodes.</desc>
+<defs>
+<marker id="arrow2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+<path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</marker>
+</defs>
+<text x="340" y="30" text-anchor="middle" style="font-size:14px;font-weight:500" fill="#2C2C2A">Short-drama mode · per-shot loop (one cycle per shot)</text>
+<g><rect x="52" y="56" width="126" height="64" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text x="115" y="78" text-anchor="middle" dominant-baseline="central" style="font-size:12px;font-weight:500" fill="#04342C">Beat buckets</text>
+<text x="115" y="96" text-anchor="middle" dominant-baseline="central" style="font-size:11px" fill="#0F6E56">done · this clip · reserved · hidden</text></g>
+<path d="M178 88 L198 88" fill="none" stroke="#0F6E56" stroke-width="1.5" marker-end="url(#arrow2)"/>
+<g><rect x="202" y="56" width="126" height="64" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text x="265" y="78" text-anchor="middle" dominant-baseline="central" style="font-size:12px;font-weight:500" fill="#04342C">Per-shot prompt</text>
+<text x="265" y="96" text-anchor="middle" dominant-baseline="central" style="font-size:11px" fill="#0F6E56">header start/end state</text></g>
+<path d="M328 88 L348 88" fill="none" stroke="#0F6E56" stroke-width="1.5" marker-end="url(#arrow2)"/>
+<g><rect x="352" y="56" width="126" height="64" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text x="415" y="78" text-anchor="middle" dominant-baseline="central" style="font-size:12px;font-weight:500" fill="#04342C">Continuity gates</text>
+<text x="415" y="96" text-anchor="middle" dominant-baseline="central" style="font-size:11px" fill="#0F6E56">continuity_check + 12 gates</text></g>
+<path d="M478 88 L498 88" fill="none" stroke="#0F6E56" stroke-width="1.5" marker-end="url(#arrow2)"/>
+<g><rect x="502" y="56" width="126" height="64" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text x="565" y="78" text-anchor="middle" dominant-baseline="central" style="font-size:12px;font-weight:500" fill="#04342C">User accepts</text>
+<text x="565" y="96" text-anchor="middle" dominant-baseline="central" style="font-size:11px" fill="#0F6E56">only accepted = canon</text></g>
+<path d="M565 120 L565 145 L190 145 L190 166" fill="none" stroke="#0F6E56" stroke-width="1.5" marker-end="url(#arrow2)"/>
+<text x="380" y="140" style="font-size:11px" fill="#0F6E56">accepted → update state machine</text>
+<g><rect x="52" y="170" width="276" height="60" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text x="190" y="192" text-anchor="middle" dominant-baseline="central" style="font-size:12px;font-weight:500" fill="#04342C">State machine update</text>
+<text x="190" y="210" text-anchor="middle" dominant-baseline="central" style="font-size:11px" fill="#0F6E56">position · props · light · mood → read by next shot</text></g>
+<path d="M415 120 L415 148 L490 148 L490 166" fill="none" stroke="#A32D2D" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#arrow2)"/>
+<text x="422" y="140" style="font-size:11px" fill="#A32D2D">fail</text>
+<g><rect x="352" y="170" width="276" height="60" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="0.5"/>
+<text x="490" y="192" text-anchor="middle" dominant-baseline="central" style="font-size:12px;font-weight:500" fill="#412402">Failure atlas (on fail)</text>
+<text x="490" y="210" text-anchor="middle" dominant-baseline="central" style="font-size:11px" fill="#854F0B">12 symptoms → cause → repair variable</text></g>
+<path d="M190 230 L190 252" fill="none" stroke="#0F6E56" stroke-width="1.5" marker-end="url(#arrow2)"/>
+<text x="198" y="246" style="font-size:11px" fill="#0F6E56">next shot opens by continuation mode</text>
+<g><rect x="52" y="256" width="276" height="60" rx="8" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.5"/>
+<text x="190" y="278" text-anchor="middle" dominant-baseline="central" style="font-size:12px;font-weight:500" fill="#26215C">Five continuation modes (long video / Extend)</text>
+<text x="190" y="296" text-anchor="middle" dominant-baseline="central" style="font-size:11px" fill="#534AB7">seamless · next shot · bridge · repair tail · re-anchor</text></g>
+<g><rect x="352" y="256" width="276" height="60" rx="8" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.5"/>
+<text x="490" y="278" text-anchor="middle" dominant-baseline="central" style="font-size:12px;font-weight:500" fill="#26215C">Ending profiles §13</text>
+<text x="490" y="296" text-anchor="middle" dominant-baseline="central" style="font-size:11px" fill="#534AB7">six types · unmatched-motion law</text></g>
+<text x="340" y="348" text-anchor="middle" style="font-size:12px" fill="#5F5E5A">Rejected shots never enter canon; across batches, re-read the continuity bible and state machine before writing.</text>
+</svg>
