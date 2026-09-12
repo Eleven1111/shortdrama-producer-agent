@@ -9,7 +9,7 @@
 跑在 Claude Code · Codex · Cursor · Windsurf · Gemini CLI · GitHub Copilot · WorkBuddy 上。
 只写 prompt 和脚本——绝不提交渲染任务、绝不花你的额外 token。
 
-**当前版本 v3.16.0** · 架构图在 [docs/](docs)
+**当前版本 v3.17.0** · 架构图在 [docs/](docs)
 
 语言：[中文](#中文) · [English](#english)
 
@@ -78,24 +78,26 @@ cd shortdrama-producer-agent && ./install.sh
 
 不想聊？完全不影响——不进神仙会的话一切照旧（≥3 个维度直接做，1–2 个维度问 ≤2 题）。
 
-### 想让人挑刺？（可选，默认关）
+### 有人在质疑骨架了吗？（短剧 / 中长片默认开）
 
 原来的自检有 7 项，但**全在格式层**——OPTICS 角度、光、音频、负面词……**没有一项能否决一个故事或人物决定**。说白了：**没人在场质疑骨架。**
 
-会议层就是补这个位置的。说一句「开会」或「走会议层」开启，三层可选：
+会议层就是补这个位置的。**短剧、中片、长片默认开着**，单镜头默认关：
 
-| 层 | 插在哪 | 什么时候开 |
+| 层 | 插在哪 | 什么时候跑 |
 |---|---|---|
-| **提案会** | Step 3 之后、Step 4 之前 | 你给的信息太少（≤2 个维度），或语料检索没底 |
+| **提案会** | Step 3 之后、Step 4 之前 | 短剧 / 长片开工时跑一次 |
 | **人物会** | Step 4.5 前后 | 出现新角色，或素材绑定冲突（**几乎不该跳过**） |
-| **评审会** | Step 5 之前 | 短剧模式，或已经返修过至少一轮 |
+| **评审会** | Step 5 之前 | 短剧每批（≤6 镜）；长片每批 + 风格先导批复审 |
 
 每层 3–4 个异构 agent（提案 ×2–3 + critic + 捣蛋鬼；统筹是拍板的，不计入），走五段：**独立提案 → 低带宽互评 → 统筹裁决 → 收敛后复述 → 末段合成**。每条 critique 必须带定位、严重度和**可证伪的失败理由**——不许只丢一句「整体不错」。这份记录本身就是**可审计的证据链**。
 
+**想关掉就直接说「不开会」或「快速」；单镜头想开就说「开会」。**
+
 **三件事说清楚，别当成已证实：**
 
-- **默认关闭。** 它的收益（降低下尾风险）**还没有 A/B 证据**，开了会明显更贵——测试设计见 `eval/render_loop/`。
-- **预算上限 30% 是设计建议，不是实测数字。**
+- **收益还没验证。** 它的价值主张是降低下尾风险，但 **A/B 已暂停**（先上线拿真实使用数据）——测试设计仍留在 `eval/render_loop/`。
+- **预算上限 30% 是设计建议，不是实测数字。** 开着会更贵，成本敏感就直接说「不开会」。
 - 如果你的终端没法真正隔离多个 agent 的上下文，那「独立提案」就是假的——协议要求**如实标注**，不许拿顺序扮演冒充独立提案。
 
 ### 怎么用
@@ -222,24 +224,26 @@ The rules come from the six axioms of the 神仙会 running style. The one that 
 
 Not in the mood? Nothing changes — skip the symposium and it behaves exactly as before (generate on ≥3 dimensions, ask ≤2 questions on 1–2).
 
-### Want someone to push back? (optional, off by default)
+### Is anyone questioning the skeleton? (on by default for short drama / long-form)
 
 The original self-check has 7 items, but **all of them live at the format layer** — OPTICS angles, light, audio, negative constraints. **None can veto a story or character decision.** In plain terms: **nobody is in the room to question the skeleton.**
 
-The meeting layer fills exactly that hole. Say "开会" (hold a meeting) or "走会议层" to enable it — three optional layers:
+The meeting layer fills exactly that hole. It's **on by default for short drama, mid-length and long-form; off for single shots:**
 
-| Layer | Inserts | Fires when |
+| Layer | Inserts | Runs when |
 |---|---|---|
-| **提案会** | after Step 3, before Step 4 | you gave too little (≤2 dimensions), or retrieval confidence is low |
+| **提案会** | after Step 3, before Step 4 | once when a short drama / long-form project starts |
 | **人物会** | around Step 4.5 | a new character appears, or asset binding conflicts (**almost never skipped**) |
-| **评审会** | before Step 5 | short-drama mode, or you're already on a revision round |
+| **评审会** | before Step 5 | short drama: every batch (≤6 shots); long-form: every batch + style-pilot review |
 
 Each layer runs 3–4 heterogeneous agents (proposers ×2–3 + a critic + a troublemaker; the arbiter decides and doesn't count), through five stages: **independent proposals → low-bandwidth peer review → arbiter verdict → independent restatement after convergence → final synthesis.** Every critique must carry a location, a severity and a **falsifiable failure reason** — no "looks good overall". That record doubles as an **auditable evidence trail**.
 
+**To turn it off, just say "不开会" or "快速". To force it on for a single shot, say "开会".**
+
 **Three things stated plainly, so this isn't mistaken for proven:**
 
-- **Off by default.** Its benefit (reducing downside risk) has **no A/B evidence yet**, and it costs noticeably more. The test design lives in `eval/render_loop/`.
-- **The 30% budget ceiling is a design proposal, not a measured figure.**
+- **The benefit is unvalidated.** Its case rests on reducing downside risk, but the **A/B is paused** (we're shipping it to collect real usage data first). The test design still lives in `eval/render_loop/`.
+- **The 30% budget ceiling is a design proposal, not a measured figure.** Having it on costs noticeably more — say "不开会" if cost matters this run.
 - If your terminal can't truly isolate agent contexts, "independent proposals" are fake — the protocol requires you to **label that honestly**, never pass sequential role-play off as independent work.
 
 ### How to use it

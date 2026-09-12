@@ -5,7 +5,7 @@ license: MIT
 user-invocable: true
 tags: [seedance, video-prompt, creative, short-drama, sequence, workflow, agent, screenwriting, directorial, style-bible, cross-model, gemini-omni, kling, sora, runway, concept-symposium, human-in-the-loop, meeting-protocol, multi-agent]
 metadata:
-  version: "3.16.0"
+  version: "3.17.0"
   copyright: "Copyright (c) 2026 Eleven1111"
   author:
     name: "Eleven1111"
@@ -48,12 +48,12 @@ Full protocol: `references/concept-symposium.md`. Enter it when the user says �
 when a 1–2-dimension user is visibly trying to develop rather than to describe.
 
 **And when the work itself should be challenged rather than described:** the **meeting layer**
-(会议层, `references/meeting-protocol.md`) is an opt-in, agent-to-agent review layer that adds a
-centralized arbiter (统筹 agent) plus a mandated troublemaker to the *skeleton* — the story- and
-character-level decisions that Step 5's format-only self-check never touches. It is **off by
-default** (its quality benefit has no A/B evidence yet) and degrades honestly when the runtime
-cannot isolate contexts. Turn it on when the user says 开会 / 走会议层 / 严格模式 / 要评审记录, or
-on a revision round of multi-shot work.
+(会议层, `references/meeting-protocol.md`) adds a centralized arbiter (统筹 agent) plus a mandated
+troublemaker to the *skeleton* — the story- and character-level decisions that Step 5's
+format-only self-check never touches. It runs **by default in short-drama and long-form modes**,
+and is **off for single-shot**. Its quality benefit is still unvalidated (the A/B is paused), so
+honour an explicit opt-out — 「不开会 / 快速」 — and degrade honestly when the runtime cannot
+isolate contexts. Force it on for a single shot with 开会 / 走会议层 / 严格模式.
 
 ## Triggers
 
@@ -185,17 +185,18 @@ State changes (injured / soaked / dirty / changed clothes) are made by **editing
 into a new version**, never by re-describing the change in each shot's video prompt —
 46.8% of real character assets carry a `_vN` version suffix; one character has 28 versions.
 
-### Step 4.7 — Meeting layer (optional, agent-to-agent)
+### Step 4.7 — Meeting layer (agent-to-agent)
 
-**Off by default.** Opt in via `references/meeting-protocol.md` when the user says 开会 /
-走会议层 / 严格模式 / 要评审记录, or on a revision round of multi-shot work. It layers three
-optional meetings on top and **replaces no Step**:
+**Default by production mode** (`references/meeting-protocol.md` §0.1): **on for short-drama and
+long-form, off for single-shot.** Three meetings, no Step replaced:
 
-| Layer | Inserts at | Triggers |
+| Layer | Inserts at | Runs when |
 |---|---|---|
-| 提案会 | after Step 3 / before Step 4 | intent ≤2 dimensions, or low retrieval confidence in Step 2 |
+| 提案会 | after Step 3 / before Step 4 | once per project (short-drama / long-form), or intent ≤2 dimensions / low Step 2 confidence |
 | 人物会 | around Step 4.5 | a new character, or a binding-table conflict (**almost never skippable**) |
-| 评审会 | before Step 5 | short-drama mode, or ≥1 prior revision round |
+| 评审会 | before Step 5 | short-drama (every batch ≤6 shots), long-form (every batch + style-pilot review) |
+
+Per-run override: 「不开会 / 快速」 disables it; 开会 / 走会议层 / 严格模式 forces it on (even for one shot).
 
 **Ordering is mandatory — collective verdict first, format self-check second:**
 
@@ -244,6 +245,10 @@ the most-expanded sections. So after generating, add what a first draft predicta
 Output ONLY clean paste-ready prompt(s) + ≤3 short notes.
 
 ## Short-drama mode (multi-shot / story)
+
+**The meeting layer runs by default in this mode** (Step 4.7): 提案会 once at the start, 人物会
+whenever a new character or binding conflict appears, 评审会 per batch of ≤6 shots. Say 「不开会 /
+快速」 to skip it for a run.
 0. **Long-form escalation** (≥3 episodes, or ≥60 total shots, or feature-film scale): layer `references/longform-protocol.md` on top — five-layer state stack (project bible → episode bible → scene card → batch state machine → shot), episode rhythm calibrated against `story_level/act_structure.json` real density data, cross-episode version registry + parallel-storyline beat buckets, style-pilot batch before principal photography; all short-drama rules stay in force
 0. **Style bible** (series/multi-episode only, ≥3 episodes): build the project style bible per `references/style-bible.md` (render domain + keystone sentence + color recipe with hex/ratio/banned colors + signature), then reuse its summary block verbatim as the style-anchor prefix of every shot prompt; single one-off shorts may skip or use the 10-minute lite version
 1. **Story breakdown** (goal/ending → beats 3-8 → scenes → shots 2-6/scene → budget ≤6/batch; story-quality methodology — premise/controlling idea, value turn per beat, character & conflict, visual subtext, exit-check gates — in `references/screenwriting-craft.md`, layered on top of `references/story-breakdown.md`; per shot, tag every story event into one of four beat buckets — `already_happened` / `this_clip_only` / `reserved_for_later` / `do_not_show_yet`, scope firewall + split triggers — in `references/sequence-protocol.md`)

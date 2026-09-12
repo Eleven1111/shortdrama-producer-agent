@@ -1,13 +1,13 @@
 {
   "name": "shortdrama-producer",
-  "version": "3.16.0",
+  "version": "3.17.0",
   "type": "agent-package",
   "entrypoints": {
     "AGENTS.md": "2026 cross-tool standard (Codex / Cursor / Windsurf / Gemini CLI / Copilot / Claude Code)",
     "SKILL.md": "skill-compatible layer (Claude Code / WorkBuddy)",
     "agents/openai.yaml": "OpenAI metadata (ChatGPT / Codex)"
   },
-  "description": "跨终端通用视频 prompt 生产 Agent（原生 Seedance，方言适配 Gemini Omni/Kling/Veo/Sora/Runway/海螺/即梦/Vidu/Wan/Pika）：用户描述想法后自动完成 解析意图 → 检索真实生产范例 → 生成简报 → 产出可粘贴 prompt → 质检。支持概念神仙会（可选前置：用户与 Agent 交互把概念落地成概念卡）与会议层（可选机-机评审：提案会/人物会/评审会，默认关闭）。单镜头（cinema/quick）与短剧（拆解+连续性圣经+shotlist+连续 prompt）模式。",
+  "description": "跨终端通用视频 prompt 生产 Agent（原生 Seedance，方言适配 Gemini Omni/Kling/Veo/Sora/Runway/海螺/即梦/Vidu/Wan/Pika）：用户描述想法后自动完成 解析意图 → 检索真实生产范例 → 生成简报 → 产出可粘贴 prompt → 质检。支持概念神仙会（可选前置：用户与 Agent 交互把概念落地成概念卡）与会议层（机-机评审：提案会/人物会/评审会；短剧/长片默认开启、单镜头默认关闭）。单镜头（cinema/quick）与短剧（拆解+连续性圣经+shotlist+连续 prompt）模式。",
   "tags": [
     "seedance",
     "video-prompt",
