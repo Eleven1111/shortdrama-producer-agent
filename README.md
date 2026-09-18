@@ -1,13 +1,15 @@
 # shortdrama-producer-agent
 
-**张口就来，从想法到可直接开拍的生产级视频 prompt，就用它。**
+**张口就来。从一句大白话，到能直接开拍的视频 prompt。**
 
-这是个视频 prompt 生产 Agent。你不用学任何 prompt 写法——「雨夜，一个女孩在便利店门口等人」这样的大白话就够了。它会把焦段、画幅、平台上限这些你不想操心的事全部补齐，交给你一条 Seedance / 可灵 / 谷歌 Omni 直接能用的完整 prompt。
+你不会写 prompt，也不该会。
 
-它不是靠 prompt 写作玄学堆出来的。**58 万多条真实生产资产**，一条条测出来的规则，才敢写进库里。
+「雨夜，一个女孩在便利店门口等人」——把话说到这个程度就够了。焦段、画幅、光、负面词、你那个平台到底能吃多长，全不用你操心。出来就是一条能直接粘进 Seedance、可灵或者谷歌 Omni 的完整 prompt。
+
+它凭什么是这个水平？因为库里的每一句话，都是从 58 万多条真实生产素材里量出来的。不是「我感觉这样更好」，是「真实创作者里有 45.4% 确实这么干」。
 
 跑在 Claude Code · Codex · Cursor · Windsurf · Gemini CLI · GitHub Copilot · WorkBuddy 上。
-只写 prompt 和脚本——绝不提交渲染任务、绝不花你的额外 token。
+只写 prompt 和脚本——它不会替你点「生成」，也不会偷偷烧你的 token。
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Version](https://img.shields.io/badge/version-3.17.0-blue.svg)](manifest.json)
@@ -23,50 +25,132 @@
 
 ## 中文
 
-### 30 秒上手
+### 先跑起来
 
 ```bash
 git clone https://github.com/Eleven1111/shortdrama-producer-agent.git
 cd shortdrama-producer-agent && ./install.sh
 ```
 
-重启终端，直接说人话：
+重启终端，然后说人话：
 
 ```
 雨夜，一个女孩在便利店门口等人
 ```
 
-完了，这就是全部操作。什么焦段、画幅、负面词、平台上限——那是 Agent 的活，不是你的。
+就这样。真的没有第二步。
 
-### 它能帮你干什么
+### 它到底替你挡掉了什么
 
-一句话：**让你少交试错学费。**
+写视频 prompt 最难的从来不是词穷，是你不知道自己在犯错。
 
-### 亮点一览
+「cinematic, 4k, masterpiece」这种词，你写了也没人拦你，只是它一点用都没有。角色第一镜长得挺像样，第五镜开始换脸，你只能从头再来。想拍 60 秒，做完才发现平台只吃 15 秒，白忙一场。
 
-十条，每条都带数。
+这三件事它都在生成**之前**拦住了。不是交给你之后再跟你说抱歉，是压根不让你拿到有问题的东西。
 
-1. **每条规则都能溯源。** 58.86 万条真实生产资产（Hell Grind 115,447 + Cully Hill Boys 473,239）测出来的规律才进库。追溯不到统计数据的经验不进库；二手消息如实标注「未验证」。这不是「我试过感觉这样更好」，是「这个写法在 61,554 条真实图片 prompt 里出现 45.4%」。
+下面是它凭什么做到。
 
-2. **生成前先翻真剧组怎么写的。** 内置零依赖 BM25 检索器，现场检索 7,824 条真实生产范例（平均 1,622 词），照行业真实写法仿——不是「cinematic, 4k」那种一眼 AI 味的套话。实测 Recall@1 80%、Recall@5 100%，固定种子可复现。
+### 它不编，它量
 
-3. **镜头底下垫着一整层导演工艺。** 14 节 directorial-craft：一镜一个动机、光是情绪（方向=情绪、光比阶梯、支配光源），每个镜头按终点画像收尾（resolve / extension anchor / loop seam / hero hold / edit point / reveal-punch）。成片是「拍的」，不是「生成的」。
+这个行业最不缺的就是「我觉得这样写更好」。所以库里有条死规矩：**一条经验想进来，先拿数据来。** 撑不住的，宁可删掉。
 
-4. **角色不会换脸——靠图，不靠嘴。** 源资产里 **87.32% 带 `reference_elements`**、**46.8% 带 `_vN` 版本号**（最高一个角色有 28 版）。所以机制是从数据里长出来的：三面板设定图 + 锚点逐字复用 + 版本注册表，全剧一张脸。状态变化（受伤/淋湿/换装）＝**改设定图版本**，绝不在每镜视频 prompt 里重新描述。
+58.86 万条真实素材（Hell Grind 11.5 万 + Cully Hill Boys 47.3 万）摆在那儿，出现率、修订规律、分布，全都是量出来的。量不出来的，老老实实标「未验证」，不装。
 
-5. **从小到大一套打法。** 一条 prompt、一部短剧、一部电影，同一个体系，规则不用换。短剧加镜间闭环；长片叠五层状态栈（项目圣经 → 集圣经 → 场景卡 → 批次状态机 → 单镜），层层有冻结点。集内节奏由 **137 场 / 42 转场 / 14 种冲突模式**的实测密度校准，不是通用编剧教材。
+举个具体的，你就明白这个区别有多要命。
 
-6. **换模型不用重学。** Seedance 原生；点名 Gemini Omni、可灵、Veo、Sora、Runway、海螺、即梦、Vidu、Wan、Pika，先声明**九条能力轴**（版本 / 方言 / 时长 / 参考条件 / 同轨音频 / 画幅 / 长度上限 / 运镜词汇 / 语言），再翻译语法。导演思路不变，只翻译方言。
+真实创作者在处理参考图的时候，**45.4% 的人会一条条列出「要保留什么」，而只有 0.1% 的人会列「不要保留什么」**。
 
-7. **交付前先过 12 道门。** 模式、规格头、锚点、动作终点、运镜动机、光、音频三轨、负面 ≥5、风格锚、保真预算、镜末画像、序列链——一门不过就打回重写。问题拦截在交付前，而不是交付后道歉。
+这个数字直接改写了它的做法。它现在会逼自己把「保留清单」写全——因为**你没写的那些，就是模型会自己发挥的那些**。你只说了「参考这张脸」，它就懂了：脸、发型、身材、每一件衣服、鞋、配饰，默认全都要。你没说不要背景，背景就会被带进来。
 
-8. **想深聊就开「概念神仙会」（人机）。** 说一句「先聊聊」，它按六公理切**五个结构不同的席位**（制片 / 编剧 / 导演 / 捣蛋鬼 / 观众代言）发散，一行一条、不筛选、不排序，你拍板后它收敛成一张**概念卡**直接喂下游。铁律：**Agent 只发散，绝不替你拍板**；「捣蛋鬼」席位是强制的——只附和即视为本轮未完成。
+靠感觉写 prompt 的人，永远想不到这一层。
 
-9. **批量生产时有「会议层」（机机）。** 短剧 / 长片**默认开**三层会——提案会 / 人物会 / 评审会：独立提案 → 低带宽互评 → 统筹裁决（采纳 / 吸收 / 否决）→ 收敛后独立复述 → MoA 合成。它补的是一个明确的结构真空：**原流程的 7 项自检全在格式层，没有任何一项能否决故事骨架，也没有任何角色被授权质疑骨架。**
+### 它先去看真剧组是怎么写的
 
-10. **评审记录本身就是合规证据链。** critique 带角色标识、带定位、带**可证伪的失败理由**，天然是机器可读的留痕，可直接对应「审核会商」「先审后播」的落地要求。**即使质量增益边际，可审计性本身也可能是独立且充分的采纳理由。**
+包里躺着 7,824 条真实生产 prompt，平均一条 1,622 词。写之前先检索一遍，学的是真实片场的写法——机位怎么标、光怎么描、镜头怎么动——不是网上那些 prompt 教学。
 
-### 架构
+检索质量实测：首条命中 80%，前五条 100%，固定种子，你能自己复现。
+
+### 镜头后面站着一个导演
+
+最底下垫着 14 节导演工艺。一镜一个动机；光不是照明，光就是情绪；每个镜头都得有终点——是让观众松一口气，还是勾住他往下看，还是「看这里」，动笔前先想清楚。
+
+所以出来的东西看起来是「拍的」，不是「生成的」。
+
+### 不让角色换脸，靠的是图，不是嘴
+
+这条完全是从数据里长出来的，不是拍脑袋定的。
+
+真实素材里，**87.32% 带参考图**；**46.8% 带版本号**（`_v2`、`_v3`），最多的一个角色攒了 28 个版本。
+
+结论很直白：**文本锚不住一张脸，图才能。**
+
+所以机制是这样的：先用三面板设定图打底（正面全身 / 背面全身 / 特写），之后每一镜都去引用它。角色受伤了、淋湿了、换衣服了？**改设定图，出个新版本**——而不是在每一镜的视频 prompt 里重新描述一遍。
+
+前者一次搞定。后者你写十遍它还是会飘。
+
+### 一个镜头、一部短剧、一部电影，学一次就够
+
+同一套规则，不用换脑子。
+
+短剧多一层「镜间闭环」，每拍一镜走一圈。长片再往上叠五层状态栈——项目圣经 → 集圣经 → 场景卡 → 批次状态机 → 单镜，每层都有冻结点，防止你写到第 40 镜的时候，人设已经悄悄不是原来那个人了。
+
+节奏也不是拍脑袋定的。137 场戏、42 个转场、14 种冲突模式的实测密度摆在那儿，拿它校准，不是拿通用编剧教材套。
+
+### 换模型，只翻方言，思路不动
+
+Seedance 是母语。你点名 Gemini Omni、可灵、Veo、Sora、Runway、海螺、即梦、Vidu、Wan、Pika，它会先把九件事问清楚——版本、方言、时长上限、参考图怎么吃、音频是不是同轨出、画幅、镜头词汇、语言——再老老实实翻语法。
+
+翻译的是语法，不是想法。你不需要为新模型重新学一遍怎么当导演。
+
+### 交给你之前，先过 12 道门
+
+这一条不用多解释，12 项逐条对：模式、规格头、角色锚点、动作有没有终点、运镜有没有动机、光、三轨音频、负面约束够不够 5 条、风格锚、保真预算、镜末画像、序列链。
+
+一门不过，打回重写。**你收到的都是过了闸的。**
+
+### 想聊透了再做，就开个神仙会
+
+这条是给人用的，不是给机器用的。
+
+你说一句「先聊聊」或者「先别急着做」，它不会甩给你一句「请问您想要什么风格」——这种问题最烦人，因为你自己也不知道。它会直接开个会。
+
+一次性给你五条**真的不一样**的方案，来自五个不同的位置。制片人关心这东西能不能被看完；编剧关心有没有戏核；导演关心拍出来长什么样；捣蛋鬼专门负责挑刺；还有一个人，始终替你盯着「你到底想要什么」。
+
+一行一条，不给排序、不给推荐——**它不替你做决定。**
+
+你回个编号，或者「①+③」，或者干脆「都不对，但②那个方向」，都算数。然后它把结果收成一张概念卡，直接往下走。
+
+这里有条规矩挺狠：那个「捣蛋鬼」席位是强制的。**如果整轮里没有一条真质疑，这一轮算没干完，重来。**
+
+为什么这么较真？因为 AI 最大的毛病从来不是不敢说，是**顺着你说**。
+
+### 批量生产的时候，机器之间也要开会
+
+短剧和长片模式下，这个默认开着；单镜头默认关。分这么细是有原因的——开会要花 token，为一条 10 秒的镜头开一场会不值当。想省就说一句「不开会」。
+
+它补的是一个很具体的窟窿。
+
+原来那 7 项自检，全都在「格式对不对」这一层。**没有任何一项有权否决一个故事层面的决定，也没有任何一个角色被授权去质疑骨架。** 4,154 组真实修订把这事证实了：创作者反复改的时候，69.7% 是在加长度、加约束，骨架只动 2–6%。**骨架从来没人碰，因为整个流程里没人管这个。**
+
+三层会分工明确：提案会在 Step 3 之后跑一次，人物会在冒出新角色或绑定冲突时开，评审会在每批镜头交付前开。
+
+流程是：各自独立提案 → 只递小纸条互评 → 一个统筹拍板 → 各自复述一遍 → 合成。
+
+「只递小纸条」是认真的。互评阶段只传「哪一段、多严重、什么问题、一句话理由」，不传全文，也不给完整替代方案。因为研究者发现：**一旦把完整方案摊开交换，大家的想法会在一轮之内就趋同——损失发生在交换的那一刻。**
+
+还有一条诚实底线。运行时按能力分三档：能真开出独立上下文的，算真开会；只能在一个上下文里轮流扮演的，交付物上必须写「独立性未完全保证」；连分角色都做不到的，直接标注「**本轮未经集体评审**」。
+
+**装开会，比不开会更糟。**
+
+### 评审记录本身，就是一条能交出去的证据链
+
+每条评审都带着角色、定位，和一条「可证伪的失败理由」——机器可读。
+
+对上「先审后播」「审核会商」这类要求，这份记录可以直接拿来用。
+
+所以说句实在话：**就算它的质量提升是边际的，光是「可审计」这一条，也可能足够构成采用它的理由。**
+
+### 它是怎么走的
 
 三张图看完全部信息流（SVG 源文件在 [docs/](docs)）：
 
@@ -79,7 +163,7 @@ cd shortdrama-producer-agent && ./install.sh
 ![长片五层状态栈](docs/architecture-longform.svg)
 *拍长片（≥3 集 / ≥60 镜 / 电影）时往上叠五层状态栈：项目圣经 → 集圣经 → 场景卡 → 批次状态机 → 单镜，层层有冻结点，防止写着写着人设崩了。*
 
-### 三种生产模式
+### 三种规模，三种交付
 
 | 你要拍 | 怎么触发 | 你会拿到 |
 |---|---|---|
@@ -87,91 +171,41 @@ cd shortdrama-producer-agent && ./install.sh
 | 一部短剧 | 说要多镜头 / 分镜 | 故事拆解 · 角色设定图 prompt · 连续性圣经 · 分镜表 · 镜间状态机 |
 | 一部长片 | ≥3 集 / ≥60 镜 / 电影 | 五层状态栈 · 实测校准的集内节奏 · 风格先导批 · 跨集版本注册表 |
 
-### 两条可选的深水通道
+### 底下的数据
 
-#### 概念神仙会 —— 生产之前，人机把概念碰实
+`references/` 和 `scripts/` 里的东西，没有一样是凭空写的，全是这批素材的产物。
 
-不是问卷，是**给方案让你拍板**。默认关闭，绝不强加给只想快速出片的人。
+| 资产 | 规模 |
+|---|---|
+| 检索语料 | **7,824 条**真实生产 prompt（金标 562 条，平均 1,622 词） |
+| 原始采集 | **588,686 条**资产（Hell Grind 115,447 + Cully Hill Boys 473,239） |
+| 角色 / 场景 / 道具设定卡 | **1,607 张**，共 4 万多条外观描述 |
+| 参考元素注册表 | **1,391 条**（只留 `name` + `category`） |
+| 真实修订聚类 | **4,154 组** |
+| 真实图片 prompt | **61,554 条** |
+| 故事层密度数据 | 137 场 · 42 个转场 · 14 种冲突 · 65 条道具动线 · 16 项幕结构 · 8 组运镜弧 |
+| 规律库 | **22 份** reference 文档，共 3,051 行 |
 
-| | 澄清协议（默认平路） | 概念神仙会（深水通道） |
-|---|---|---|
-| 何时 | 1–2 维信息，问 ≤2 个选项题 | 你说「先聊聊 / 先别急着做 / 帮我头脑风暴」 |
-| 交互 | 快速收敛，直接开工 | 三幕：摊牌 → 开脑洞（1–2 轮） → 收官 |
-| 谁拍板 | —— | **你**。Agent 禁止在用户表态前收敛成「最终方案」 |
-| 产出 | Step 3 简报 | **概念卡**（前提 / 戏核 / 核心冲突 / 调性 / 结局落点 / 被砍项 / 开放假设）→ 填进同一个下游 |
+### 手边的五个小工具
 
-席位固定五席（快速会话可裁到三席）。**异构纪律**：把席位标签遮住，能猜出哪条出自哪个席位才算合格；两条只是同义改写，视为一条、重出。
-
-```
-① 【编剧】{一句话方案} → {这意味着成片是…}
-② 【导演】…
-③ 【制片人】…
-④ 【捣蛋鬼】⚠ {一条前提质疑，不是方案}
-⑤ 【观众代言】…
-```
-
-#### 会议层 —— 生产之中，机-机评审骨架
-
-**默认开关按模式分级**：单镜头**关**，短剧 / 长片**开**。
-
-| 层 | 插入点 | 触发 | 跑什么 |
-|---|---|---|---|
-| **提案会** | Step 3 后 / Step 4 前 | 意图 ≤2 维，或语料检索置信度低 | 2–3 个独立提案 → 低带宽互评 → 统筹裁决 |
-| **人物会** | Step 4.5 前后 | 新角色（无现存卡）或绑定表冲突 | 资产继承边界仲裁（**几乎不应跳过**） |
-| **评审会** | Step 5 前 | 短剧模式，或上一轮有返修 | 多角色出 critique → 裁决 → 修订 → 再走格式自检 |
-
-- **显式覆盖**：说「不开会 / 快速 / 先看看」→ 本次关闭；说「开会 / 严格模式 / 要评审记录」→ 强制打开（单镜头也开）。
-- **强制顺序**：集体裁决在**前**，格式自检在**后**。先解决骨架，再做精细加固。
-- **低带宽互评**：互评阶段只传 `{target_id, severity, issue_type, 一句话失败理由}`——**不传全文、不传完整替代方案**。交换完整解会让平均成对距离在一轮内从 0.315 掉到 0.229，损失发生在交换的那一刻。
-- **抗谄媚双靶心**：靶心 A「不敢说」→ critic 负面输出不回灌其自身评价、否决权隔离、对提案不对人；靶心 B「顺着说（AI 侧独有）」→ 禁止引用拍板者偏好作为论据、强制先出反对再出赞成、必须给可证伪的失败理由、≥1 名 designated troublemaker 禁止全员 peacemaker。
-- **诚实降级**：运行时按能力分三档。Tier 1 可 spawn 独立上下文 → 真并发；Tier 2 单上下文顺序 role-play → 交付物必须标「独立性未完全保证」；Tier 3 不支持分角色 → 退回强化自检并把会议层标注为**「本轮未经集体评审」**。**禁止把模拟输出当独立提案汇报。**
-
-```
-Step 4.6 → 评审会（多角色出 critique）→ 统筹裁决（三态）→ 按裁决修订
-         → Step 5 七项自检（作为 gate）→ Step 5.5 约束加固 → Step 6 交付
-```
-
-> ⚠️ 会议层是 **multi-agent 量级的 token 开销**，且「≤主流水线 30%」的预算上限是**设计建议、无实证依据**。成本优先时直接说「不开会」。
-
-### 数据底座
-
-整个 `references/` 与 `scripts/` 都是这批实测数据的产物，不是拍脑袋写的。
-
-| 资产 | 规模 | 用途 |
-|---|---|---|
-| 检索语料 `seedance_corpus.jsonl.gz` | **7,824 条**真实生产 prompt（金标 562 条，平均 1,622 词） | Step 2 检索范例、诊断器的段落基准 |
-| 原始采集量 | **588,686 条**资产（Hell Grind 115,447 + Cully Hill Boys 473,239） | 全部统计结论的来源 |
-| 角色/场景/道具设定卡 | **1,607 张**（40k+ 条外观描述） | Step 4.5 学「锚点该怎么写具体」 |
-| 参考元素注册表 | **1,391 条**（仅 `name` + `category`） | 参考图协议 |
-| 真实修订聚类 | **4,154 组** | Step 5.5 约束加固（69.7% 修订是加长度，骨架只动 2–6%） |
-| 真实图片 prompt | **61,554 条** | 资产绑定规律（45.4% 靠枚举 keep，0.1% 列 not inherit） |
-| 故事层密度数据 `story_level/` | 137 场 · 42 转场 · 14 种冲突 · 65 条道具动线 · 16 项幕结构 · 8 组运镜弧 | 短剧/长片的节奏校准与评审参照系 |
-| 规律库 | **22 份** reference markdown（3,051 行） | 模板 / 协议 / 工艺库 / 美学圣经 |
-
-### 工具链
-
-全部零依赖（纯 Python stdlib），随包分发：
+全是零依赖（纯 Python 标准库），跟着包一起发，不用装任何东西。
 
 | 脚本 | 干什么 | 怎么跑 |
 |---|---|---|
-| `seedance_search.py` | BM25 检索 7,824 条真实范例（自动剥离源项目版权内容） | `python3 scripts/seedance_search.py "<english keywords>" 3` |
-| `diagnose_prompt.py` | 诊断你手头的 prompt：内部矛盾 / 段落缺失（对照 7,824 条出现率）/ 约束缺失（对照 4,154 组修订）/ 规格违规 | `python3 scripts/diagnose_prompt.py my-prompt.txt` |
-| `continuity_check.py` | 短剧批次交付前的连续性链核对：镜号连续、镜 N-1 end state → 镜 N start state 有实质重叠、锚点拼写一致 | `python3 scripts/continuity_check.py shots.md` |
-| `validate_structure.py` | 结构防腐：关键契约短语是否被误删、文档互相引用是否成死链、有无未完成占位符混进主干 | `python3 scripts/validate_structure.py` |
-| `eval_retrieval.py` | 检索质量评测（固定种子可复现） | `python3 scripts/eval_retrieval.py` |
+| `seedance_search.py` | 去 7,824 条真实范例里翻，自动剥掉源项目的版权内容 | `python3 scripts/seedance_search.py "<英文关键词>" 3` |
+| `diagnose_prompt.py` | 诊断你自己手头的 prompt：哪里自相矛盾、缺了哪个段、缺了哪些约束 | `python3 scripts/diagnose_prompt.py my-prompt.txt` |
+| `continuity_check.py` | 短剧交付前核对：镜号连不连、上一镜的结尾状态有没有接上下一镜的开头、锚点拼写一致吗 | `python3 scripts/continuity_check.py shots.md` |
+| `validate_structure.py` | 结构防腐：关键约定有没有被误删、文档互引有没有变死链、有没有占位符混进主干 | `python3 scripts/validate_structure.py` |
+| `eval_retrieval.py` | 检索质量评测，固定种子，可复现 | `python3 scripts/eval_retrieval.py` |
 
-### 工程质量
+### 它对自己也上闸门
 
-这个仓库对自己也上闸门。
+- **CI 门禁**（[.github/workflows/ci.yml](.github/workflows/ci.yml)）：8 步，push 和 PR 必跑——manifest 校验、依赖文件存在性、SKILL.md frontmatter、AGENTS.md 结构、检索冒烟、诊断器冒烟、结构防腐、install.sh 语法、README 双语完整性。
+- **结构防腐**：`validate_structure.py` 用**行首锚定的正则**而不是子串匹配。因为子串会造假绿——`Step 5.5` 会被 `Step 5.5x` 满足，这个洞是故意灌故障测出来的。它还把一个真实翻车记录固化成了检查项：改完分流逻辑后，`AGENTS.md` 里留了一句自相矛盾的老话，当时靠人工 grep 才发现。
+- **行为规格**：`tests/behavior-cases.json`，17 个用例、7 个类别。LLM 行为没法写断言，所以它的 `expected` 写的是自然语言验收条款，交给人或者另一个模型去判定。
+- **渲染 A/B 回环**：`eval/render_loop/`，12 个用例 × 2 组 = 24 次渲染。评分只评「指令有没有被遵循」和「技术有没有缺陷」，**不评美学**；二元判定，不打分；评分表盲测，已验证不含组别字段。四条铁律写进了它的 README：金丝雀先行、成本上限先于调用、用例冻结、计划和观测物理分开存。
 
-- **CI 门禁**（[.github/workflows/ci.yml](.github/workflows/ci.yml)）：manifest 校验 + 依赖文件存在性 + SKILL.md frontmatter + AGENTS.md 结构 + 检索冒烟 + 诊断器冒烟 + 结构防腐 + install.sh 语法 + README 双语完整性，共 8 步，push / PR 必跑。
-- **结构防腐**：`validate_structure.py` 用**行首锚定的正则**而不是子串匹配——因为子串会造出假绿（`Step 5.5` 会被 `Step 5.5x` 满足，这个漏洞是故障注入测出来的）。它把历史上真实发生过的失败固化成检查：改完分流逻辑后 `AGENTS.md` 残留了矛盾旧句，靠人工 grep 才发现。
-- **行为规格**：`tests/behavior-cases.json` 17 个用例、7 个类别（routing / platform / output-mode / asset-binding / reference-image / boundary / constraint-hardening）。LLM 行为没法断言，所以 `expected` 写的是自然语言验收条款，供人或另一个模型判定。
-- **渲染 A/B 回环**：`eval/render_loop/` 12 用例 × 2 组 = 24 次渲染。评分只评**指令遵循 + 技术缺陷**，不评美学；二元判定不分档；评分表盲测（已验证不含组别字段）。**金丝雀先行 + 成本上限先于调用 + 用例冻结 + 计划与观测物理分离**四条纪律写在 README 里。
-
-### 怎么用
-
-Agent 动手前会先问自己一个问题：你到底要什么？
+### 怎么用：它先问你一句「你到底要什么」
 
 | 你说 | 你拿到 |
 |---|---|
@@ -181,32 +215,32 @@ Agent 动手前会先问自己一个问题：你到底要什么？
 | 「为什么效果差」 | 只诊断，不擅自动你的东西 |
 | 「按原结构改」 | 定点修改，改了哪告诉你 |
 
-想体检自己手头的 prompt：
+想体检一下自己手头的 prompt：
 
 ```bash
 python3 scripts/diagnose_prompt.py my-prompt.txt
 ```
 
-### 安装
+### 装到哪
 
 ```bash
 ./install.sh                          # 自动认出你的终端
 ./install.sh --target codex           # 指定装到哪
-./install.sh --target repo --repo /path/to/your/project   # 项目级安装
+./install.sh --target repo --repo /path/to/your/project   # 装进某个项目
 ./install.sh --update                 # 更新已装版本
-./install.sh --from-local <dir>       # 从本地目录装（不走 git clone）
+./install.sh --from-local <dir>       # 从本地目录装，不走 git clone
 ```
 
-| 终端 | 安装位置 | 读什么 |
+| 终端 | 装到哪 | 读哪个文件 |
 |---|---|---|
 | **Codex** | `~/.agents/skills/shortdrama-producer`（2026 spec，USER scope） | `AGENTS.md` |
 | **Claude Code** | `~/.claude/skills/shortdrama-producer` | `SKILL.md` |
 | **WorkBuddy** | `~/.workbuddy/skills/shortdrama-producer` | `SKILL.md` |
-| **Cursor / Windsurf / Gemini CLI / Copilot** | `<repo>/.agents/skills/shortdrama-producer` | `AGENTS.md` |
+| **Cursor / Windsurf / Gemini CLI / Copilot** | `<你的项目>/.agents/skills/shortdrama-producer` | `AGENTS.md` |
 
-两条工程细节：`--update` 对 `--from-local` 装的副本会**重新同步**而不是 `git pull`（那种副本没有 `.git`，否则永远只能手删）；备份一律落在 `skills/` 的**上一层**（`skill-backups/`），否则宿主会把备份当成第二个重复 skill 注册。
+两个不太容易被注意到、但踩过坑的细节：`--update` 遇到用 `--from-local` 装的副本会**重新同步**，而不是 `git pull`——那种副本没有 `.git`，不这样处理就永远只能手删；备份一律落在 `skills/` 的**上一层**（`skill-backups/`），因为宿主会扫 `skills/`，备份放里面会被当成第二个重复 skill 注册进去。
 
-### 仓库结构
+### 目录长这样
 
 ```
 shortdrama-producer-agent/
@@ -214,34 +248,34 @@ shortdrama-producer-agent/
 ├── SKILL.md                  # skill 兼容层（Claude Code / WorkBuddy）
 ├── manifest.json             # 包元数据 + 依赖清单 + 数据规模（CI 校验）
 ├── agents/openai.yaml        # OpenAI / ChatGPT 侧元数据与调用策略
-├── install.sh                # 跨终端安装/更新
+├── install.sh                # 跨终端安装 / 更新
 ├── scripts/                  # 5 个零依赖工具 + 7,824 条语料
-├── references/               # 22 份规律库 + 设定卡 JSON + 参考注册表 + story_level 密度数据
+├── references/               # 22 份规律库 + 设定卡 JSON + 参考注册表 + 故事层密度数据
 ├── docs/                     # 3 张架构图（SVG 源文件）
 ├── tests/behavior-cases.json # 17 条对话行为规格
-├── eval/render_loop/         # 渲染 A/B 台架（开发期评测工具，非运行时功能）
+├── eval/render_loop/         # 渲染 A/B 台架（开发期评测工具，不是运行时功能）
 ├── NOTICE.md                 # 语料来源、匿名化范围、第三方权利
 └── .github/workflows/ci.yml  # 8 步门禁
 ```
 
 ### 几条底线
 
-- **每条规则都是测出来的，不是编的。** 追溯不到统计数据的经验不进库；二手消息如实标注。
-- **自主的意思是你不用干技术活**，不是它从来不问。只有猜错代价大的问题它才问，一次问清，给选项，不烦你。
-- **学写法，不抄内容。** 参考项目的角色、道具、世界观在黑名单里，绝不会出现在你的产出里。检索输出环节自动把锚点替换为 `<<<CHARACTER_1>>>` 这类匿名标签，并剥离台词歌词原文。
-- **确定性可判的问题不进会议。** 凡是 `continuity_check.py` 这类脚本能机械判定的事，一律走硬约束，不投票。
+- **它不编。** 追溯不到统计数据的经验不进库；二手消息如实标注。
+- **自主的意思是你不干技术活**，不是它从来不问。只问猜错代价大的事，一次问清，给选项，不烦你。
+- **学写法，不抄内容。** 参考项目的角色、道具、世界观在黑名单里，绝不会出现在你的产出里。检索输出时会自动把锚点换成 `<<<CHARACTER_1>>>` 这类匿名标签，台词歌词原文一并剥掉。
+- **能机械判定的事不投票。** 凡是 `continuity_check.py` 这类脚本能搞定的事，走硬约束，不进会议。
 
-### 说实话的部分
+### 它不敢吹的地方
 
-这个项目的卖点之一是**不吹**。
+这个项目的卖点之一，是**不吹**。
 
-- ⚠️ **成片质量还没经过真实渲染验证。** A/B 测试框架（`eval/render_loop/`）备好了，24 条 prompt 准备好了，金丝雀纪律立好了——但渲染还没跑（本机无任何 Seedance / 火山方舟 / Higgsfield 凭据）。跑完之前，我们不对真实成片质量吹一句牛。**管道就绪 ≠ 质量已验证。**
-- ⚠️ **会议层的质量收益尚无 A/B 证据，实验已暂停。** 会议层已在短剧 / 长片默认开启，但这是**有意接受的取舍**：先上线拿真实使用数据，暂不为它单独跑 A/B。在实验出结果前，不要在对外材料里宣称它提升了质量。若 A/B 显示下尾指标亦无改善，应放弃会议层、退回单主体 + 强化自检。
-- 检索语料里 Hell Grind 是 0.9% 抽样，Cully Hill Boys 是去重后的全文件夹覆盖。
-- 平台数据部分来自二手来源，已标注未验证。**真机 UI 永远比这个仓库大。**
-- 部分设计依据来自**预印本**（如 arXiv:2509.23055 的 Disagreement Collapse Rate 41.27% vs 86.36%），表述为「实验显示」而非「已证实」。会议层 30% 预算上限是**可调初始值**，不是实证结论。
+- ⚠️ **成片质量还没经过真实渲染验证。** A/B 台架备好了，24 条 prompt 准备好了，金丝雀纪律立好了——但渲染还没跑，因为这台机器上没有任何 Seedance / 火山方舟 / Higgsfield 凭据。跑完之前，我们不对真实成片质量说一句大话。**管道就绪 ≠ 质量已验证。**
+- ⚠️ **会议层的质量收益还没有 A/B 证据，实验是暂停状态。** 它在短剧和长片下默认开着，但这是**有意接受的取舍**：先上线拿真实使用数据，暂不为它单独跑 A/B。在实验出结果之前，任何对外材料里都别说它提升了质量。如果 A/B 显示连下尾指标都没改善，就应该把会议层砍掉，退回单主体 + 强化自检。
+- 检索语料里，Hell Grind 是 0.9% 抽样，Cully Hill Boys 是去重后的全文件夹覆盖。
+- 平台数据有一部分来自二手来源，已标注未验证。**真机 UI 永远比这个仓库大。**
+- 部分设计依据来自**预印本**（比如那个 41.27% vs 86.36% 的数字），表述是「实验显示」而不是「已证实」。会议层那个 30% 的预算上限是**可调初始值**，不是实证结论。
 
-### 自己动手验证
+### 自己验一遍
 
 ```bash
 python3 scripts/validate_structure.py   # 结构有没有烂掉
@@ -253,9 +287,9 @@ python3 scripts/continuity_check.py     # 短剧批次连续性链核对
 
 这个项目站在别人的肩膀上：
 
-- **[Emily2040/seedance-2.0](https://github.com/Emily2040/seedance-2.0)**（MIT，by @iamemily2050）——`quick-ref.md` 的模式、连续性链检查与评测纪律的血缘来源
+- **[Emily2040/seedance-2.0](https://github.com/Emily2040/seedance-2.0)**（MIT，by @iamemily2050）——`quick-ref.md` 的模式、连续性链检查、评测纪律，血缘都在这儿
 - **[slipknot0130/Film-Production-Toolkit](https://github.com/slipknot0130/Film-Production-Toolkit)**（MIT，by @slipknot0130）
-- 语料来源项目的创作者们（Hell Grind / Cully Hill Boys 公开资产）——匿名化范围见 [NOTICE.md](NOTICE.md)。
+- 语料来源项目的创作者们（Hell Grind / Cully Hill Boys 的公开资产）——匿名化范围见 [NOTICE.md](NOTICE.md)
 
 ### 许可证
 
@@ -266,7 +300,20 @@ MIT License · Copyright (c) 2026 Eleven1111 · [LICENSE](LICENSE) ·
 
 ## English
 
-### Quick start in 30 seconds
+**Just say it out loud. From one plain sentence to a shot-ready video prompt.**
+
+You don't know how to write prompts. You shouldn't have to.
+
+"A rainy night. A girl waiting outside a convenience store." That's all the detail it needs. Focal length, aspect ratio, lighting, negative constraints, whatever your platform actually allows — none of it is your problem. What comes back is a complete prompt you can paste straight into Seedance, Kling or Gemini Omni.
+
+Why is it that good? Because every line in the library was measured across **588,686 real production assets**. Not "I feel this reads better" — "45.4% of real creators actually do it this way."
+
+Runs on Claude Code · Codex · Cursor · Windsurf · Gemini CLI · GitHub Copilot · WorkBuddy.
+It writes prompts and scripts. It never hits *Generate* for you, and it never burns your tokens.
+
+**Current version v3.17.0** · Architecture diagrams in [docs/](docs)
+
+### Get it running
 
 ```bash
 git clone https://github.com/Eleven1111/shortdrama-producer-agent.git
@@ -279,37 +326,119 @@ Restart your terminal, then just talk:
 A rainy night. A girl waiting outside a convenience store.
 ```
 
-That's it. Focal lengths, aspect ratios, negative constraints, platform ceilings — the agent's job, not yours.
+That's it. There genuinely is no second step.
 
-### What it actually does for you
+### What it actually keeps you out of
 
-Short version: **it saves you the tuition of failed renders.**
+The hard part of writing a video prompt isn't finding the words. It's not knowing when you're wrong.
 
-### Highlights
+Write "cinematic, 4k, masterpiece" and nobody stops you — it just does nothing. Your character looks right in shot one and has a different face by shot five, so you start over. You build a 60-second sequence only to learn the platform caps at 15.
 
-Ten of them, each with a number attached.
+All three get caught **before** generation. Not an apology afterwards — you simply never receive the broken version.
 
-1. **Every rule traces back to data.** Rules only enter the library if they were measured across **588,686 real production assets** (Hell Grind 115,447 + Cully Hill Boys 473,239). Second-hand figures are labelled unverified. This is not "it felt better when I did it this way" — it is "45.4% of 61,554 real image prompts do it this way".
+Here's how it manages that.
 
-2. **It reads real crews before it writes.** A bundled zero-dependency BM25 retriever pulls from **7,824 real production prompts** (mean length 1,622 words) so the output mimics how the industry actually writes — not the "cinematic, 4k" AI smell. Measured retrieval: 80% at top-1, 100% at top-5 (fixed seed, reproducible).
+### It doesn't guess. It measures.
 
-3. **A full directorial craft layer sits underneath.** 14 sections: one intention per shot, light as emotion (direction=emotion, contrast-ratio ladder, declared practical source), and every shot typed by an ending profile (resolve / extension anchor / loop seam / hero hold / edit point / reveal-punch). Footage feels *filmed*, not *generated*.
+This field has no shortage of "I think this reads better." So the library has one hard rule: **an idea needs data before it ships.** If it can't be backed, it gets cut.
 
-4. **Faces don't drift — because images anchor them, not prose.** **87.32% of source assets carry `reference_elements`** and **46.8% carry a `_vN` version tag** (one character has 28 versions). So the mechanism grew out of the data: three-panel character sheets + verbatim anchors + a version registry. State changes (injured / soaked / changed clothes) are made by **editing the sheet into a new version** — never by re-describing the change in each shot's video prompt.
+588,686 real assets sit behind it (115,447 from Hell Grind, 473,239 from Cully Hill Boys). Frequencies, revision patterns, distributions — all measured. Where it couldn't be measured, it says "unverified" instead of pretending.
 
-5. **One system, any scale.** One prompt, a short drama, a feature film — same rules throughout. Short drama adds a per-shot loop; long-form adds a five-layer state stack (project bible → episode bible → scene card → batch state machine → shot), each layer with a freeze point. Episode rhythm is calibrated on **137 scenes / 42 transitions / 14 conflict patterns** of measured density, not on generic screenwriting advice.
+A concrete example of why that matters.
 
-6. **Switch models without relearning.** Seedance is native; name Gemini Omni, Kling, Veo, Sora, Runway, Hailuo, Jimeng, Vidu, Wan or Pika and it declares **nine capability axes** first (version / dialect / duration / reference conditioning / same-pass audio / ratio / length cap / camera vocabulary / language), then translates. The directing stays, only the grammar changes.
+Among real creators handling reference images, **45.4% enumerate what to keep, while only 0.1% list what not to inherit.**
 
-7. **Twelve gates before delivery, not apologies after.** Mode, spec header, anchors, action payoff, camera motivation, light, three audio tracks, ≥5 negative constraints, style anchor, fidelity budget, ending profile, sequence chain. Fails loop back for a rewrite.
+That single number rewrote its behaviour. It now forces itself to write the keep-list out in full — because **whatever you don't write down is exactly what the model invents.** Say "use this face" and it understands the whole visible person: face, hair, build, every garment, shoes, accessories. Say nothing about the background and the background comes along for the ride.
 
-8. **Want to think it through out loud? Open a Concept Symposium (human–machine).** Say "let's talk it through first" and it diverges across **five structurally different seats** (producer / writer / director / troublemaker / audience advocate), one line each, no filtering, no ranking — then converges into a single **concept card** that feeds downstream. The hard rule: **the agent diverges, it never decides for you.** The troublemaker seat is mandatory; a round with only agreement counts as unfinished.
+No one writing prompts by feel ever thinks of that layer.
 
-9. **Batch production gets a Meeting Layer (agent-to-agent), on by default for short drama and long-form.** Three optional insert points — proposal / character / review meeting: independent proposals → low-bandwidth cross-critique → centralised adjudication (adopt / absorb / reject) → independent restatement after convergence → MoA-style synthesis. It fills a precise structural gap: **all 7 self-checks lived in the format layer; none could veto a story-level decision, and no role was authorised to question the skeleton.**
+### It reads real crews before it writes
 
-10. **The review log is itself an audit trail.** Every critique carries a role id, a target id and a **falsifiable failure reason** — machine-readable evidence for "review consultation" and "review before release" regimes. **Even if the quality gain is marginal, auditability alone can be a sufficient reason to adopt it.**
+**7,824 real production prompts** ship inside the package, averaging 1,622 words each. It retrieves before generating, so what it learns is how actual sets write — camera position, light, movement — not how a blog post about prompts writes.
 
-### Architecture
+Measured retrieval: 80% at top-1, 100% at top-5. Fixed seed, so you can reproduce it.
+
+### There's a director standing behind the camera
+
+A 14-section craft layer sits underneath. One intention per shot. Light isn't illumination, light is emotion. Every shot needs an ending — a release, a hook to keep watching, a "look here" — and you decide which before you write.
+
+Which is why the footage reads as *filmed* rather than *generated*.
+
+### Faces don't drift, because images anchor them — not prose
+
+This one grew entirely out of data. Nobody sat down and guessed it.
+
+**87.32% of source assets carry reference images.** **46.8% carry version tags** (`_v2`, `_v3`), and one character accumulated 28 versions.
+
+The conclusion is blunt: **text cannot anchor a face. Images can.**
+
+So: a three-panel character sheet first (front full-body / back full-body / close-up), referenced by every shot after that. Character gets injured, soaked, changed? **Edit the sheet into a new version** — don't re-describe the change in each shot's video prompt.
+
+The first approach works once. The second drifts even after you write it ten times.
+
+### One shot, one short drama, one feature film — learn it once
+
+Same rules throughout. No mental gear change.
+
+Short drama adds a per-shot loop. Long-form stacks five layers on top — project bible → episode bible → scene card → batch state machine → shot — every layer with a freeze point, so that by shot 40 your character hasn't quietly become someone else.
+
+The rhythm isn't guesswork either. 137 scenes, 42 transitions, 14 conflict types of measured density are sitting right there to calibrate against — not a generic screenwriting textbook.
+
+### Switching models just switches dialect
+
+Seedance is the native tongue. Name Gemini Omni, Kling, Veo, Sora, Runway, Hailuo, Jimeng, Vidu, Wan or Pika, and it settles nine things first — version, dialect, duration ceiling, how references are consumed, whether audio comes out in the same pass, ratio, camera vocabulary, language — then translates the grammar.
+
+Grammar gets translated. Intent doesn't. You never have to relearn how to be a director for a new model.
+
+### Twelve gates before it hands anything over
+
+This one needs no explanation. Twelve items checked one by one: mode, spec header, character anchors, whether the action pays off, whether the camera move has a motive, light, three audio tracks, at least five negative constraints, style anchor, fidelity budget, ending profile, sequence chain.
+
+Any single failure sends it back for a rewrite. **What reaches you already cleared the gate.**
+
+### Want to think it through first? Hold a symposium.
+
+This part is for humans, not for machines.
+
+Say "let's talk it through first" and it won't fire back with *"what style are you after?"* — the most annoying question in the world, because you don't know either. It opens a session instead.
+
+You get five options at once that are **genuinely different**, from five different seats. The producer cares whether anyone finishes watching. The writer cares whether there's a real dramatic core. The director cares what it will actually look like. The troublemaker exists purely to poke holes. And one seat always watches out for the only question that matters: *what do you actually want?*
+
+One line each. No ranking, no recommendation — **it will not decide for you.**
+
+Reply with a number, or "①+③", or even "none of these, but the direction of ②" — all of it counts. Then it collapses into a single concept card and gets to work.
+
+One rule here is unusually strict: the troublemaker seat is mandatory. **A round with no genuine challenge counts as unfinished and gets reissued.**
+
+Why so serious about it? Because the AI failure mode was never refusing to speak. It's **agreeing with you**.
+
+### In batch production, the agents hold meetings too
+
+On by default for short drama and long-form; off by default for a single shot. The split is deliberate — meetings cost tokens, and convening one for a 10-second shot isn't worth it. Say "no meeting" to switch it off.
+
+It fills a very specific hole.
+
+All 7 original self-checks lived in the format layer. **None of them could veto a story-level decision, and no role was authorised to question the skeleton.** 4,154 real revision clusters confirm the consequence: 69.7% of revisions add length and constraints, while the skeleton moves 2–6%. **Nobody touches the skeleton, because nothing in the pipeline owns it.**
+
+Three meetings, clearly divided: a proposal meeting once after Step 3, a character meeting whenever a new character appears or an asset binding conflicts, and a review meeting before each batch of shots ships.
+
+The flow: independent proposals → note-passing critique → one adjudicator rules → each writer restates it → synthesis.
+
+"Note-passing" is literal. The critique round carries only *which passage, how severe, what kind of problem, one-line reason* — no full text, no complete alternative. Researchers found that once full solutions get exchanged, opinions converge **within a single round** — the loss happens at the moment of exchange.
+
+And an honest floor: three runtime tiers. If it can spawn genuinely isolated contexts, that's a real meeting. If it can only role-play sequentially in one context, the deliverable must say "independence not fully guaranteed." If it can't separate roles at all, it gets labelled **"not collectively reviewed."**
+
+**Faking a meeting is worse than skipping one.**
+
+### The review log is itself a deliverable audit trail
+
+Every critique carries a role, a target and a **falsifiable failure reason** — machine-readable.
+
+Against "review before release" and "review consultation" requirements, that log is directly usable.
+
+So, plainly: **even if the quality gain turns out marginal, auditability alone may be reason enough to adopt it.**
+
+### How it flows
 
 Three diagrams cover the whole information flow (SVG sources in [docs/](docs)):
 
@@ -322,7 +451,7 @@ Three diagrams cover the whole information flow (SVG sources in [docs/](docs)):
 ![Long-form five-layer state stack](docs/architecture-longform.svg)
 *For long-form (≥3 episodes / ≥60 shots / film), a five-layer stack goes on top: project bible → episode bible → scene card → batch state machine → shot. Each layer has a freeze point, so nobody's character falls apart halfway through.*
 
-### Three production modes
+### Three scales, three deliveries
 
 | You're making | Trigger | You get |
 |---|---|---|
@@ -330,91 +459,41 @@ Three diagrams cover the whole information flow (SVG sources in [docs/](docs)):
 | A short drama | multi-shot / storyboard | story breakdown · character-sheet prompts · continuity bible · shotlist · per-shot state machine |
 | A long-form piece | ≥3 episodes / ≥60 shots / film | five-layer state stack · measured episode rhythm · style-pilot batch · cross-episode version registry |
 
-### Two optional deep channels
-
-#### Concept Symposium — human and agent, before production
-
-Not a questionnaire. It **hands you options and you decide**. Off by default; never forced on someone who just wants a clip fast.
-
-| | Clarification protocol (default lane) | Concept symposium (deep channel) |
-|---|---|---|
-| When | 1–2 dimensions given; at most 2 option-style questions | You say "let's talk first / hold on, brainstorm with me" |
-| Shape | Fast convergence, straight to work | Three acts: framing → divergence (1–2 rounds) → convergence |
-| Who decides | — | **You.** The agent is forbidden to converge into a "final plan" before you speak |
-| Output | Step 3 brief | A **concept card** (premise / dramatic core / central conflict / tone / ending / cut options / open assumptions) → feeds the same downstream |
-
-**Heterogeneity discipline**: cover the seat labels and you should still be able to guess which line came from which seat. Two lines that are just paraphrases count as one — reissue.
-
-```
-① [Writer]   {one-line option} → {what the footage becomes}
-② [Director] …
-③ [Producer] …
-④ [Troublemaker] ⚠ {a challenge to the premise, not an option}
-⑤ [Audience advocate] …
-```
-
-#### Meeting Layer — agent-to-agent, during production
-
-**Default switch is graded by mode**: single shot **off**, short drama / long-form **on**.
-
-| Layer | Insert point | Trigger | What runs |
-|---|---|---|---|
-| **Proposal** | after Step 3 / before Step 4 | ≤2 intent dimensions, or low retrieval confidence | 2–3 independent proposals → low-bandwidth critique → adjudication |
-| **Character** | around Step 4.5 | New character (no card) or asset-binding conflict | Asset inheritance arbitration (**almost never skippable**) |
-| **Review** | before Step 5 | Short-drama mode, or ≥1 prior revision round | Multi-role critiques → ruling → revision → then the format gate |
-
-- **Explicit override**: "no meeting / quick / just show me" → off for this run. "Hold a meeting / strict mode / I want the review log" → forced on (even for a single shot).
-- **Forced order**: collective adjudication **first**, format self-check **after**. Fix the skeleton before polishing compliance.
-- **Low-bandwidth critique**: the exchange carries only `{target_id, severity, issue_type, one-line failure reason}` — **no full text, no complete alternative**. Swapping full solutions drops mean pairwise distance from 0.315 to 0.229 **within one round** — the loss happens at the moment of exchange.
-- **Two anti-degradation targets**: Target A "afraid to speak" → criticism never feeds back into a critic's own competence score, veto power is isolated from execution gates, criticise proposals not people. Target B "goes along to get along" (AI-specific) → no citing the decider's preference as an argument, disagreement before agreement is mandatory, failure reasons must be falsifiable, ≥1 designated troublemaker and no all-peacemaker line-up.
-- **Honest degradation**: three runtime tiers. Tier 1 spawns isolated contexts → true concurrency. Tier 2, single context, sequential role-play → the deliverable must carry "independence not fully guaranteed". Tier 3, no role separation → fall back to hardened self-check and label the run **"not collectively reviewed"**. **Simulated output must never be reported as an independent proposal.**
-
-```
-Step 4.6 → review meeting (multi-role critiques) → adjudication (three states) → revise per ruling
-         → Step 5 seven-item self-check (as a gate) → Step 5.5 constraint hardening → Step 6 deliver
-```
-
-> ⚠️ The meeting layer costs **multi-agent-order tokens**, and the "≤30% of main pipeline" budget ceiling is a **design suggestion with no empirical basis**. If cost matters more, just say "no meeting".
-
 ### The data underneath
 
-Everything in `references/` and `scripts/` is a product of this measured corpus, not guesswork.
+Nothing in `references/` or `scripts/` was written from thin air. All of it is a product of this corpus.
 
-| Asset | Scale | What it powers |
-|---|---|---|
-| Retrieval corpus `seedance_corpus.jsonl.gz` | **7,824** real production prompts (562 gold, mean 1,622 words) | Step 2 example retrieval; the diagnoser's section baselines |
-| Raw collection | **588,686** assets (Hell Grind 115,447 + Cully Hill Boys 473,239) | Source of every statistic here |
-| Character / environment / prop cards | **1,607** cards (40k+ appearance descriptions) | Step 4.5 — how specific an anchor line should be |
-| Reference-element registry | **1,391** entries (`name` + `category` only) | Reference-image protocol |
-| Real revision clusters | **4,154** | Step 5.5 hardening (69.7% of revisions add length; skeletons move 2–6%) |
-| Real image prompts | **61,554** | Asset-binding rules (45.4% enumerate what to keep; 0.1% list what not to inherit) |
-| Story-layer density `story_level/` | 137 scenes · 42 transitions · 14 conflict types · 65 prop journeys · 16 act-structure points · 8 movement arcs | Short-drama / long-form rhythm calibration and the review reference frame |
-| Rule library | **22** reference markdown files (3,051 lines) | Templates / protocols / craft libraries / style bible |
+| Asset | Scale |
+|---|---|
+| Retrieval corpus | **7,824** real production prompts (562 gold, mean 1,622 words) |
+| Raw collection | **588,686** assets (Hell Grind 115,447 + Cully Hill Boys 473,239) |
+| Character / environment / prop cards | **1,607** cards, 40k+ appearance descriptions |
+| Reference-element registry | **1,391** entries (`name` + `category` only) |
+| Real revision clusters | **4,154** |
+| Real image prompts | **61,554** |
+| Story-layer density | 137 scenes · 42 transitions · 14 conflict types · 65 prop journeys · 16 act-structure points · 8 movement arcs |
+| Rule library | **22** reference documents, 3,051 lines |
 
-### Toolchain
+### Five small tools, all in the box
 
-All zero-dependency (pure Python stdlib), shipped with the package:
+Zero dependencies (pure Python stdlib). They ship with the package; there's nothing to install.
 
 | Script | Does | Run |
 |---|---|---|
-| `seedance_search.py` | BM25 over 7,824 real examples (strips source-project copyrighted content automatically) | `python3 scripts/seedance_search.py "<english keywords>" 3` |
-| `diagnose_prompt.py` | Diagnoses a prompt you already have: contradictions / missing sections (vs 7,824-prompt rates) / missing constraints (vs 4,154 revisions) / spec violations | `python3 scripts/diagnose_prompt.py my-prompt.txt` |
-| `continuity_check.py` | Pre-delivery short-drama chain check: numbering, end→start overlap, anchor spelling | `python3 scripts/continuity_check.py shots.md` |
-| `validate_structure.py` | Anti-rot: contract phrases still present, cross-references not dead links, no unfinished placeholders in the trunk | `python3 scripts/validate_structure.py` |
-| `eval_retrieval.py` | Retrieval evaluation (fixed seed, reproducible) | `python3 scripts/eval_retrieval.py` |
+| `seedance_search.py` | Digs through 7,824 real examples, stripping source-project copyrighted content | `python3 scripts/seedance_search.py "<english keywords>" 3` |
+| `diagnose_prompt.py` | Diagnoses a prompt you already have: contradictions, missing sections, missing constraints | `python3 scripts/diagnose_prompt.py my-prompt.txt` |
+| `continuity_check.py` | Pre-delivery check: numbering, does shot N-1's ending state connect to shot N's opening, anchor spelling | `python3 scripts/continuity_check.py shots.md` |
+| `validate_structure.py` | Anti-rot: contract phrases still present, cross-references not dead, no placeholders in the trunk | `python3 scripts/validate_structure.py` |
+| `eval_retrieval.py` | Retrieval quality, fixed seed, reproducible | `python3 scripts/eval_retrieval.py` |
 
-### Engineering quality
+### It gates itself, too
 
-The repo gates itself too.
+- **CI** ([.github/workflows/ci.yml](.github/workflows/ci.yml)): eight steps, mandatory on push and PR — manifest, dependency existence, SKILL.md frontmatter, AGENTS.md structure, retrieval smoke, diagnoser smoke, anti-rot, install.sh syntax, README bilingual completeness.
+- **Anti-rot**: `validate_structure.py` matches **line-anchored regexes rather than substrings**, because substrings produce false greens — `Step 5.5` is satisfied by `Step 5.5x`, and that hole was found by deliberately injecting a fault. It also fossilised a real incident into a check: after a routing change, `AGENTS.md` kept a contradictory stale sentence that only a manual grep caught.
+- **Behaviour spec**: `tests/behavior-cases.json`, 17 cases across 7 categories. LLM behaviour can't be asserted, so `expected` is written as natural-language acceptance criteria for a human or another model to judge.
+- **Render A/B loop**: `eval/render_loop/`, 12 cases × 2 arms = 24 renders. Grading covers instruction-following and technical defects only, **never aesthetics**; binary pass/fail/n/a, no numeric scale; the grading sheet is blind (verified to contain no arm field). Four rules are written into its README: canary first, cost ceiling before any call, cases frozen after preparation, and plan rows physically separated from observation rows.
 
-- **CI** ([.github/workflows/ci.yml](.github/workflows/ci.yml)): manifest + dependency existence + SKILL.md frontmatter + AGENTS.md structure + retrieval smoke + diagnoser smoke + anti-rot + install.sh syntax + README bilingual completeness. Eight steps, mandatory on push / PR.
-- **Anti-rot**: `validate_structure.py` matches **line-anchored regexes rather than substrings** — substrings produce false greens (`Step 5.5` is satisfied by `Step 5.5x`; that hole was found by fault injection). It freezes a real past failure into a check: after a routing change, `AGENTS.md` kept a contradictory stale sentence that only a manual grep caught.
-- **Behaviour spec**: `tests/behavior-cases.json`, 17 cases across 7 categories (routing / platform / output-mode / asset-binding / reference-image / boundary / constraint-hardening). LLM behaviour can't be asserted, so `expected` is written as natural-language acceptance criteria for a human or another model to judge.
-- **Render A/B loop**: `eval/render_loop/` — 12 cases × 2 arms = 24 renders. Grading covers **instruction-following and technical defects only, never aesthetics**; binary pass/fail/n/a, never a 1–5 scale; the grading sheet is blind (verified: no arm/case_id fields). Four disciplines are written into the README: canary first, cost ceiling before any call, cases frozen after `--prepare`, and plan rows physically separated from observation rows.
-
-### How to use it
-
-Before doing anything, the agent asks itself one question: what do you actually want?
+### How to use it: it asks itself one question first — what do you actually want?
 
 | You say | You get |
 |---|---|
@@ -430,36 +509,36 @@ Health-check a prompt you already have:
 python3 scripts/diagnose_prompt.py my-prompt.txt
 ```
 
-### Install
+### Where it installs
 
 ```bash
 ./install.sh                          # finds your terminal automatically
 ./install.sh --target codex           # or pick one
-./install.sh --target repo --repo /path/to/your/project   # repo-scoped install
+./install.sh --target repo --repo /path/to/your/project   # install into a project
 ./install.sh --update                 # update an existing install
 ./install.sh --from-local <dir>       # copy from a local dir instead of git clone
 ```
 
-| Terminal | Install location | Reads |
+| Terminal | Installs to | Reads |
 |---|---|---|
 | **Codex** | `~/.agents/skills/shortdrama-producer` (2026 spec, USER scope) | `AGENTS.md` |
 | **Claude Code** | `~/.claude/skills/shortdrama-producer` | `SKILL.md` |
 | **WorkBuddy** | `~/.workbuddy/skills/shortdrama-producer` | `SKILL.md` |
-| **Cursor / Windsurf / Gemini CLI / Copilot** | `<repo>/.agents/skills/shortdrama-producer` | `AGENTS.md` |
+| **Cursor / Windsurf / Gemini CLI / Copilot** | `<your project>/.agents/skills/shortdrama-producer` | `AGENTS.md` |
 
-Two engineering details: `--update` on a `--from-local` install **re-syncs** rather than `git pull` (those copies have no `.git`, so otherwise they could only ever be deleted by hand); and backups always land one level **outside** `skills/` (`skill-backups/`), because otherwise the host scans them and registers a second, duplicate skill.
+Two easy-to-miss details, both learned the hard way: `--update` on a `--from-local` install **re-syncs** rather than running `git pull` (those copies have no `.git`, so otherwise they could only ever be deleted by hand); and backups always land one level **outside** `skills/` (`skill-backups/`), because the host scans that directory and would register the backup as a second, duplicate skill.
 
-### Repository layout
+### What the tree looks like
 
 ```
 shortdrama-producer-agent/
 ├── AGENTS.md                 # 2026 cross-tool standard (Codex/Cursor/Windsurf/Gemini/Copilot/Claude Code)
 ├── SKILL.md                  # skill-compatible layer (Claude Code / WorkBuddy)
-├── manifest.json             # package metadata + dependency list + data scale (CI-validated)
+├── manifest.json             # package metadata + dependencies + data scale (CI-validated)
 ├── agents/openai.yaml        # OpenAI / ChatGPT metadata and invocation policy
 ├── install.sh                # cross-terminal install / update
 ├── scripts/                  # 5 zero-dependency tools + the 7,824-doc corpus
-├── references/               # 22 rule-library markdowns + card JSON + ref registry + story_level density
+├── references/               # 22 rule-library docs + card JSON + ref registry + story-layer density
 ├── docs/                     # 3 architecture diagrams (SVG sources)
 ├── tests/behavior-cases.json # 17 conversational behaviour specs
 ├── eval/render_loop/         # render A/B harness (dev-time evaluation, not a runtime feature)
@@ -469,22 +548,22 @@ shortdrama-producer-agent/
 
 ### A few ground rules
 
-- **Every rule was measured, not invented.** If a piece of advice can't be traced to data, it doesn't ship. Second-hand info is labelled as such.
-- **Autonomy means you never do the technical work** — not that it never asks. It only asks when guessing wrong is expensive: concrete options, one round, then it gets out of your way.
-- **Learn the writing, never take the content.** Source-project characters, props and world settings are blocklisted from your output. The retrieval layer anonymises anchors into labels like `<<<CHARACTER_1>>>` and strips verbatim dialogue and lyrics.
-- **Deterministic problems never enter a meeting.** Anything a script like `continuity_check.py` can decide mechanically goes through a hard constraint; it does not get a vote.
+- **It doesn't invent.** Advice that can't be traced to data doesn't ship. Second-hand figures are labelled.
+- **Autonomy means you never do the technical work** — not that it never asks. It only asks when guessing wrong is expensive: concrete options, one round, then out of your way.
+- **Learn the writing, never take the content.** Source-project characters, props and world settings are blocklisted from your output. Retrieval anonymises anchors into labels like `<<<CHARACTER_1>>>` and strips verbatim dialogue and lyrics.
+- **Mechanically decidable problems don't get a vote.** Anything a script like `continuity_check.py` can settle goes through a hard constraint, not a meeting.
 
-### The honest part
+### Where it refuses to brag
 
 Not bragging is one of this project's selling points.
 
-- ⚠️ **Output quality is not yet validated against real renders.** The A/B harness (`eval/render_loop/`) is ready, 24 prompts are prepared, canary discipline is in place — but the renders haven't run (no Seedance / Volcano Ark / Higgsfield credentials on this machine). Until then, we make zero claims about real-world output quality. **A ready pipeline is not a verified quality claim.**
-- ⚠️ **The meeting layer's quality gain has no A/B evidence, and that experiment is paused.** It ships on by default for short drama / long-form, but that is a deliberately accepted trade-off: get real usage data first rather than run a dedicated A/B. Until results land, do not claim in any external material that it improves quality. If the A/B shows no improvement in the lower tail either, the layer should be dropped and the pipeline returned to single-subject + hardened self-check.
-- Retrieval covers Hell Grind at 0.9% sampling; Cully Hill Boys is cluster-deduplicated at full folder coverage.
+- ⚠️ **Output quality is not yet validated against real renders.** The A/B harness is ready, 24 prompts are prepared, canary discipline is in place — but the renders haven't run, because there are no Seedance / Volcano Ark / Higgsfield credentials on this machine. Until they do, we make zero claims about real-world output quality. **A ready pipeline is not a verified quality claim.**
+- ⚠️ **The meeting layer's quality gain has no A/B evidence, and that experiment is paused.** It ships on by default for short drama and long-form, but that's a deliberately accepted trade-off: get real usage data first rather than run a dedicated A/B now. Until results land, don't claim in any external material that it improves quality. If the A/B shows no improvement in the lower tail either, the layer should be dropped and the pipeline returned to single-subject plus hardened self-check.
+- Hell Grind is sampled at 0.9%; Cully Hill Boys is cluster-deduplicated at full folder coverage.
 - Some platform figures come from second-hand sources and are marked unverified. **The live product UI always outranks this repo.**
-- Some design evidence comes from **preprints** (e.g. arXiv:2509.23055's Disagreement Collapse Rate, 41.27% vs 86.36%), stated as "experiments show", not "proven". The meeting layer's 30% budget ceiling is a **tunable initial value**, not an empirical finding.
+- Some design evidence comes from **preprints** (that 41.27% vs 86.36% figure, for instance), stated as "experiments show" rather than "proven". The meeting layer's 30% budget ceiling is a **tunable initial value**, not an empirical finding.
 
-### Verify it yourself
+### Check it yourself
 
 ```bash
 python3 scripts/validate_structure.py   # has the structure rotted?
@@ -498,7 +577,7 @@ This project stands on the shoulders of:
 
 - **[Emily2040/seedance-2.0](https://github.com/Emily2040/seedance-2.0)** (MIT, by @iamemily2050) — lineage for the `quick-ref.md` pattern, the continuity chain check and the evaluation discipline
 - **[slipknot0130/Film-Production-Toolkit](https://github.com/slipknot0130/Film-Production-Toolkit)** (MIT, by @slipknot0130)
-- The creators behind the source corpora (public Hell Grind / Cully Hill Boys assets) — anonymisation scope in [NOTICE.md](NOTICE.md).
+- The creators behind the source corpora (public Hell Grind / Cully Hill Boys assets) — anonymisation scope in [NOTICE.md](NOTICE.md)
 
 ### License
 
