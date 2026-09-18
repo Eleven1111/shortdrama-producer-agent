@@ -32,7 +32,7 @@ git clone https://github.com/Eleven1111/shortdrama-producer-agent.git
 cd shortdrama-producer-agent && ./install.sh
 ```
 
-重启终端，然后说人话：
+重启终端，用平常说话的口气告诉它就行：
 
 ```
 雨夜，一个女孩在便利店门口等人
@@ -320,7 +320,7 @@ git clone https://github.com/Eleven1111/shortdrama-producer-agent.git
 cd shortdrama-producer-agent && ./install.sh
 ```
 
-Restart your terminal, then just talk:
+Restart your terminal, then describe it however you'd say it out loud:
 
 ```
 A rainy night. A girl waiting outside a convenience store.
