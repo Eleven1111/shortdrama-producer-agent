@@ -287,7 +287,7 @@ python3 scripts/continuity_check.py     # 短剧批次连续性链核对
 
 这个项目站在别人的肩膀上：
 
-- **[Emily2040/seedance-2.0](https://github.com/Emily2040/seedance-2.0)**（MIT，by @iamemily2050）——`quick-ref.md` 的模式、连续性链检查、评测纪律，血缘都在这儿
+- **[Emily2040/seedance-2.0](https://github.com/Emily2040/seedance-2.0)**（MIT，by @iamemily2050）
 - **[slipknot0130/Film-Production-Toolkit](https://github.com/slipknot0130/Film-Production-Toolkit)**（MIT，by @slipknot0130）
 - 语料来源项目的创作者们（Hell Grind / Cully Hill Boys 的公开资产）——匿名化范围见 [NOTICE.md](NOTICE.md)
 
@@ -575,7 +575,7 @@ python3 scripts/continuity_check.py     # short-drama continuity chain check
 
 This project stands on the shoulders of:
 
-- **[Emily2040/seedance-2.0](https://github.com/Emily2040/seedance-2.0)** (MIT, by @iamemily2050) — lineage for the `quick-ref.md` pattern, the continuity chain check and the evaluation discipline
+- **[Emily2040/seedance-2.0](https://github.com/Emily2040/seedance-2.0)** (MIT, by @iamemily2050) 
 - **[slipknot0130/Film-Production-Toolkit](https://github.com/slipknot0130/Film-Production-Toolkit)** (MIT, by @slipknot0130)
 - The creators behind the source corpora (public Hell Grind / Cully Hill Boys assets) — anonymisation scope in [NOTICE.md](NOTICE.md)
 
