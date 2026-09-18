@@ -62,7 +62,7 @@ cd shortdrama-producer-agent && ./install.sh
 
 这个数字直接改写了它的做法。它现在会逼自己把「保留清单」写全——因为**你没写的那些，就是模型会自己发挥的那些**。你只说了「参考这张脸」，它就懂了：脸、发型、身材、每一件衣服、鞋、配饰，默认全都要。你没说不要背景，背景就会被带进来。
 
-靠感觉写 prompt 的人，永远想不到这一层。
+只凭直觉写 prompt 的时候，这一层往往就被跳过了。
 
 ### 它先去看真剧组是怎么写的
 
@@ -140,7 +140,7 @@ Seedance 是母语。你点名 Gemini Omni、可灵、Veo、Sora、Runway、海�
 
 还有一条诚实底线。运行时按能力分三档：能真开出独立上下文的，算真开会；只能在一个上下文里轮流扮演的，交付物上必须写「独立性未完全保证」；连分角色都做不到的，直接标注「**本轮未经集体评审**」。
 
-**装开会，比不开会更糟。**
+**开不了会就如实说明，比让交付物显得开过会要好。**
 
 ### 评审记录本身，就是一条能交出去的证据链
 
@@ -350,7 +350,7 @@ Among real creators handling reference images, **45.4% enumerate what to keep, w
 
 That single number rewrote its behaviour. It now forces itself to write the keep-list out in full — because **whatever you don't write down is exactly what the model invents.** Say "use this face" and it understands the whole visible person: face, hair, build, every garment, shoes, accessories. Say nothing about the background and the background comes along for the ride.
 
-No one writing prompts by feel ever thinks of that layer.
+Written on intuition alone, that layer usually gets skipped.
 
 ### It reads real crews before it writes
 
@@ -428,7 +428,7 @@ The flow: independent proposals → note-passing critique → one adjudicator ru
 
 And an honest floor: three runtime tiers. If it can spawn genuinely isolated contexts, that's a real meeting. If it can only role-play sequentially in one context, the deliverable must say "independence not fully guaranteed." If it can't separate roles at all, it gets labelled **"not collectively reviewed."**
 
-**Faking a meeting is worse than skipping one.**
+**Saying plainly that no meeting happened beats making the deliverable look like one did.**
 
 ### The review log is itself a deliverable audit trail
 
