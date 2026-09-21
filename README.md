@@ -17,7 +17,7 @@
 [![Dependencies](https://img.shields.io/badge/dependencies-python3%20stdlib%20only-brightgreen.svg)](scripts)
 [![CI](https://github.com/Eleven1111/shortdrama-producer-agent/actions/workflows/ci.yml/badge.svg)](https://github.com/Eleven1111/shortdrama-producer-agent/actions/workflows/ci.yml)
 
-**当前版本 v3.17.0** · 架构图在 [docs/](docs)
+**当前版本 v3.18.0** · 架构图在 [docs/](docs)
 
 语言：[中文](#中文) · [English](#english)
 
