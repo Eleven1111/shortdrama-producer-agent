@@ -30,6 +30,20 @@
 - 用户说"电影 / 分镜 / 摄影感" → CHB 范式
 - 不明确时 → 默认 CHB（结构化更通用）
 
+## 二·补 第三语料：The Trigger（seedance_2_5，中文范式证据）
+
+来源：《The Trigger》5,429 jobs（hitman × 战争闪回短片，2026-09 抓取全量）。它补上了 HG/CHB 都没有的证据：
+
+| 维度 | The Trigger 实测 | 含义 |
+|---|---|---|
+| **写作语言** | SCENE 01 **78% 整段中文 prompt**（均长 4,337 字符），SCENE 03 31% | **Seedance 接受整段中文长 prompt**——中文正文 + 台词用引号保留原文（`画外女声:"Your check."`）+ 否定关键词可英文混排（`no music…`）。中文创作者无需翻译 |
+| **一致性范式** | 具名 LOCK 块（FACE/LIGHT/DIALOGUE/HEIGHT/TEXT/BRIGHTNESS LOCK…）写进每条 prompt | 连续性从"跨场文档"下沉到"prompt 内强制条款"（详见 `continuity-laws.md`） |
+| **段落风格** | 法则分层块（`【X LAW — HIGHEST PRIORITY】`、`【REFERENCES — RANKED】`、`FORBIDDEN` 收尾） | 第三种范式：法律/优先级驱动，比 CHB 更强约束 |
+| **21:9** | 94.8%（动作场） | 与 HG/CHB 共识一致 |
+| **超长约束文档** | 角色卡均长 10,608 字符（纯文本、几乎无参考图），最长 26,201 | 参考板可用纯文本 mega-prompt 批量生产 |
+
+范式路由补充：用户用中文写作 / 中文题材 → 可全程中文 prompt（台词引号保留目标语言）；需要强连续性（服装/光位/文字/装备）→ The Trigger 锁块范式。
+
 ## 三、镜头语言基线（两份数据共同证据）
 
 - **度数为基调**：HG 写作例 `45° wide`, `180° ultra wide`；CHB 写作例 `47°(≈50mm)`, `29°(≈85mm)`, `84°(≈24mm)`——视角度数比 mm 更通用
