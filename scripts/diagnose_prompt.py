@@ -72,7 +72,9 @@ CONTRADICTIONS = [
     (r'no slow-?motion', r'slow[- ]?motion|slow-mo|升格',
      '同时禁止与要求慢动作'),
     (r'\bstatic\b.{0,30}(camera|shot)|locked off|no camera move',
-     r'\b(dolly|crane|pan|tilt|track(ing)?|push[- ]in|zoom)\b',
+     r'\b(dolly|crane|pan|tilt|push[- ]in|zoom)\b'
+     r'|\btrack(?:ing|s)?\b(?=[^,.;]{0,30}\b(?:shot|lens|camera|move|movement|frame'
+     r'|left|right|slowly|backward|forwards?|back|along|across)\b)',
      '声明静止机位又要求运镜'),
     (r'no on-?screen text|no subtitles', r'\bsubtitle|caption|on-screen text|字幕',
      '同时禁止与要求字幕'),

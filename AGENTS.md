@@ -195,6 +195,7 @@ Follow these 10 hard rules (derived from full-corpus statistics of real Seedance
 
 Tiers: default **cinema** (600–2,000 words, checklist style; see `references/prompt-templates.md`); "quick / 快点 / 先看看" → **quick** (80–300 words).
 Directorial craft — motion chain, performance timing, sound layering, blocking & axis, shot grammar — in `references/directorial-craft.md`. Apply §1/§2/§3 to every shot's ACTION/AUDIO segments; §4/§5 to shotlist design; §12 fidelity budget (one primary spend per generation); §13 ending profiles; §14 for 2D/anime/children's-style projects (medium grammar, no photographic vocabulary).
+Action scenes (gunfights / chases / fights / war / violent threat) — mandatory read `references/action-scene-craft.md` (from The Trigger, 2,936 action prompts): laws-and-locks prompt architecture with priority ranks, implied-violence doctrine (FORBIDDEN lists + reaction/aftermath instead of gore), speed discipline (stillness→full speed, no slow motion / no speed ramp / no muzzle flash / no scope POV), EYE LAW four-step performance, silhouette law, tactical kit locks, sound-replaces-impact, prop physics contracts. Apply its §12 skeleton for any action/violence shot and run its §13 checklist at Step 5.
 
 ### Step 4.5 — Story-level consultation (for sequence / short-drama / arc questions)
 When the request is sequence-level (story arc, beat structure, act transitions, character journey, prop consistency across scenes), consult `references/story_level/story_patterns.md` (速查表) and the JSON files alongside it:

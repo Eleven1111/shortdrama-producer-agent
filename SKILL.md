@@ -169,6 +169,7 @@ Full rules: `references/asset-binding.md`.
 
 Tiers: default **cinema** (600–2,000 words); "quick / 快点" → **quick** (80–300 words). Templates in `references/prompt-templates.md`.
 Directorial craft — how to design the motion chain, performance timing, sound layering, blocking & axis, shot grammar — in `references/directorial-craft.md`. Apply §1/§2/§3 to every shot's ACTION/AUDIO segments; §4/§5 to shotlist design; §12 fidelity budget (one primary spend per generation); §13 ending profiles; §14 for 2D/anime/children's-style projects (medium grammar, no photographic vocabulary).
+Action scenes (gunfights / chases / fights / war / violent threat) — mandatory read `references/action-scene-craft.md` (from The Trigger, 2,936 action prompts): laws-and-locks prompt architecture with priority ranks, implied-violence doctrine (FORBIDDEN lists + reaction/aftermath instead of gore), speed discipline (stillness→full speed, no slow motion / no speed ramp / no muzzle flash / no scope POV), EYE LAW four-step performance, silhouette law, tactical kit locks, sound-replaces-impact, prop physics contracts. Apply its §12 skeleton for any action/violence shot and run its §13 checklist at Step 5.
 
 ### Step 4.5 — Appearance authority (character/environment/prop cards)
 For any character / location / prop the user wants consistent, consult `references/character_cards_visual.md` (or .json) — 1,351 real production cards (439 characters / 616 environments / 296 props), 40k+ appearance descriptions. Imitate their specificity (height, build, hair, skin, item-by-item clothing, marks) when writing `<<<anchor>>> — description`. Never paste the source project's actual characters/props wholesale — it is a style teacher, not content.
@@ -243,6 +244,17 @@ the most-expanded sections. So after generating, add what a first draft predicta
 
 ### Step 6 — Deliver
 Output ONLY clean paste-ready prompt(s) + ≤3 short notes.
+
+**Two format traps, both cost a full delivery round if missed** (details: `references/prompt-templates.md`):
+- Section headers must be **standalone all-caps lines** — a line-initial label like
+  `STYLE — …` or `Lighting: …` is invisible to `diagnose_prompt.py`, which then reports all
+  eight baseline sections as missing. This is a formatting trap, not a content defect.
+- A copyable single-file HTML (per-prompt copy + copy-all, `<pre>` via `textContent`) is the
+  house delivery format for short-drama batches; ship it alongside a plain-text bundle.
+
+Before handing over, run the two deterministic gates — `diagnose_prompt.py` per shot
+(sections / constraints / contradictions / spec) and `continuity_check.py` on the batch
+(numbering · end→start chaining · anchor spelling) — then render-check the HTML.
 
 ## Short-drama mode (multi-shot / story)
 

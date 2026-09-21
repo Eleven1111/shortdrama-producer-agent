@@ -22,7 +22,7 @@
 from __future__ import annotations
 import argparse, json, re, sys
 
-HEADER_SHOT = re.compile(r"^#\s*shot\s+(\d+)\s*/\s*(\d+)\s*\|", re.IGNORECASE)
+HEADER_SHOT = re.compile(r"^#\s*shot\s+(\d+)\s*/\s*(\d+)\s*\|", re.IGNORECASE | re.MULTILINE)
 HEADER_FROM = re.compile(r"from\s+shot\s+(\d+)", re.IGNORECASE)
 HEADER_START = re.compile(r"^#\s*start state\s*[:：]\s*(.+)$", re.IGNORECASE)
 HEADER_END = re.compile(r"^#\s*end state\s*[:：]\s*(.+)$", re.IGNORECASE)
@@ -64,11 +64,13 @@ def parse_shots(text: str) -> list[dict]:
         if (e := HEADER_END.match(line)):
             cur["end"] = e.group(1).strip()
     # 锚点收集：锚点可出现在任何行，按镜块归属（下一个 shot 头之前的全部文本）
-    blocks = re.split(HEADER_SHOT, text)
-    # blocks 形如 [前导, n, total, 头行, 正文, n, total, 头行, 正文, ...]
-    for i in range(1, len(blocks), 4):
-        n = int(blocks[i])
-        body = blocks[i + 3] if i + 3 < len(blocks) else ""
+    # 注意：HEADER_SHOT 有 2 个捕获组，re.split 的分组边界是 3 而非 4——
+    # 早先按 stride=4 取 body 会整体错位（且 ^ 未加 MULTILINE 时一个匹配都没有）。
+    # 改用 finditer 按匹配起点切分，与捕获组数量解耦。
+    marks = list(HEADER_SHOT.finditer(text))
+    for i, m in enumerate(marks):
+        n = int(m.group(1))
+        body = text[m.end():(marks[i + 1].start() if i + 1 < len(marks) else len(text))]
         for shot in shots:
             if shot["n"] == n:
                 shot["anchors"] = {a.strip() for a in ANCHOR.findall(body)}

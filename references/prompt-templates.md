@@ -149,7 +149,11 @@ no identity drift, characters identical across every cut, no floating props, no 
 
 ### 逐镜规则
 - 每镜 prompt 复用圣经定义（拷贝不改写），只更新该镜的镜头/动作/衔接段。
-- 序列头 3 行（shot N/total | 衔接 | start/end state）放在 prompt 正文前。
+- 序列头 **必须是 3 个独立行**，放在 prompt 正文前，且 `start state` / `end state` 的
+  前缀逐字固定（`# start state:` / `# end state:`）——`continuity_check.py` 的
+  `HEADER_START/HEADER_END` 是**行首锚定**解析：把三者挤在一行（`# shot 1/2 | … | start: X | end: Y`）
+  会让每一镜都报 `序列头缺 start/end state 行`（ERROR，退出码 1），是格式陷阱不是内容缺陷。
+  含 `from shot N-1` 的衔接字段同样要留在第一行。
 - 衔接方式三选：延续（默认）/ 时间跳跃 / 转场特写（见 sequence-protocol.md）。
 - 同一批 ≤6 镜；批次间先更新状态机再产出下一批。
 - 每镜带一致性负面约束：`no identity drift, characters identical across every cut`。
@@ -157,7 +161,9 @@ no identity drift, characters identical across every cut, no floating props, no 
 ### 短剧示例（2 镜，示意衔接写法）
 
 ```
-# shot 1 / 2 | 场 1 | 衔接: — | start: 女孩站在巷口 | end: 她弯腰捡起湿透的照片
+# shot 1 / 2 | 场 1 | 衔接: —
+# start state: 女孩站在巷口
+# end state: 她弯腰捡起湿透的照片
 Duration: 15 seconds. Aspect ratio: 21:9. One continuous shot.
 Style: 8K IMAX. Photorealistic — no 3D render. Cinematography: Lubezki × Deakins.
 <<<red_girl>>> — small slim figure, short dark hair, pale skin, red knit sweater, dark pleated skirt... CHARACTER REF — appearance only.
@@ -167,7 +173,9 @@ She walks toward the camera, stops, crouches, picks up a soaked photograph from 
 audio: rain, distant traffic; SFX only, no music.
 no 3D render, no floating props, no identity drift, no subtitles.
 
-# shot 2 / 2 | 场 1 | 衔接: 延续 from shot 1 | start: 她握着照片起身 | end: 她抬头看向巷口灯光
+# shot 2 / 2 | 场 1 | 衔接: 延续 from shot 1
+# start state: 她握着照片起身
+# end state: 她抬头看向巷口灯光
 Duration: 15 seconds. Aspect ratio: 21:9. One continuous shot.
 Style: 8K IMAX. Photorealistic — no 3D render. Cinematography: Lubezki × Deakins.
 <<<red_girl>>> — <同 shot 1 引用，不重写> ...
@@ -181,3 +189,64 @@ no identity drift, characters identical across every cut, no floating props, no 
 ### 档位切换（短剧内）
 - 默认每镜 cinema 档；用户说"快点" → 每镜 quick 档（80-300 词），但圣经与序列头保留。
 - 用户只要其中一镜 → 单独交付该镜（含序列头，标注衔接来源）。
+
+---
+
+## 必读踩坑：段头必须独立成行
+
+`scripts/diagnose_prompt.py` 的段头识别正则是 `^([A-Z][A-Z0-9 &/'()-]{3,44})\s*$`（`re.M`）——
+**要求该行只有大写段头本身，行内不能再有内容。**
+
+| 写法 | 诊断器 | 后果 |
+|---|---|---|
+| `STYLE — Photorealistic live-action...` | ✗ 认不出 | 该段报"缺失" |
+| `Lighting: soft overcast...` | ✗ 认不出（大小写不符） | 该段报"缺失" |
+| `STYLE`<br>`Photorealistic live-action...` | ✓ | 正常 |
+
+实测后果：整条 prompt 只有 `ACTIVE REFERENCES` 被识别，其余 8 个基准段头
+（`SCENE CONTEXT` `OPTICS` `CAMERA` `LIGHTING` `PHYSICS` `AUDIO` `ACTION TIMING` `STYLE`）
+全部被报成"缺失"——而 prompt 本身其实写得没问题。**这是格式陷阱，不是内容缺陷，别去改内容。**
+
+**spec header 陷阱（2026-09-15 实测）**：含 SEG 硬切的多段 prompt，规格行不要照抄
+`One continuous shot.` —— 会触发诊断器的 ⛔ 内部矛盾「声明一镜到底又写了硬切」。
+改写为与内容一致的声明：`Five shots, four hard cuts.` / `Multi-shot montage — six shots, five hard cuts.`
+/ `Three shots, two hard cuts.`；只有真·一镜到底（段间是连续运镜、无硬切词）才保留 `One continuous shot.`
+
+**单镜 prompt 的假「多镜头」误判（2026-09-18 实测）**：把一个批次文件逐镜拆开、单独丢给
+`diagnose_prompt.py` 时，序列头 `# shot 1 / 4 | …` 会命中诊断器的 `multi_shot` 判据
+（`shot \d+/`），于是每一镜都被判成「多镜头」，并因此索要 `hard_cut_timecode` 约束——
+**而这一镜本身是真·一镜到底，根本不存在硬切。这是判据的假阳性，不是内容缺陷。**
+两种解法：
+- ✅ 推荐：把动作段里的时间码写成**无空格**形式 `3.5s–8.0s`（正则 `\d+(\.\d+)?s\s*[-–]\s*\d+(\.\d+)?s` 命中），
+  既如实交代时序，又满足约束检测。
+- ❌ 不要为了过检测而往单镜 prompt 里塞 `hard cut` 字样 —— 那会与 `One continuous shot.`
+  构成**真**矛盾，把假阳性升级成真报错。
+另外：`LIGHTING` 段在语料里出现率 47.8%，别把布光并进 `STYLE` 一句话带过——2D/动漫媒介下
+`LIGHTING` 写"画出来的光"（固定光源、双色 cel 阴影、光斑形状），照样过段头识别。
+
+推荐段序（与语料 8-12 段结构化范式一致）：
+
+```
+STYLE / LIGHTING / SCENE CONTEXT / ACTIVE REFERENCES /
+OPTICS / CAMERA / ACTION TIMING（含 SEG 与 HARD CUT 时间码）/
+MOOD / CHARACTER ACTING / PHYSICS / AUDIO / NEGATIVE
+```
+
+`OPTICS` 与 `CAMERA` 段可写成**分镜索引**（`SEG 1 — 29° (≈85 mm) medium close. SEG 2 — 84° (≈24 mm) extreme wide.`），
+把逐段的详细机位句留在 `ACTION TIMING` 的 SEG 段落里——索引+细节分层，不重复。
+
+## 交付形态（用户既定偏好）
+
+短剧交付默认产出 **单文件、零外部依赖的可复制 HTML**：每个 prompt 配一个 copy 按钮，
+另配一个 copy-all 按钮；prompt 正文放在 `<pre>` 里，用 `textContent` 复制（避免 `<<<` 被 HTML 转义吃掉）。
+再附一份纯文本 `*_all_prompts.txt` 便于整包粘贴。
+
+交付前跑三步验证（缺一不可）：
+
+1. **格式门**：`python3 scripts/diagnose_prompt.py <每一镜>` —— 确认段头被识别、无内部矛盾；
+2. **链路门**：`python3 scripts/continuity_check.py <整批>` —— 确认 `end→start` 无断链、锚点无拼写漂移；
+3. **渲染门**：用 jsdom 渲染 HTML，断言脚本无报错、prompt 块数与按钮数正确、锚点转义后完整还原
+   （`<<<name>>>` 必须能在 `textContent` 里读回）。
+
+截图验证时若 playwright 报 `Executable doesn't exist`，直接复用本机浏览器：
+`chromium.launch({executablePath:'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'})`。

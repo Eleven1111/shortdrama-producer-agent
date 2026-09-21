@@ -100,14 +100,20 @@ shortdrama-producer 的原生规范（OPTICS/`<<<锚>>>`/`—`分段/负面约�
 6. **视频续写**：`Extend this video` / `The scene continues`——每次 +10s，总长 ≤40s；模型读前 10s 作上下文（角色/光照/叙事连续），最后几帧会被无缝改接。
 7. **会话式编辑链**：`Make this video anime` / `Add a cat that jumps onto his lap, he begins to pet it. Keep everything else the same.`——编辑指令要短，复杂长编辑指令反而引发意外改动。
 8. **文字渲染可读**：Omni 能准确渲染画面内文字（招牌/字幕条/车牌），需要可读文字时直接写内容与位置；不想要文字时用无引号对白规则+负面 `No text overlays`。
+   - ⚠️ **`No text overlays` 与帧内文字互斥（实测踩坑）**：一旦某一镜的正文要求画面里出现可读文字（手写告示、招牌、票根），这一镜就**必须删掉** `No text overlays`，否则模型二选一，正文要求会静默失效。正确做法是**收窄成范围化正向锁**：`The hand-written fare notice and the torn paper stub are the only text in this shot.` / `The red paper sign is the only text in frame.`。不要只在部分镜删——同一批里漏掉任何一镜就是同类 blocker 重现（实测：修了镜4 漏了镜1）。
+   - **指定汉字必须资产锁**：别指望用 prompt 让模型渲染指定汉字。小尺寸、手写体、远景道具上的汉字大概率糊字或错字（大尺寸招牌/品牌 logo 才稳）。做法是出一张 `image_N.png` 道具图（红纸 + 黑墨 + 二字，注明"fully legible, upright, not stylised"），正文改写成 `the sign is image_N.png, hung from X, its two characters 吉祥 unchanged`——这样既锁字形又锁位置。
 9. **一致性双锁**：角色描述**逐字复用**（官方做法）+ **same seed 参数**。`<<<锚>>>` 的"逐字复用"思想在此天然成立：把角色卡描述块原样粘进每条 prompt，只改动作/场景部分。
+   - ⚠️ **seed 必须写绝对值**：`Same seed across all six generations.` 是**无锚点的相对锁**——每次生成是独立会话，模型无从知道 the same 指哪个数。必须写死一个具体种子：`Seed 481923, reused verbatim in all six shots.`
+   - ⚠️ **跨镜接续不能靠自然语言祈使句**：`the colour must match shot 1 exactly` / `repeats the closing frame of shot 1` / `in the same acoustic space as shot 1` 在独立生成之间全部无效。要锁构图就把上一镜的**末帧截下来存成 `image_N.png`** 当构图锚（并在正文写 `The framing matches image_N.png, the final frame of shot 1.`）；要锁光照就把该镜光照段**逐字复用**，不要写"和镜1一样"。
+   - ⚠️ **Extend 链只用于续接运动，不用于换场景**：Extend 会读前 10s 上下文并无缝改接最后几帧，天生要"运动继续"。多场景短片（每镜换地点）应该走**独立生成 + 统一绝对 seed + 参考资产**，不要串成 Extend 链；串了模型会试图把上一镜的运动接下去。
 10. **成本纪律**：先 360p 预览验证构想，选中后再升 720p/1080p/4K。
 
 ### 7.3 shortdrama-producer 规范 → Omni 方言转换
 
 | 我们的规范 | Omni 写法 |
 |---|---|
-| `Duration: 15s. Aspect ratio: 21:9. One continuous shot.` | 单次 ≤10s → 超过 10s 的镜**拆两镜**（预算重排）或用 Extend 链（≤40s）；spec header 保留 `One continuous shot, no scene cuts` 字样（单场景强制） |
+| `Duration: 15s. Aspect ratio: 21:9. One continuous shot.` | 单次 ≤10s → 超过 10s 的镜**拆两镜**（预算重排）或用 Extend 链（≤40s）；spec header 保留 `One continuous shot, no scene cuts` 字样（单场景强制）。**注意 21:9 在 Omni 不存在**（只有 16:9/9:16/1:1）——从 Seedance 21:9 稿翻译过来必须改画幅，并且要重新检查原本靠 21:9 宽画幅成立的调度（边缘留白、双人分离构图、横移幅度） |
+| 一个镜头里含时间跳跃（夜→破晓、前夜→次日） | **必须拆镜**——单场景强制不允许一次生成内换时间。拆出来的两镜如果同人同地同道具，会产生**节拍重复**（实测：原镜5 拆成"夜·刮泥"+"破晓·挂包"后，两镜都是"他一个人在码头处理这根棒"，且都以"望着水面"收尾）。拆完必须给两镜**不同的语法**（改机位／改景别／改收尾动作／让其中一镜的动作变成另一镜的因），不能只改时间码 |
 | `<<<name>>> — 外观描述` | 保留，同一角色描述块逐字复用每镜；用户走 API 时配 same seed |
 | OPTICS `47°(≈50mm)` | 参数数值照删（`medium shot, eye-level`） |
 | `—` 破折号分段 | 拍平为五维自然语言流；长正文不占优——约束优先于描述 |
@@ -119,8 +125,20 @@ shortdrama-producer 的原生规范（OPTICS/`<<<锚>>>`/`—`分段/负面约�
 
 ### 7.4 Omni 自检（在通用自检之上追加）
 
+> 机械门：`python3 scripts/omni_check.py <含 1..N 条 prompt 的文件>` —— 把下面这张清单落成确定性
+> 判据（数值残留 / 画幅 / 单场景声明 / 镜内硬切 / >10s 未规划 Extend / 祈使式接续 / 帧内文字互斥
+> 为 error；360p、seed 绝对值、负面行数、对白引号为 warn）。**跑在纯 prompt 文件上**——把说明性
+> 正文一起喂进去，讲解用的反例会被当成真违规报出来。
+
 - [ ] 对白全部冒号引出、无引号？
 - [ ] 需要单镜头的镜写了 `single continuous shot / no scene cuts`？
-- [ ] 时长 ≤10s 或已规划 Extend 链（并告知 Extend 的帧改接风险）？
+- [ ] 时长 ≤10s 或已规划 Extend 链（并告知 Extend 的帧改接风险）？**换场景的镜不要串 Extend 链**。
 - [ ] 漂移修复走"补约束"而不是"加描述"？
-- [ ] 走了 360p 预览→再升档的成本纪律？
+- [ ] 走了 360p 预览→再升档的成本纪律？（参数行里要真的写出 360p，不能只在交付说明里提）
+- [ ] **画幅是 Omni 支持的三种之一？**（21:9 不存在，必须改并重查调度）
+- [ ] **`No text overlays` 与帧内文字是否互斥？** 逐镜扫一遍：任何一镜的正文要求出现可读文字 → 该镜删掉这句、换成范围化正向锁；**不要只改其中几镜**。
+- [ ] **指定汉字是否已资产锁？**（`image_N.png` 道具图 + 正文只写"unchanged"，不写字形描述）
+- [ ] **seed 写的是绝对数字还是相对说法？**（`Same seed as the others` 无效，必须写死）
+- [ ] **跨镜接续是否还有自然语言祈使句？**（`must match shot N exactly` / `the same as shot N` → 改成末帧资产锚或逐字复用段落）
+- [ ] **一镜一次保真度预算**：正文里是否有多于一个"主开销"动作？超过就砍，或把前一拍挪到该镜的第一帧状态里（用"已经在进行中"开场省节拍）。
+- [ ] **拆镜后的节拍重复**：因单场景强制拆出来的镜，是否与相邻镜用了同一套语法（同机位逻辑／同收尾动作／同一个"望向远方"）？
