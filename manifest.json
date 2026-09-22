@@ -39,12 +39,14 @@
       "scripts/continuity_check.py"
     ],
     "references": [
+      "references/action-scene-craft.md",
       "references/anti-slop-lexicon.md",
       "references/asset-binding.md",
       "references/character_cards_visual.json",
       "references/clarification-protocol.md",
       "references/concept-symposium.md",
       "references/continuity-bible.md",
+      "references/continuity-laws.md",
       "references/directorial-craft.md",
       "references/iteration-lessons.md",
       "references/longform-protocol.md",
@@ -60,6 +62,7 @@
       "references/seedance-writing-guide.md",
       "references/sequence-protocol.md",
       "references/story-breakdown.md",
+      "references/story-pacing-craft.md",
       "references/story_level/act_structure.json",
       "references/story_level/beat_patterns.json",
       "references/story_level/character_journeys.json",
