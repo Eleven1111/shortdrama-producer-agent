@@ -5,7 +5,7 @@ license: MIT
 user-invocable: true
 tags: [seedance, video-prompt, creative, short-drama, sequence, workflow, agent, screenwriting, directorial, style-bible, cross-model, gemini-omni, kling, sora, runway, concept-symposium, human-in-the-loop, meeting-protocol, multi-agent]
 metadata:
-  version: "3.17.0"
+  version: "3.20.0"
   copyright: "Copyright (c) 2026 Eleven1111"
   author:
     name: "Eleven1111"
@@ -264,7 +264,7 @@ whenever a new character or binding conflict appears, 评审会 per batch of ≤
 快速」 to skip it for a run.
 0. **Long-form escalation** (≥3 episodes, or ≥60 total shots, or feature-film scale): layer `references/longform-protocol.md` on top — five-layer state stack (project bible → episode bible → scene card → batch state machine → shot), episode rhythm calibrated against `story_level/act_structure.json` real density data, cross-episode version registry + parallel-storyline beat buckets, style-pilot batch before principal photography; all short-drama rules stay in force
 0. **Style bible** (series/multi-episode only, ≥3 episodes): build the project style bible per `references/style-bible.md` (render domain + keystone sentence + color recipe with hex/ratio/banned colors + signature), then reuse its summary block verbatim as the style-anchor prefix of every shot prompt; single one-off shorts may skip or use the 10-minute lite version
-1. **Story breakdown** (goal/ending → beats 3-8 → scenes → shots 2-6/scene → budget ≤6/batch; story-quality methodology — premise/controlling idea, value turn per beat, character & conflict, visual subtext, exit-check gates — in `references/screenwriting-craft.md`, layered on top of `references/story-breakdown.md`; per shot, tag every story event into one of four beat buckets — `already_happened` / `this_clip_only` / `reserved_for_later` / `do_not_show_yet`, scope firewall + split triggers — in `references/sequence-protocol.md`)
+1. **Story breakdown** (goal/ending → beats 3-8 → scenes → shots 2-6/scene → budget ≤6/batch; story-quality methodology — premise/controlling idea, value turn per beat, character & conflict, visual subtext, exit-check gates — in `references/screenwriting-craft.md`, layered on top of `references/story-breakdown.md`; **story craft & pacing** — VO logline opener with locked voice spec, information-budget discipline (withhold the face), diegetic-document dialogue, intel-montage device, negative beat as climax, function-named scene grammars, cut-rate recipe (hold slow / decide fast / dissolve out), tense-anchored style blocks, multi-shot single-prompt rhythm units + variant test-shoots — in `references/story-pacing-craft.md`; per shot, tag every story event into one of four beat buckets — `already_happened` / `this_clip_only` / `reserved_for_later` / `do_not_show_yet`, scope firewall + split triggers — in `references/sequence-protocol.md`)
 2. **Reference sheets** (Step 4.6) — three-panel sheet prompt for every cross-shot character/prop/location, plus edited versions for state changes; for scenes with 3+ people, movement, or action, draw a text blocking diagram first (`references/directorial-craft.md` §9 — axis jumps, unmotivated light and spatial amnesia die on paper)
 3. **Continuity bible** (character/scene/prop anchors + which sheet version each shot uses; referenced verbatim every shot)
 4. **Shotlist table** (| shot | scene | type | cam/focal/move | content | transition |; axis trio — 甲↔乙 anchor · working side · screen direction — and blocking per `references/directorial-craft.md` §4/§5)
