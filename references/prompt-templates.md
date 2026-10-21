@@ -221,6 +221,27 @@ no identity drift, characters identical across every cut, no floating props, no 
   既如实交代时序，又满足约束检测。
 - ❌ 不要为了过检测而往单镜 prompt 里塞 `hard cut` 字样 —— 那会与 `One continuous shot.`
   构成**真**矛盾，把假阳性升级成真报错。
+**真·一镜到底 prompt 的两类假阳性（2026-09-22 实测）**：单镜模式交付一条真正的 oner 时，
+诊断器会从两个完全不同的方向误报，**两条都是措辞问题，不是内容缺陷**：
+
+1. **被判成多镜头。** `multi_shot` 判据是 `hard cut|seg\s*\d|shot \d+/`（大小写不敏感）。
+   真·一镜到底的 prompt 里**不能出现**这三个字样的任意一个 —— 一旦命中，诊断器会按多镜头
+   索要 `hard_cut_timecode` 约束；更糟的是 `one continuous shot` 与文本里残留的 `hard cut`
+   会构成**真**矛盾（`⛔ 声明一镜到底又写了硬切`）。
+   规避写法：`no cut, no hidden edit, no dissolve, no match cut, no montage` ——
+   不要用 `no hard cut`、不要写 `SEG 1`、不要在序列头写 `shot 1/1`。
+
+2. **被判「声明静止机位又要求运镜」。** 该矛盾的 A 侧含 `locked off`，B 侧是
+   `dolly|crane|pan|tilt|push-in|zoom` 或带上下文的 `track`（后面 30 字符内出现
+   shot/lens/camera/move/frame/left/right/back/along/across 等）。所以
+   `never locked off on a tripod` 这种常规写法会直接命中 A 侧，只要 B 侧还剩一个词就报错。
+   规避写法：把 `locked off` 换成 `never mounted on a tripod`；正文避免 `track/tracking`
+   （用 `travelling` 代替）；`no zoom` 会命中第三条矛盾的 A 侧，因此正文不能再出现
+   `zoom in` / `zoom out`（`never zooms` 安全）。
+
+一句话判据：**真 one-take 的 prompt 是「负面清单的雷区」**——禁什么，就先确认那个词不会
+被诊断器读成「要求」。写完后先跑格式门，报矛盾再回来改措辞，不要去改内容。
+
 另外：`LIGHTING` 段在语料里出现率 47.8%，别把布光并进 `STYLE` 一句话带过——2D/动漫媒介下
 `LIGHTING` 写"画出来的光"（固定光源、双色 cel 阴影、光斑形状），照样过段头识别。
 

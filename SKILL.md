@@ -134,6 +134,8 @@ The same underlying model is wrapped differently per platform (see `references/p
 
 Full evidence-graded matrix: `references/platform-capabilities.md`.
 
+**Character budget — check BEFORE writing, not after.** The platform's text-field limit is a hard constraint, and hitting it forces a full rewrite (2026-09-22: an 18,514-char oner had to be compressed to 4,907 chars after the fact). Known limits: **Seedance platform shell 5,000 chars (measured hard cap)**; Kling API 2,500; MiniMax H3 ~7,000; Runway <50 words; Gemini Omni unlimited but "write less". Compression order and the six things that may never be cut: `references/model-adaptation.md` §2.5. Deliver a **compact main draft inside the cap** plus the full-length draft saved separately as `*_extended.txt` (the long one is not *better*, it is *more expensive* — only for ≥20k fields).
+
 ### Step 2 — Retrieve real production examples
 ```bash
 python3 scripts/seedance_search.py "<english scene keywords>" 3
