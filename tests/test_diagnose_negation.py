@@ -24,4 +24,9 @@ for text, want, why in CASES:
     ok = got == want
     fail += not ok
     print('%s  %s  got=%s' % ('PASS' if ok else 'FAIL', why, sorted(got)))
+# SKILL.md Step 5.5 推荐的写法必须被识别（2026-10-21：runner 照写却被报缺失）
+miss = diagnose('ACTION TIMING\nno empty first frame.')['missing_constraints']
+ok = 'no_empty_first_frame' not in {m['id'] for m in miss}
+print('%s  Step 5.5 写法 no empty first frame 被识别' % ('PASS' if ok else 'FAIL'))
+fail += not ok
 sys.exit(1 if fail else 0)

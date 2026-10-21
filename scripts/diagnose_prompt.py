@@ -50,7 +50,7 @@ CONSTRAINTS = {
                     '段内锁定焦段', '单项目高频（CHB 39.8%）· 多镜头适用'),
     'no_fisheye': (r'rectilinear|no fisheye',
                    '直线畸变校正', '单项目高频（CHB 27.1%）'),
-    'no_empty_first_frame': (r'no empty frame|first frame is occupied|first frame occupied',
+    'no_empty_first_frame': (r'no empty (first )?frame|first frame is occupied|first frame occupied',
                              '首帧非空', '单项目高频（CHB 18.5%）'),
     'no_look_at_lens': (r'look(s|ing)? (in)?to (the )?(lens|camera)|no one looks into',
                         '禁止看镜头', '单项目高频（CHB 11.6%）· 有演员时适用'),

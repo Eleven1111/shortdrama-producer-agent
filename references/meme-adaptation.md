@@ -74,6 +74,11 @@
   - 包袱台词用 `DIALOGUE LOCK` 锁原文（`continuity-laws.md` §1）：**保留原句，不意译、不润色**。
   - 包袱台词前留 0.5–1 秒停顿。这一拍空白是笑点的一部分，不是可以剪掉的冗余。
   - 一镜只安排一个人说包袱台词，降低口型错配的风险。台词按 `continuity-laws.md` §8 的中文范式写进引号。
+  - **方言台词**（东北话、粤语、川渝话等）：方言是笑点的一部分时才保留，否则用普通话。保留时分三层写：
+    ① 字面：`DIALOGUE LOCK` 锁方言原字（「咋滴啊」不改成「怎么了」）；
+    ② 口音：在 `AUDIO` 段写一句口音规格，如 `Northeastern Mandarin accent, flat deadpan delivery, slight rising tone on the last word`，只写口音和语调，不写「搞笑地说」；
+    ③ 降级：交付说明里注明「口音不稳时，用普通话念同一句原文，包袱靠字面仍成立」。方言字不认识的（粤语生僻字），台词后加括号注普通话意思，供配音参考，不进字幕。
+    模型对方言口音的控制力未经实测 [未验证]；粤语等与普通话差异大的方言，优先建议后期配音。
 - **C 文字依赖**：谐音、字形、数字、行业术语。画面没法直接承载，按顺序试三条路：
   1. **情境化**：找一个让双关的两层意思同时在画面上成立的情境。字面义交给画面，引申义交给情境。
   2. **字幕或道具承载**，**后期字幕优先**：把包袱写进交付里的后期字幕清单，逐字可控，不受模型生成文字的错字和乱码影响。
@@ -125,6 +130,7 @@
 - **包袱镜不配复述画面的字幕**。包袱是台词时，字幕只放这句台词的原文；包袱是画面时，包袱镜不加字幕。自检：把每条字幕单独读一遍，如果它说出了观众应该自己看出来的东西，就删。
 - **删结论，不删前提**。上面两条只删「说出结论或原因」的句子；观众看懂包袱必需的前提（在哪、刚发生了什么）要留下：画面交代不清时，用一句不含结论的情境字幕补上（如「骚乱后的街」）。A 级视觉梗尤其不能把字幕删光，只剩表情给观众读。
 - **钩子镜不摆出答案**。第 1 镜交代情境，不直接摆出包袱要揭晓的对比（如「只有它完好」）：要揭晓的那一半留到包袱镜再亮。
+- **第一人称配字**（「我扮演银行卡，大家可以把钱存我这」这类自述）：逐句判断。交代设定的句子（我是谁、我扮成什么、我在干嘛）交给画面，不说出口；只有包袱句做角色台词。设定句说出口，包袱就从反转降成递进。画面实在交代不清设定时，宁可让别的角色问一句（「你扮的是……？」），也不让主角自己先说。
 - 总长 ≤15s：一条 prompt 内用硬切时间码分镜（`story-pacing-craft.md` 的多镜头单 prompt 节奏单元）。
   这种单条交付**不跑** `scripts/continuity_check.py`：它检查的是多条 prompt 之间的编号和首尾衔接，单条 prompt 找不到序列头，
   必然报 ERROR。这是不适用，不是断链。交付时写一句「continuity_check 不适用（单条 prompt）」即可；`diagnose_prompt.py` 照跑。
@@ -142,6 +148,24 @@
   + 英文否定基线（`no on-screen text, no subtitles, no watermark` / `Diegetic sound only, no music` 等）。台词保留原文。
   中文否定可写「无 / 没有 / 不出现 / 不加 / 禁止 / 不要 X」。`diagnose_prompt.py` 把否定剥到该分句末（逗号、句号为界，顿号不算界）；
   一个否定只管自己所在的分句，跨逗号的要求会被当成正面要求（测试见 `tests/test_diagnose_negation.py`）。
+- **约束短语对照表**（正文写中文时，下列约束仍用英文原样写；`diagnose_prompt.py` 只认这些写法，近义改写会被报缺失）：
+
+  | 约束 | 写这句（任选其一） | 别写成 |
+  |---|---|---|
+  | 同期声、无配乐 | `Diegetic sound only, no music` | `no BGM`、`natural sound` |
+  | 无屏幕文字 | `No on-screen text, no subtitles, no watermark` | `no captions`、`clean frame` |
+  | 快门节奏 | `natural 180-degree shutter cadence` | `natural motion blur` |
+  | 硬切时间码 | `HARD CUT at 5.0s`，或时间段 `0.0s–5.0s` | `cut to`、`then` |
+  | 方位以镜头为准 | `All left/right = FROM CAMERA` | `left side of the screen` |
+  | 非 3D 渲染 | `NOT 3D render, NOT cartoon` | `realistic` |
+  | 锁定焦段 | `Lens locked, one lens per shot`，或 `no zoom` | `fixed focal length` |
+  | 无鱼眼 | `rectilinear, no fisheye` | `no lens distortion` |
+  | 首帧非空 | `First frame is occupied`，或 `no empty first frame` | `first frame never empty` |
+  | 不看镜头 | `No one looks into the lens` | `avoid eye contact with camera` |
+  | 不漂浮 | `Nothing floats, no floaty motion` | `grounded physics` |
+  | 手部正确 | `Hands fully formed, correct number of fingers` | `perfect hands` |
+
+  段头也必须是独立成行的英文全大写：`SCENE CONTEXT` `LIGHTING` `CAMERA` `OPTICS` `PHYSICS` `STYLE` `ACTION TIMING` `AUDIO`。
 - **焦段**：写视角度数（`47°` / `29°`），不写 mm 数值。度数写法只适用于 Seedance 原生方言（`anti-slop-lexicon.md` §5），
   目标是其他模型时改写成空间感受描述。
 - **表演**：角色不知道自己好笑，认真地演（deadpan），不挤眉弄眼，不对镜头笑（伪纪录片除外）。
@@ -175,5 +199,8 @@ adapt 模式的交付格式**以本节为准**，覆盖 SKILL.md Step 6 的「�
   2. **说出的是原包袱**：负控失败。要么笑点其实不在包袱镜（结构有问题），要么这次测试太宽松。
   3. **说出的是铺垫里的次级笑点**（例如铺垫本身就有一个小反差，读者把它当成了笑点）：负控仍算有效，因为主包袱确实随包袱镜一起消失了。
      但如果读者高把握地认定这个次级笑点就是全片的笑点，说明铺垫抢了包袱的戏，回 §5 把铺垫压平。
+
+**判定只看两个二值指标**：① 复述是否与梗卡的「包袱一句话」同义；② 负控是否没被猜中原包袱。两项都过就算通过。
+读者自报的把握度（高 / 中 / 低）和「被说破了吗」的评语只作改进线索，**不作为通过或回退的门槛**。依据：2026-10-21 三张真实梗图回归 6 轮，同一写法的把握度在「高」和「中」之间来回跳，单个读者给出的一档差距是打分噪声。读者在多轮中反复指出的同一个问题才值得改。
 
 读者最好是新开的会话或子代理。如果只能在同一个上下文里自测，交付时标明「盲复述为自测，非独立」。
