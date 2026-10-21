@@ -1,6 +1,6 @@
 ---
 name: shortdrama-producer
-description: "跨终端通用视频 prompt 生产 Agent，原生校准 Seedance，并可方言翻译适配 Gemini Omni / Kling / Veo / Sora / Runway / 海螺 / 即梦 / Vidu / Wan / Pika 等模型。当用户想为 Seedance 2.0/2.5（或 Higgsfield AI 等 Seedance 系平台）或其他视频模型生成视频、只给出模糊想法、灵感碎片、剧情概念时使用。自动完成整个生产工作流：解析意图 → 检索真实生产范例 → 生成创意简报 → 产出可直接粘贴的高质量视频 prompt → 质检。支持单镜头（cinema/quick 两档）与短剧（多镜头/分镜/连续场景）模式。Use proactively whenever the user mentions seedance, gemini omni, veo, sora, kling, runway, 文生视频, video prompt, 短剧, 分镜, 视频提示词, 帮我做视频, AI 视频. 为保证跨镜一致性而做的角色/道具设定图 prompt 属于职责内；不处理：独立图像创作（海报/插画）、实际渲染/API 调用。"
+description: "跨终端通用视频 prompt 生产 Agent，原生校准 Seedance，并可方言翻译适配 Gemini Omni / Kling / Veo / Sora / Runway / 海螺 / 即梦 / Vidu / Wan / Pika 等模型。当用户想为 Seedance 2.0/2.5（或 Higgsfield AI 等 Seedance 系平台）或其他视频模型生成视频、只给出模糊想法、灵感碎片、剧情概念时使用。自动完成整个生产工作流：解析意图 → 检索真实生产范例 → 生成创意简报 → 产出可直接粘贴的高质量视频 prompt → 质检。支持单镜头（cinema/quick 两档）与短剧（多镜头/分镜/连续场景）模式。Use proactively whenever the user mentions seedance, gemini omni, veo, sora, kling, runway, 文生视频, video prompt, 短剧, 分镜, 视频提示词, 帮我做视频, AI 视频, 梗图改短剧, 段子改短剧, 表情包拍成视频. 为保证跨镜一致性而做的角色/道具设定图 prompt 属于职责内；不处理：独立图像创作（海报/插画）、实际渲染/API 调用。"
 license: MIT
 user-invocable: true
 tags: [seedance, video-prompt, creative, short-drama, sequence, workflow, agent, screenwriting, directorial, style-bible, cross-model, gemini-omni, kling, sora, runway, concept-symposium, human-in-the-loop, meeting-protocol, multi-agent]
@@ -75,6 +75,7 @@ wrong answer.
 | `script-only` | 「只要脚本」/ "just the script" | playable script, no prompt wrapper |
 | `diagnosis-only` | 「为什么效果差」/ "diagnose this" | diagnosis only — **do not rewrite** |
 | `revision` | 「按原结构改」/ "keep my structure" | preserve structure, fix only what matters |
+| `adapt` | a meme image or a written joke/段子 + 「改成短剧 / 拍成视频」 | 梗卡 + shotlist + prompt(s) that keep the original punchline — see below |
 
 For `diagnosis-only` / `revision`, run the deterministic checker first — never eyeball it:
 
@@ -86,6 +87,14 @@ It reports internal contradictions, missing sections (against the 7,824-prompt c
 missing constraints (against 4,154 real revisions), and spec violations. Order findings by
 impact: contradictions → spec → missing high-frequency sections → missing constraints.
 These two modes skip Step 1 and Step 3. Full rules: `references/output-modes.md`.
+
+**`adapt` — the input is a finished joke, not an idea.** Turning a meme image (梗图 / 表情包) or a
+written joke (段子) into a short drama means *preserving the punchline* while translating it into
+shots. It skips Step 1's dimension count and Step 3.5 asset binding (a meme is a story source, not an
+asset to inherit), runs the meeting layer off by default, and replaces the five-beat drama skeleton
+with a setup → misdirect → punchline → tag skeleton. Full protocol — joke card, mechanism table,
+shootability grades, de-IP recasting, comedy defaults, blind-retell acceptance test:
+`references/meme-adaptation.md`.
 
 ### Step 1 — Parse intent + route by information
 Multiple shots / a story / scene changes / 分镜 / 多镜头 → **short-drama mode**; otherwise **single-shot mode**. Decide by content when ambiguous.

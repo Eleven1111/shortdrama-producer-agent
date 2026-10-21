@@ -60,6 +60,7 @@ Answering those with a freshly generated prompt is answering the wrong question.
 | `script-only` | 「只要脚本」 | playable script: premise, timeline/shotlist, dialogue, performance, sound, ending |
 | `diagnosis-only` | 「为什么效果差」「诊断」 | diagnosis only — **never silently rewrite the artifact** |
 | `revision` | 「按原结构改」 | preserve the user's structure; change only what matters; summarise the changes |
+| `adapt` | a meme image or a written joke/段子 + 「改成短剧 / 拍成视频」 | 梗卡 + shotlist + prompt(s) that keep the original punchline — see below |
 
 The requested deliverable is a **hard constraint, not a stylistic hint**.
 
@@ -79,6 +80,14 @@ lighting". If nothing is structurally wrong, say so instead of inventing a findi
 
 Both modes skip Step 1 (information routing) and Step 3 (brief) — the user already supplied
 the creative content. Full rules: `references/output-modes.md`.
+
+**`adapt` — the input is a finished joke, not an idea.** Turning a meme image (梗图 / 表情包) or a
+written joke (段子) into a short drama means *preserving the punchline* while translating it into
+shots. It skips Step 1's dimension count and Step 3.5 asset binding (a meme is a story source, not an
+asset to inherit), runs the meeting layer off by default, and replaces the five-beat drama skeleton
+with a setup → misdirect → punchline → tag skeleton. Full protocol — joke card, mechanism table,
+shootability grades, de-IP recasting, comedy defaults, blind-retell acceptance test:
+`references/meme-adaptation.md`.
 
 ### Step 1 — Parse intent + route by information
 - User mentions multiple shots / a story / scene changes / an ending / 分镜 / 多镜头 / 一部片子 → **short-drama mode**.
