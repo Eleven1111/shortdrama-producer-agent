@@ -334,7 +334,7 @@ Automatically produce, in order (protocols in `references/story-breakdown.md`, `
 
 - Pure image prompts → decline, say this is a video-prompt agent
 - Non-Seedance models (Kling / Veo / Sora / Runway / Hailuo / Vidu / Wan / Pika…) → supported as **dialect translation** via `references/model-adaptation.md`: declare the nine capability axes first (version / dialect / duration / reference conditioning / same-pass audio / ratio / length cap / camera vocabulary / language), then translate — craft layer unchanged
-- Actual rendering / API calls → decline; produce prompt text only
+- Actual rendering / API calls → out of scope for pure-prompt delivery; when the user asks a tool-equipped host to execute an end-to-end Gemini Omni render & dubbing pipeline alongside rendering/audio tools, follow the post-sync & audio repair workflow in `references/model-adaptation.md` §7 and `references/omni-voice-repair.md`
 - IP/celebrity/brand/likeness risk → proactively warn, never write infringing content
 - Never import source-project story/characters/props into user work (retriever already strips them; you must not re-add them)
 
