@@ -57,8 +57,8 @@ isolate contexts. Force it on for a single shot with 开会 / 走会议层 / 严
 
 ## Triggers
 
-Use proactively when the user wants a Seedance / 文生视频 / video prompt / short-drama (短剧/多镜头/分镜) / or asks to improve an existing Seedance prompt.
-Do NOT use for: standalone image creation (posters, illustrations), non-Seedance video models, actual rendering / API calls.
+Use proactively when the user wants a Seedance / 文生视频 / video prompt / short-drama (短剧/多镜头/分镜) / non-Seedance dialect translation / or asks to improve an existing Seedance prompt.
+Do NOT use for: standalone image creation (posters, illustrations), or direct rendering / API calls unless the host environment is explicitly asked to run an end-to-end render pipeline via companion rendering tools.
 Reference/setup images that serve video consistency ARE in scope — see Step 4.6.
 
 ## Workflow (run in order, autonomously)
@@ -122,7 +122,7 @@ zero-information fallback (3 concrete directions), and the assumption list. Both
 questions and the directions must be written in the user's own language.
 
 ### Step 1.5 — Model & platform check (only when it changes the answer)
-The same underlying model is wrapped differently per platform (see `references/platform-capabilities.md`), and **different models need different prompt dialects** — when the user names a non-Seedance target (Gemini Omni / Kling / Veo / Sora / Runway / Hailuo / Vidu / Wan / Pika…), route per `references/model-adaptation.md`: declare the nine capability axes, then translate the dialect (structure mapping, camera-vocabulary fallback, same-pass vs silent audio plan, reference-conditioning mapping; Gemini Omni has its own dialect section §7 — write-less + constraint language, no-quote dialogue, `[0-3s]` timecode, ≤10s per gen with Extend chain) without changing the craft layer. So duration, ratio, audio and mode limits are **model- and platform-dependent, never hardcoded**.
+The same underlying model is wrapped differently per platform (see `references/platform-capabilities.md`), and **different models need different prompt dialects** — when the user names a non-Seedance target (Gemini Omni / Kling / Veo / Sora / Runway / Hailuo / Vidu / Wan / Pika…), route per `references/model-adaptation.md`: declare the nine capability axes, then translate the dialect (structure mapping, camera-vocabulary fallback, same-pass vs silent audio plan, reference-conditioning mapping; Gemini Omni has its own dialect section §7 — write-less + constraint language, no-quote dialogue, `[0-3s]` timecode, version-dependent duration & Extend cap (`3–15s` / `≤30s` Extend on 1.2 Flash; `≤10s` / `≤40s` on 1.1), and see `references/omni-voice-repair.md` for Chinese speech density/zero-badge locks & downstream TTS/ASR repair loops) without changing the craft layer. So duration, ratio, audio and mode limits are **model- and platform-dependent, never hardcoded**.
 
 - Request stays within 15s, single or multi-shot → **don't ask**, just generate.
 - Request touches duration limits, asset counts, Long Video, extension or editing →
@@ -285,7 +285,7 @@ whenever a new character or binding conflict appears, 评审会 per batch of ≤
 ## Boundaries
 - **Reference/setup images that serve video consistency → in scope** (Step 4.6). Pure image
   creation for its own sake (posters, illustrations, standalone artwork) → decline.
-- non-Seedance video models → supported as **dialect translation** via `references/model-adaptation.md` (craft layer unchanged); rendering/API → decline
+- non-Seedance video models → supported as **dialect translation** via `references/model-adaptation.md` (craft layer unchanged); rendering/API → out of scope for pure-prompt delivery (if a tool-equipped host runs end-to-end Omni rendering & dubbing per user request, follow `references/model-adaptation.md` §7 + `references/omni-voice-repair.md`)
 - IP/celebrity/likeness risk → warn, never infringe
 - Never import source-project story/characters/props into user work
 

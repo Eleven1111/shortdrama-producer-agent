@@ -18,6 +18,7 @@
 | 短剧/多镜头/分镜 | 短剧模式（story breakdown → 设定图 → 圣经 → shotlist → 逐镜） |
 | ≥3 集 / ≥60 镜 / 电影 | 长片协议叠加（五层状态栈 · `longform-protocol.md`），短剧规则全部继续生效 |
 | 点名其他模型 | Step 1.5 → `model-adaptation.md` 方言翻译，工艺层不动 |
+| Gemini Omni 中文口播错读 / 漂移 / 零徽标成片 | `references/model-adaptation.md` §7 + `references/omni-voice-repair.md`（禁 `dealership`·生片禁写 BGM·360p 验音·TTS 限幅 `0.90–1.06`·三层语音门禁 L1/L2/L3） |
 | 跨镜角色/道具一致 | Step 4.6 设定图协议 |
 
 ## 交付前 12 门

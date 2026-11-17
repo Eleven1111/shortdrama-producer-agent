@@ -28,7 +28,7 @@ shortdrama-producer 的原生规范（OPTICS/`<<<锚>>>`/`—`分段/负面约�
 | 模型 | 原生时长 | 画幅 | 原生音频 | 参考方式 | 方言要点 |
 |---|---|---|---|---|---|
 | **Seedance 2.0/2.5**（字节，本 Agent 原生规范；2.5 = 2026-07-31 发布：≤30s 单次、原生 4K（投放端常限 720/1080p）、参考扩至 50 个（30图+10视频+10音频，含 3D 白模）、时间戳级编辑） | 4-15s / ≤30s（●●●） | 21:9 主流 | ✅ 同轨完整时间线 | 多槽参考 + @Image N 角色分配 | 中文提示词响应更精准（中文系首选）；六要素公式：主体+动作+景别构图+镜头运动+光线氛围+画质风格；弱点：多语言混排字幕易错、快动作形变 |
-| **Gemini Omni / Omni Flash 1.1**（Google 最新，官方宣布在 Gemini app 取代 Veo 3.1） | 单次 ≤10s；可续写扩展（每次 +10s，总长 ≤40s，Omni 1.1 Flash）（●●●） | 16:9/9:16/1:1；360p 预览→720p/1080p/4K（●●●） | ✅ 同轨（对白+SFX+配乐，随提示生成）（●●●） | **任意组合输入**：text/image/video/audio 文件同喂（image_0.png / video_0.mp4 / audio_0.wav）；支持首尾帧控制；视频作输入续写，上下文读 10s（Veo 只读最后 1s） | **写少不写多**：官方"不必像 Veo 那样规定到细节，讲清要什么即可"；约束语言>描述堆量——漂移时补约束而不是加描述；五维结构（镜头景别与运动/主体/风格/光照/音频）；对白**不加引号**（冒号引出，防渲染字幕）；支持 `[0-3s]` 时间码语法；文字渲染准确可读；同 seed+逐字复用角色描述锁一致性；会话式"改一点+Keep everything else the same"编辑链。详见 §7 |
+| **Gemini Omni 1.2 Flash / 1.1**（Google 最新，在 Gemini app 取代 Veo 3.1） | 1.2：单次 3–15s，续写总长 ≤30s；1.1：≤10s，续写总长 ≤40s（●●●） | 16:9/9:16/1:1；360p 预览→720p/1080p/4K（●●●） | ✅ 同轨（对白+SFX+配乐，随提示生成）（●●●） | **任意组合输入**：text/image/video/audio 自然语言序位绑定（1.2 至多 6 图+1–3 参考视频，弃用旧尖括号占位 tag）；视频续写回看最后 10s | **写少不写多**：官方"不必像 Veo 那样规定到细节，讲清要什么即可"；约束语言>描述堆量——漂移时补约束而不是加描述；五维结构（镜头景别与运动/主体/风格/光照/音频）；对白**不加引号**（冒号引出，防渲染字幕）；支持 `[0-3s]` 时间码语法；文字渲染准确可读；同 seed+逐字复用角色描述锁一致性；会话式"改一点+Keep everything else the same"编辑链。详见 §7 |
 | **Kling 3.0 / Kling Omni 3**（快手可灵） | 3.0：≤15s，**单次最多 6 镜 multi-shot**；2.5/2.6 为 10s/30s（●●●） | 16:9/9:16/1:1，1080p-4K | ✅ 3.0 原生音频+双语对白（2.x 对白弱）（●●●） | 首帧/首尾帧/多参考（Elements 全能参考绑定） | **官方五段公式**：主体+动作 → 镜头语言 → 环境+光照 → 音频指令 → 情绪调色，**分句不连写**（阅读顺序=权重，句首词注意力最高）；甜点 60-100 词（API 2500 字符）；独立负面词字段当质量过滤器；对白重场路由 Kling Omni 3 变体 |
 | **Veo 3.1** | ≤60s，甜点 5-10s（●●○ 各源 8-60s 不一） | 16:9/9:16/1:1/4:3 | ✅ 对白+SFX+配乐全同轨（●●●） | 首帧/参考 | 精确指令式方言（Omni 的反面）；**在 Gemini app 正被 Omni 取代，Flow 中暂仍可用**——新项目默认路由 Omni，存量 Veo 项目照旧 |
 | **Sora 2 / Sora 2 Pro**（OpenAI） | API：4/8/12s 三档（消费端至 20s）（●●●） | 720p/1080p 竖横 | ✅ 同步音频（●●●） | Character References ≤2 个/gen（角色名必须逐字出现在 prompt）；首帧参考 | **摄影简报式散文**：Cinematography（framing/lens/movement）→ 主体细节 → Action Beats（顺序节拍）→ 环境（光/色板/风格）；**短镜更可靠——两条 4s 剪辑优于一条 8s**；时长/分辨率只能走 API 参数不能写正文；Extend 每次 +20s 至 120s 但不支持角色参考；聚焦编辑一次只改一件事 |
@@ -110,9 +110,9 @@ shortdrama-producer 的原生规范（OPTICS/`<<<锚>>>`/`—`分段/负面约�
 - [ ] 逐字对白保留原语言？字幕/文字叠加层显式关闭？
 - [ ] 参考槽位与挂载次序一致，无"首帧+参考图"混用？
 
-## 7. Gemini Omni 方言（Google 最新视频模型，官方文档蒸馏）
+## 7. Gemini Omni 方言（Omni 1.2 Flash / 1.1 官方文档 + 实测蒸馏）
 
-> 依据：Google Cloud 官方 best-practices / Gemini API omni 文档 / DeepMind prompt guide（2026-05 I/O 发布 Omni Flash，1.1 Flash API 2026-06 预览）。与 Veo 的根本差异：**Omni 继承 Gemini 的世界知识与推理，官方原话"不必像 Veo 那样在 prompt 里规定到细节——讲清要什么，让模型自己把细节带出来"**。
+> 依据：Google Cloud / Gemini API Omni 官方文档（含 Omni 1.2 Flash 与 1.1 prompt guide）。与 Veo 的根本差异：**Omni 继承 Gemini 的世界知识与推理，官方原话"不必像 Veo 那样在 prompt 里规定到细节——讲清要什么，让模型自己把细节带出来"**。
 
 ### 7.1 五维 prompt 结构（官方示例拆解）
 
@@ -130,32 +130,34 @@ shortdrama-producer 的原生规范（OPTICS/`<<<锚>>>`/`—`分段/负面约�
 3. **单场景强制**：短正文必须显式写 `In a single unbroken scene / single continuous shot / No scene cuts`，否则模型会自作主张叙事剪辑（它会"编故事"）。
 4. **负面极简**：`No dialogue / No embellishments / No extra sound effects`——一行一条，不堆长负面列表。
 5. **任意组合输入**：prompt 里直接引用文件——`Dynamic sci-fi film style video based on image_0.png. Elements light up similar to video_0.mp4 synchronized to the beat of the music from audio_0.wav`。图+视频+音频可同时作条件。
-6. **视频续写**：`Extend this video` / `The scene continues`——每次 +10s，总长 ≤40s；模型读前 10s 作上下文（角色/光照/叙事连续），最后几帧会被无缝改接。
+6. **视频续写**：`Extend this video` / `The scene continues`——每次 +3~10s，1.2 Flash 累计总长 ≤30s（1.1 为 ≤40s）；模型读前 10s 作上下文（角色/光照/叙事连续），最后几帧会被无缝改接。
 7. **会话式编辑链**：`Make this video anime` / `Add a cat that jumps onto his lap, he begins to pet it. Keep everything else the same.`——编辑指令要短，复杂长编辑指令反而引发意外改动。
 8. **文字渲染可读**：Omni 能准确渲染画面内文字（招牌/字幕条/车牌），需要可读文字时直接写内容与位置；不想要文字时用无引号对白规则+负面 `No text overlays`。
    - ⚠️ **`No text overlays` 与帧内文字互斥（实测踩坑）**：一旦某一镜的正文要求画面里出现可读文字（手写告示、招牌、票根），这一镜就**必须删掉** `No text overlays`，否则模型二选一，正文要求会静默失效。正确做法是**收窄成范围化正向锁**：`The hand-written fare notice and the torn paper stub are the only text in this shot.` / `The red paper sign is the only text in frame.`。不要只在部分镜删——同一批里漏掉任何一镜就是同类 blocker 重现（实测：修了镜4 漏了镜1）。
+   - ⚠️ **零文字/零品牌徽标防回召**：要求全片无字母/无品牌标识时，禁用 `modern automotive dealership glass facade` 等强品牌语境词（实测 Omni 会在展厅玻璃墙上自动补画椭圆斜 `H` 等品牌徽标）；改写为 `minimalist architectural gallery, completely blank matte bare walls with zero wall badges, zero circular emblems`。同时若参考图带媒体角标/水印，须**先本地裁剪去角标**再送图像模型补全重绘（禁写 `"remove watermarks"`，易触发 `image_safety` 安全拦截报错，输入/输出统一 `"image/jpeg"`）。
    - **指定汉字必须资产锁**：别指望用 prompt 让模型渲染指定汉字。小尺寸、手写体、远景道具上的汉字大概率糊字或错字（大尺寸招牌/品牌 logo 才稳）。做法是出一张 `image_N.png` 道具图（红纸 + 黑墨 + 二字，注明"fully legible, upright, not stylised"），正文改写成 `the sign is image_N.png, hung from X, its two characters 吉祥 unchanged`——这样既锁字形又锁位置。
 9. **一致性双锁**：角色描述**逐字复用**（官方做法）+ **same seed 参数**。`<<<锚>>>` 的"逐字复用"思想在此天然成立：把角色卡描述块原样粘进每条 prompt，只改动作/场景部分。
    - ⚠️ **seed 必须写绝对值**：`Same seed across all six generations.` 是**无锚点的相对锁**——每次生成是独立会话，模型无从知道 the same 指哪个数。必须写死一个具体种子：`Seed 481923, reused verbatim in all six shots.`
    - ⚠️ **跨镜接续不能靠自然语言祈使句**：`the colour must match shot 1 exactly` / `repeats the closing frame of shot 1` / `in the same acoustic space as shot 1` 在独立生成之间全部无效。要锁构图就把上一镜的**末帧截下来存成 `image_N.png`** 当构图锚（并在正文写 `The framing matches image_N.png, the final frame of shot 1.`）；要锁光照就把该镜光照段**逐字复用**，不要写"和镜1一样"。
    - ⚠️ **Extend 链只用于续接运动，不用于换场景**：Extend 会读前 10s 上下文并无缝改接最后几帧，天生要"运动继续"。多场景短片（每镜换地点）应该走**独立生成 + 统一绝对 seed + 参考资产**，不要串成 Extend 链；串了模型会试图把上一镜的运动接下去。
 10. **成本纪律**：先 360p 预览验证构想，选中后再升 720p/1080p/4K。
+11. **中文口播防错与后期 TTS 修复闭环**：Omni 中文口播每镜建议 **24–35 字 / 8–10s**（~3.3–3.8 字/秒）。`360p` 2 镜样片须同步**听测+转写原声**检查中英型号（如 `X8→N8`）、多音近音字与跨镜音色漂移；若计划后期统一配音，Omni 提示词须**去掉配乐/BGM 描述**（只留静默或轻环境底声），并在全量出片后严格按 `references/omni-voice-repair.md` 执行 `-an` 静音原人声 + Voice Design 统一音色 + `atempo∈[0.90, 1.06]` 对位 + ASR/多模态/试听三层门禁。
 
 ### 7.3 shortdrama-producer 规范 → Omni 方言转换
 
 | 我们的规范 | Omni 写法 |
 |---|---|
-| `Duration: 15s. Aspect ratio: 21:9. One continuous shot.` | 单次 ≤10s → 超过 10s 的镜**拆两镜**（预算重排）或用 Extend 链（≤40s）；spec header 保留 `One continuous shot, no scene cuts` 字样（单场景强制）。**注意 21:9 在 Omni 不存在**（只有 16:9/9:16/1:1）——从 Seedance 21:9 稿翻译过来必须改画幅，并且要重新检查原本靠 21:9 宽画幅成立的调度（边缘留白、双人分离构图、横移幅度） |
+| `Duration: 15s. Aspect ratio: 21:9. One continuous shot.` | 1.2 Flash 单次 3–15s（Extend 总长 ≤30s）；1.1 单次 ≤10s（总长 ≤40s）→ 超限镜头**拆两镜**（预算重排）或用 Extend 链；spec header 保留 `One continuous shot, no scene cuts` 字样（单场景强制）。**注意 21:9 在 Omni 不存在**（只有 16:9/9:16/1:1）——从 Seedance 21:9 稿翻译过来必须改画幅，并且要重新检查原本靠 21:9 宽画幅成立的调度（边缘留白、双人分离构图、横移幅度） |
 | 一个镜头里含时间跳跃（夜→破晓、前夜→次日） | **必须拆镜**——单场景强制不允许一次生成内换时间。拆出来的两镜如果同人同地同道具，会产生**节拍重复**（实测：原镜5 拆成"夜·刮泥"+"破晓·挂包"后，两镜都是"他一个人在码头处理这根棒"，且都以"望着水面"收尾）。拆完必须给两镜**不同的语法**（改机位／改景别／改收尾动作／让其中一镜的动作变成另一镜的因），不能只改时间码 |
 | `<<<name>>> — 外观描述` | 保留，同一角色描述块逐字复用每镜；用户走 API 时配 same seed |
 | OPTICS `47°(≈50mm)` | 参数数值照删（`medium shot, eye-level`） |
 | 复合运镜（`一次连续 180° 弧线绕到主体身后` 这类） | **改写同一件事的物理成因，而不是换术语**（实测 2026-09-22）。弧线绕行 = 相机在主体前方、被主体超过、落到后方 —— 把它写成「相机滑向一侧，让主体从身边超过，直到自己在主体后方」，就变成**单一向后的位移**，观感完全一致却落进「单镜单向运动」红线内。这是换模型时最值钱的一类改写：先问"这个运动在世界坐标里其实是哪一个矢量"，再写那个矢量 |
 | `—` 破折号分段 | 拍平为五维自然语言流；长正文不占优——约束优先于描述 |
 | 负面约束列表 ≥5 条 | 压成 2-3 条极简 `No X` 行（No dialogue 需求除外）；其余负面转正面写法 |
-| 对白预算 4.1 字/秒 | 同轨音频沿用；**冒号引对白、无引号** |
+| 对白预算 4.1 字/秒 | 中文真人口播压到 **24–35 字/8–10s 镜**（**冒号引对白、无引号**）；计划统一音色或防中英混读错字时生片禁写 BGM，后期按 `references/omni-voice-repair.md` 替换对齐 |
 | 多槽参考资产 | 改用 `image_0.png / video_0.mp4 / audio_0.wav` 文件引用法，按挂载顺序编号 |
 | 转场 hard cut / match cut | 短镜内不切（单场景强制）；跨镜转场走多镜拼接，或用时间码语法做镜内节奏 |
-| 短剧 6 镜/批 | 每镜 ≤10s 重排预算；>10s 的戏剧节拍用 Extend 链（注意 Extend 会改接最后几帧，状态机 end state 可能被微调） |
+| 短剧 6 镜/批 | 按目标版本单次上限（1.2 ≤15s / 1.1 ≤10s）重排预算；超限戏剧节拍用 Extend 链（注意 Extend 会改接最后几帧，状态机 end state 可能被微调） |
 
 ### 7.4 Omni 自检（在通用自检之上追加）
 
@@ -166,14 +168,16 @@ shortdrama-producer 的原生规范（OPTICS/`<<<锚>>>`/`—`分段/负面约�
 
 - [ ] 对白全部冒号引出、无引号？
 - [ ] 需要单镜头的镜写了 `single continuous shot / no scene cuts`？
-- [ ] 时长 ≤10s 或已规划 Extend 链（并告知 Extend 的帧改接风险）？**换场景的镜不要串 Extend 链**。
+- [ ] 时长符合所用版本上限（1.2 Flash ≤15s 续写 ≤30s / 1.1 ≤10s 续写 ≤40s，并告知 Extend 帧改接风险）？**换场景的镜不要串 Extend 链**。
 - [ ] 漂移修复走"补约束"而不是"加描述"？
-- [ ] 走了 360p 预览→再升档的成本纪律？（参数行里要真的写出 360p，不能只在交付说明里提）
+- [ ] 走了 360p 预览→再升档的成本纪律？（参数行里要真的写出 360p，不能只在交付说明里提；中文口播须同步在 `360p` 检查读音与音色漂移）
 - [ ] **画幅是 Omni 支持的三种之一？**（21:9 不存在，必须改并重查调度）
 - [ ] **`No text overlays` 与帧内文字是否互斥？** 逐镜扫一遍：任何一镜的正文要求出现可读文字 → 该镜删掉这句、换成范围化正向锁；**不要只改其中几镜**。
+- [ ] **无字母/无标识场景是否排除了品牌回召触发词？** 禁写 `dealership` 招牌语境、改用纯素建筑描述 + 零徽标正向锁；含角标参考图是否已本地先裁后生图（无 `remove watermarks` 字样）？
 - [ ] **指定汉字是否已资产锁？**（`image_N.png` 道具图 + 正文只写"unchanged"，不写字形描述）
 - [ ] **seed 写的是绝对数字还是相对说法？**（`Same seed as the others` 无效，必须写死）
 - [ ] **跨镜接续是否还有自然语言祈使句？**（`must match shot N exactly` / `the same as shot N` → 改成末帧资产锚或逐字复用段落）
 - [ ] **一镜一次保真度预算**：正文里是否有多于一个"主开销"动作？超过就砍，或把前一拍挪到该镜的第一帧状态里（用"已经在进行中"开场省节拍）。
 - [ ] **拆镜后的节拍重复**：因单场景强制拆出来的镜，是否与相邻镜用了同一套语法（同机位逻辑／同收尾动作／同一个"望向远方"）？
 - [ ] **Extend 还是独立生成 + 隐形剪？**（甄别判据，实测 2026-09-22）Extend 是**续接运动**的正当工具，但它同时会把续段拉成"温和的同向继续"。所以：续段只是**同向继续** → 走 Extend（真零剪辑）；续段的**运动性质要变**（加速／换向／新主体入场／镜头要绕过主体）→ 走**独立生成 + 末帧资产锚 + 隐形剪**。隐形剪的可用性取决于两端运动相位：让前段的结尾与后段的开场**同向运动**，剪点落在运动模糊最重的 2–4 帧里，观感与真 oner 无异。别默认 Extend 更"无缝"——它会牺牲那个最贵的拍子。
+- [ ] **后期统一配音与语音修复闭环**：若准备后期配音，Omni 提示词是否已清除 BGM 描述？是否已挂载 `references/omni-voice-repair.md`（禁句首 `<short pause>`、`"第 一"` 断词防并音、`atempo∈[0.90, 1.06]`、以及转写/多模态审计/直接试听三层门禁）？
