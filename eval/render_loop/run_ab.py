@@ -13,13 +13,13 @@
   python3 run_ab.py --render --backend dry # 走渲染（dry/manual/ark）
   python3 run_ab.py --sheet                # 生成盲测评分表
 """
-import argparse, json, os, random, shutil, sys, tempfile
+import argparse, fcntl, hashlib, http.client, json, os, random, shutil, sys, tempfile
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, 'out')
 CASES = os.path.join(HERE, 'cases.json')
 sys.path.insert(0, HERE)
-from render_adapter import render, RenderError          # noqa: E402
+from render_adapter import render, RenderError, write_json          # noqa: E402
 
 RUBRIC_ITEMS = [
     'duration', 'shot_count', 'hard_cut_timecode', 'camera_move', 'lens_locked',
@@ -53,13 +53,26 @@ def prepare():
                 'prompt': '',      # ← 由 agent 填写
             })
     path = os.path.join(OUT, 'prompts.todo.json')
-    with open(path, 'w', encoding='utf-8') as f:
-        json.dump(todo, f, ensure_ascii=False, indent=1)
+    try:
+        with open(path, 'x', encoding='utf-8') as f:
+            json.dump(todo, f, ensure_ascii=False, indent=1)
+    except FileExistsError:
+        sys.exit('提示词槽位已存在，新实验请使用另一个 --out-dir。')
     print('已生成 %d 个待填槽位 → %s' % (len(todo), path))
     print('下一步：让 agent 逐条填写 prompt 字段（A 组含 Step 5.5，B 组不含），然后 --render')
 
 
-def do_render(backend, limit=None):
+def do_render(backend, limit=None, config=None):
+    os.makedirs(OUT, exist_ok=True)
+    with open(os.path.join(OUT, '.render.lock'), 'a') as lock:
+        try:
+            fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except BlockingIOError:
+            sys.exit('该输出目录已有渲染进程')
+        render_batch(backend, limit, config or {})
+
+
+def render_batch(backend, limit, config):
     path = os.path.join(OUT, 'prompts.todo.json')
     if not os.path.exists(path):
         sys.exit('缺 prompts.todo.json，先跑 --prepare')
@@ -70,22 +83,41 @@ def do_render(backend, limit=None):
     if empty and backend != 'dry':
         sys.exit('有 %d 个槽位的 prompt 还没填，无法渲染（dry 模式可忽略）' % len(empty))
 
+    if backend == 'ark' and not os.environ.get('ARK_API_KEY'):
+        sys.exit('缺少 ARK_API_KEY')
+
+    rp = os.path.join(OUT, 'render_results.json')
+    if backend == 'ark':
+        plan_bytes = json.dumps(todo, sort_keys=True, ensure_ascii=False).encode('utf-8')
+        experiment = {'config': config, 'plan_sha256': hashlib.sha256(plan_bytes).hexdigest()}
+        config_path = os.path.join(OUT, 'ark-config.json')
+        if os.path.exists(config_path):
+            with open(config_path, encoding='utf-8') as f:
+                if json.load(f) != experiment:
+                    sys.exit('方舟实验参数已冻结，提示词和用例也须保持一致。新实验请使用另一个 --out-dir。')
+        else:
+            if os.path.exists(rp):
+                with open(rp, encoding='utf-8') as f:
+                    if any(row.get('backend') == 'ark' for row in json.load(f)):
+                        sys.exit('检测到旧版方舟结果。请先在方舟控制台核对任务，保留本目录作为归档。')
+            write_json(config_path, experiment)
+
     results = []
-    for i, t in enumerate(todo):
-        if limit and i >= limit:
-            break
+    for i, t in enumerate(todo[:limit]):
         tag = '%s%s' % (t['case_id'], t['arm'])
         try:
-            r = render(t['prompt'] or '(empty)', tag, OUT, backend=backend)
-        except RenderError as e:
+            r = render(t['prompt'] or '(empty)', tag, OUT, backend=backend, **config)
+        except (RenderError, OSError, http.client.HTTPException, json.JSONDecodeError) as e:
             r = {'job_id': tag, 'backend': backend, 'status': 'error', 'error': str(e)}
         r.update({'case_id': t['case_id'], 'arm': t['arm'], 'probes': t['probes']})
+        if config:
+            r['config'] = config
         results.append(r)
+        write_json(rp, results)
         print('  [%2d/%d] %-6s %-14s %s' % (i + 1, len(todo), tag, r['status'],
                                             r.get('note') or r.get('error') or ''))
-    rp = os.path.join(OUT, 'render_results.json')
-    with open(rp, 'w', encoding='utf-8') as f:
-        json.dump(results, f, ensure_ascii=False, indent=1)
+    if not results:
+        write_json(rp, results)
     ok = sum(1 for r in results if r['status'] == 'ok')
     print('\n渲染登记 %d 条，成片可用 %d 条 → %s' % (len(results), ok, rp))
 
@@ -136,11 +168,22 @@ if __name__ == '__main__':
     ap.add_argument('--sheet', action='store_true')
     ap.add_argument('--backend', default='dry', choices=['dry', 'manual', 'ark'])
     ap.add_argument('--limit', type=int)
+    ap.add_argument('--out-dir', help='单次实验的独立目录，默认 out/')
+    ap.add_argument('--model', help='模型 ID 或推理接入点')
+    ap.add_argument('--ratio', choices=('16:9', '9:16', '1:1', '4:3', '3:4', '21:9', 'adaptive'))
+    ap.add_argument('--duration', type=int, help='单次生成时长（秒）')
     a = ap.parse_args()
+    if a.out_dir:
+        OUT = os.path.abspath(a.out_dir)
     if a.prepare:
         prepare()
     elif a.render:
-        do_render(a.backend, a.limit)
+        if a.limit is not None and a.limit < 1:
+            ap.error('--limit 必须是正整数')
+        config = {'model': a.model, 'ratio': a.ratio, 'duration': a.duration}
+        if a.backend != 'dry' and (not a.model or not a.ratio or not a.duration or a.duration < 1):
+            ap.error('实际渲染须指定 --model、--ratio 和正整数 --duration')
+        do_render(a.backend, a.limit, config if a.backend != 'dry' else None)
     elif a.sheet:
         sheet()
     else:

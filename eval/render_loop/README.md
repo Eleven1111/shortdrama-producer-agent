@@ -28,7 +28,7 @@ agent 的运行时边界不变 —— 它仍然只产出 prompt，不调渲染 A
 ```bash
 python3 run_ab.py --prepare                 # 1. 生成 24 个待填槽位
 #    2. 让 agent 逐条填 prompt 字段（A 组走完 Step 5.5，B 组跳过）
-python3 run_ab.py --render --backend manual # 3. 渲染
+python3 run_ab.py --render --backend manual --model <模型版本> --ratio 9:16 --duration 8
 python3 run_ab.py --sheet                   # 4. 生成盲测评分表
 #    5. 按 rubric.md 评分（评分者看不到组别）
 python3 aggregate.py                        # 6. 还原组别并聚合
@@ -49,7 +49,18 @@ python3 aggregate.py                        # 6. 还原组别并聚合
 | `manual` | 脚本导出 prompt 到 `out/prompts/`，人工在平台渲染后把成片放回 `out/videos/<job_id>.mp4`。慢，但不需要 API 凭据。 |
 | `ark` | 火山方舟 Seedance，需 `ARK_API_KEY`。**会消耗付费额度**，调用前须获得额度所有者明确同意。 |
 
-适配层刻意不含任何绕过鉴权的路径。没有凭据就用 `manual`。
+实际渲染须显式指定 `--model`（模型 ID 或接入点）、`--ratio` 和 `--duration`。
+manual 模式在平台上使用同样参数。一次运行的两个组使用相同配置，每条结果记录请求参数。
+方舟模式使用 [官方 API](https://docs.volcengine.com/docs/ark/create-video-generation-task-api)
+的独立参数字段，并记录查询响应中可用的模型、画幅和时长。不同配置的实验使用独立目录。
+`--out-dir` 可用于准备、渲染、生成评分表和聚合，各步传入同一目录。
+
+方舟提交后立即将任务 ID 写入 `ark-tasks/`。中断后用相同命令重跑，已有任务继续查询，
+已完成的成片直接复用。若要从金丝雀批次扩展到全量，保持目录、提示词和参数一致，
+移除 `--limit`。若 POST 响应丢失，记录会停在 `submitting`，重跑会提示到方舟
+控制台核对。查到任务后，可在对应 JSON 中填入 `task_id`，将 `status` 改为
+`submitted` 再续跑。确认平台从未接收该请求后，才可移除对应记录并重试。
+旧版方舟结果应先核对并保留在原目录。
 
 ## 评分为什么这样设计
 

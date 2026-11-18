@@ -89,7 +89,7 @@ jobs:
         run: |
           python3 tests/test_diagnose_negation.py
           python3 -m unittest discover -s tests -p 'test_continuity.py'
-          python3 -m unittest discover -s tests -p 'test_render_eval.py'
+          python3 -m unittest discover -s tests -p 'test_render*.py'
           python3 -m unittest discover -s tests -p 'test_omni.py'
 
       - name: Local install and update smoke test
