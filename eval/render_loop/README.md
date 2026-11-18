@@ -28,13 +28,13 @@ agent 的运行时边界不变 —— 它仍然只产出 prompt，不调渲染 A
 ```bash
 python3 run_ab.py --prepare                 # 1. 生成 24 个待填槽位
 #    2. 让 agent 逐条填 prompt 字段（A 组走完 Step 5.5，B 组跳过）
-python3 run_ab.py --render --backend manual --model <模型版本> --ratio 9:16 --duration 8
+python3 run_ab.py --render --backend manual --model '你的模型版本' --ratio 9:16 --duration 8
 python3 run_ab.py --sheet                   # 4. 生成盲测评分表
 #    5. 按 rubric.md 评分（评分者看不到组别）
 python3 aggregate.py                        # 6. 还原组别并聚合
 ```
 
-第 2 步由被测 Agent 产出 prompt。人工回填成片后，再运行一次 `--render --backend manual`
+第 2 步由被测 Agent 产出 prompt。人工回填成片后，用相同的模型、画幅、时长和输出目录再运行一次 `--render --backend manual`
 更新成片状态，然后生成评分表。
 
 评分者只接收 `out/grading_sheet.json`、其中引用的 `blind-videos-*` 目录和统一评分口径。
