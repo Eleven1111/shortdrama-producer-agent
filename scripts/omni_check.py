@@ -18,7 +18,7 @@
   [E] 画幅不是 16:9/9:16/1:1   —— Omni 只有三种画幅，21:9 不存在
   [E] 未声明单场景             —— 单场景强制；不写模型会自作主张叙事剪辑
   [E] 单次生成里写了 hard cut   —— 镜内不切；跨镜转场必须在生成之间做
-  [E] 时长 / 时间码 >10s 且未规划 Extend —— 单次 ≤10s
+  [E] 单次时长或时间码超出选择的模型版本范围
   [E] 跨镜接续用自然语言祈使句   —— 独立生成之间无效，必须换末帧资产锚
   [E] 帧内文字与 No text overlays 互斥
   [W] 参数行未写 360p 预览      —— 成本纪律：参数行里要真写出 360p
@@ -42,7 +42,7 @@ TIMECODE = re.compile(r"\[(\d+(?:\.\d+)?)\s*-\s*(\d+(?:\.\d+)?)\s*s\]")
 DURATION = re.compile(r"duration:\s*(\d+(?:\.\d+)?)", re.I)
 SEED_ABS = re.compile(r"\bseed\s*[:=]?\s*(\d{3,})", re.I)
 SEED_REL = re.compile(r"same seed|seed as the others?|the same seed|identical seed", re.I)
-EXTEND_PLAN = re.compile(r"\bextend\b", re.I)
+DURATION_LIMITS = {"1.1": (None, 10), "1.2-flash": (3, 15)}
 NEG_LINE = re.compile(r"^No\s+[A-Z].*\.\s*$", re.M)
 NO_TEXT_OVERLAY = re.compile(r"no text overlays|no text overlay", re.I)
 WANTS_TEXT = re.compile(
@@ -60,11 +60,10 @@ QUOTED_DIALOGUE = re.compile(r"\bsays\s*[\"“]|\basks\s*[\"“]|[\"“][^\"”]
 
 def split_prompts(text: str):
     parts = [p.strip() for p in SPLIT.split(text)]
-    parts = [p for p in parts if p and len(p) > 60]
-    return parts or ([text.strip()] if text.strip() else [])
+    return [p for p in parts if p]
 
 
-def check_one(text: str):
+def check_one(text: str, version: str = "1.1"):
     err, warn, ok = [], [], []
 
     for rx, label in NUMERIC_OPTICS:
@@ -94,12 +93,16 @@ def check_one(text: str):
 
     d = DURATION.search(text)
     tc = [float(b) for _, b in TIMECODE.findall(text)]
-    span = max(tc) if tc else (float(d.group(1)) if d else None)
-    if span is not None and span > 10 and not EXTEND_PLAN.search(text):
-        err.append(f"单次生成跨度 {span:.1f}s > 10s 且未规划 Extend —— 拆两镜，或用 Extend 链"
-                   f"（每次 +10s，总长 ≤40s；注意 Extend 会改接最后几帧）")
-    elif span is not None:
-        ok.append(f"时长 {span:.1f}s ≤ 10s")
+    durations = tc + ([float(d.group(1))] if d else [])
+    minimum, maximum = DURATION_LIMITS[version]
+    if durations:
+        span = max(durations)
+        declared = float(d.group(1)) if d else span
+        if span > maximum or (minimum is not None and declared < minimum):
+            limit = f"{minimum}–{maximum}s" if minimum is not None else f"≤{maximum}s"
+            err.append(f"单次生成时长或时间码不符合 Omni {version} 的 {limit} 范围")
+        else:
+            ok.append(f"单次时长符合 Omni {version} 上限")
 
     if REL_CONTINUITY.search(text):
         m = REL_CONTINUITY.search(text)
@@ -145,6 +148,8 @@ def main() -> int:
     ap = argparse.ArgumentParser(description="Gemini Omni 方言自检（交付前跑一遍）")
     ap.add_argument("file", nargs="?", help="含 1..N 条 prompt 的文件；缺省读 stdin")
     ap.add_argument("--json", action="store_true", help="机器可读输出")
+    ap.add_argument("--version", choices=DURATION_LIMITS, default="1.1",
+                    help="目标模型版本，默认 1.1")
     a = ap.parse_args()
     if a.file:
         text = pathlib.Path(a.file).read_text(encoding="utf-8", errors="replace")
@@ -160,7 +165,7 @@ def main() -> int:
 
     report, total_e = [], 0
     for i, p in enumerate(prompts, 1):
-        err, warn, ok = check_one(p)
+        err, warn, ok = check_one(p, a.version)
         total_e += len(err)
         report.append({"n": i, "errors": err, "warnings": warn, "passed": ok})
 
@@ -179,8 +184,7 @@ def main() -> int:
             print(f"   [WARN]  {w}")
         print()
     if not total_e:
-        print("Omni 方言自检通过：数值已清、画幅合法、单场景已声明、时长 ≤10s、"
-              "接续走资产锚、无帧内文字冲突。")
+        print(f"Omni {a.version} 方言自检通过")
     return 1 if total_e else 0
 
 

@@ -45,18 +45,18 @@ while [[ $# -gt 0 ]]; do
 done
 
 # Resolve target list ---------------------------------------------------------
-declare -A DEST
+TARGET_LIST=()
 detect() {
   if [[ -n "$TARGETS" ]]; then
     IFS=',' read -ra arr <<< "$TARGETS"
-    for t in "${arr[@]}"; do DEST["$t"]=""; done
+    TARGET_LIST=("${arr[@]}")
     return
   fi
   # Auto-detect: install only where a matching host exists
-  [[ -d "$HOME/.agents" || -x "$(command -v codex)" ]] && DEST[codex]=""
-  [[ -d "$HOME/.claude" || -x "$(command -v claude)" ]] && DEST[claude]=""
-  [[ -d "$HOME/.workbuddy" ]] && DEST[workbuddy]=""
-  if [[ ${#DEST[@]} -eq 0 ]]; then
+  [[ -d "$HOME/.agents" || -x "$(command -v codex)" ]] && TARGET_LIST+=(codex)
+  [[ -d "$HOME/.claude" || -x "$(command -v claude)" ]] && TARGET_LIST+=(claude)
+  [[ -d "$HOME/.workbuddy" ]] && TARGET_LIST+=(workbuddy)
+  if [[ ${#TARGET_LIST[@]} -eq 0 ]]; then
     echo "⚠️  No supported terminal detected. Use --target (codex|claude|workbuddy|repo)."
     exit 1
   fi
@@ -121,7 +121,7 @@ install_one() {
   fi
 }
 
-for t in "${!DEST[@]}"; do
+for t in "${TARGET_LIST[@]}"; do
   install_one "$t"
 done
 

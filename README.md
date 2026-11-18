@@ -6,7 +6,7 @@
 
 「雨夜，一个女孩在便利店门口等人」——把话说到这个程度就够了。焦段、画幅、光、负面词、你那个平台到底能吃多长，全不用你操心。出来就是一条能直接粘进 Seedance、可灵或者谷歌 Omni 的完整 prompt。
 
-它凭什么是这个水平？因为库里的每一句话，都是从 58 万多条真实生产素材里量出来的。不是「我感觉这样更好」，是「真实创作者里有 45.4% 确实这么干」。
+规则库使用两个项目的 58 万多条生产资产提炼写法，并为关键统计注明样本与口径。
 
 跑在 Claude Code · Codex · Cursor · Windsurf · Gemini CLI · GitHub Copilot · WorkBuddy 上。
 只写 prompt 和脚本——它不会替你点「生成」，也不会偷偷烧你的 token。
@@ -58,7 +58,7 @@ cd shortdrama-producer-agent && ./install.sh
 
 举个具体的，你就明白这个区别有多要命。
 
-真实创作者在处理参考图的时候，**45.4% 的人会一条条列出「要保留什么」，而只有 0.1% 的人会列「不要保留什么」**。
+在两个来源项目的 61,554 条图像 prompt 中，27,948 条（**45.4%**）列举要保留的内容，0.1% 列举不要继承的内容。
 
 这个数字直接改写了它的做法。它现在会逼自己把「保留清单」写全——因为**你没写的那些，就是模型会自己发挥的那些**。你只说了「参考这张脸」，它就懂了：脸、发型、身材、每一件衣服、鞋、配饰，默认全都要。你没说不要背景，背景就会被带进来。
 
@@ -68,7 +68,7 @@ cd shortdrama-producer-agent && ./install.sh
 
 包里躺着 7,824 条真实生产 prompt，平均一条 1,622 词。写之前先检索一遍，学的是真实片场的写法——机位怎么标、光怎么描、镜头怎么动——不是网上那些 prompt 教学。
 
-检索质量实测：首条命中 80%，前五条 100%，固定种子，你能自己复现。
+固定种子的已知项回归测试从原文提词，按同一素材目录计，首条命中 80%，前五条 100%。面向真实中文需求的测法见 [中文检索评测](docs/retrieval-eval.md)。
 
 ### 镜头后面站着一个导演
 
@@ -200,10 +200,10 @@ Seedance 是母语。你点名 Gemini Omni、可灵、Veo、Sora、Runway、海�
 
 ### 它对自己也上闸门
 
-- **CI 门禁**（[.github/workflows/ci.yml](.github/workflows/ci.yml)）：8 步，push 和 PR 必跑——manifest 校验、依赖文件存在性、SKILL.md frontmatter、AGENTS.md 结构、检索冒烟、诊断器冒烟、结构防腐、install.sh 语法、README 双语完整性。
+- **CI 门禁**（[.github/workflows/ci.yml](.github/workflows/ci.yml)）：push 和 PR 在 Ubuntu 与 macOS 上验证包结构、检索、Python 回归用例及实际本地安装和更新。
 - **结构防腐**：`validate_structure.py` 用**行首锚定的正则**而不是子串匹配。因为子串会造假绿——`Step 5.5` 会被 `Step 5.5x` 满足，这个洞是故意灌故障测出来的。它还把一个真实翻车记录固化成了检查项：改完分流逻辑后，`AGENTS.md` 里留了一句自相矛盾的老话，当时靠人工 grep 才发现。
 - **行为规格**：`tests/behavior-cases.json`，17 个用例、7 个类别。LLM 行为没法写断言，所以它的 `expected` 写的是自然语言验收条款，交给人或者另一个模型去判定。
-- **渲染 A/B 回环**：`eval/render_loop/`，12 个用例 × 2 组 = 24 次渲染。评分只评「指令有没有被遵循」和「技术有没有缺陷」，**不评美学**；二元判定，不打分；评分表盲测，已验证不含组别字段。四条铁律写进了它的 README：金丝雀先行、成本上限先于调用、用例冻结、计划和观测物理分开存。
+- **渲染 A/B 回环**：`eval/render_loop/`，12 个用例 × 2 组 = 24 次渲染。评分只评「指令有没有被遵循」和「技术有没有缺陷」，**不评美学**；二元判定，不打分；评分媒体统一使用匿名样本编号，完整配对才计算组间差异。四条铁律写进了它的 README：金丝雀先行、成本上限先于调用、用例冻结、计划和观测物理分开存。
 
 ### 怎么用：它先问你一句「你到底要什么」
 
@@ -306,7 +306,7 @@ You don't know how to write prompts. You shouldn't have to.
 
 "A rainy night. A girl waiting outside a convenience store." That's all the detail it needs. Focal length, aspect ratio, lighting, negative constraints, whatever your platform actually allows — none of it is your problem. What comes back is a complete prompt you can paste straight into Seedance, Kling or Gemini Omni.
 
-Why is it that good? Because every line in the library was measured across **588,686 real production assets**. Not "I feel this reads better" — "45.4% of real creators actually do it this way."
+The rules draw on observations from **588,686 production assets** across two projects. Key statistics identify their sources and units.
 
 Runs on Claude Code · Codex · Cursor · Windsurf · Gemini CLI · GitHub Copilot · WorkBuddy.
 It writes prompts and scripts. It never hits *Generate* for you, and it never burns your tokens.
@@ -346,7 +346,7 @@ This field has no shortage of "I think this reads better." So the library has on
 
 A concrete example of why that matters.
 
-Among real creators handling reference images, **45.4% enumerate what to keep, while only 0.1% list what not to inherit.**
+Of 61,554 image prompts from the two source projects, **27,948 (45.4%) list what to keep**, and 0.1% list what to exclude.
 
 That single number rewrote its behaviour. It now forces itself to write the keep-list out in full — because **whatever you don't write down is exactly what the model invents.** Say "use this face" and it understands the whole visible person: face, hair, build, every garment, shoes, accessories. Say nothing about the background and the background comes along for the ride.
 
@@ -356,7 +356,7 @@ Written on intuition alone, that layer usually gets skipped.
 
 **7,824 real production prompts** ship inside the package, averaging 1,622 words each. It retrieves before generating, so what it learns is how actual sets write — camera position, light, movement — not how a blog post about prompts writes.
 
-Measured retrieval: 80% at top-1, 100% at top-5. Fixed seed, so you can reproduce it.
+The fixed-seed known-item regression uses terms from source documents and counts a match by asset folder: 80% at top-1 and 100% at top-5. See [Chinese brief evaluation](docs/retrieval-eval.md) for the independent relevance check.
 
 ### There's a director standing behind the camera
 
@@ -488,10 +488,10 @@ Zero dependencies (pure Python stdlib). They ship with the package; there's noth
 
 ### It gates itself, too
 
-- **CI** ([.github/workflows/ci.yml](.github/workflows/ci.yml)): eight steps, mandatory on push and PR — manifest, dependency existence, SKILL.md frontmatter, AGENTS.md structure, retrieval smoke, diagnoser smoke, anti-rot, install.sh syntax, README bilingual completeness.
+- **CI** ([.github/workflows/ci.yml](.github/workflows/ci.yml)): Pushes and PRs check package structure, retrieval, Python regressions, and local install and update on Ubuntu and macOS.
 - **Anti-rot**: `validate_structure.py` matches **line-anchored regexes rather than substrings**, because substrings produce false greens — `Step 5.5` is satisfied by `Step 5.5x`, and that hole was found by deliberately injecting a fault. It also fossilised a real incident into a check: after a routing change, `AGENTS.md` kept a contradictory stale sentence that only a manual grep caught.
 - **Behaviour spec**: `tests/behavior-cases.json`, 17 cases across 7 categories. LLM behaviour can't be asserted, so `expected` is written as natural-language acceptance criteria for a human or another model to judge.
-- **Render A/B loop**: `eval/render_loop/`, 12 cases × 2 arms = 24 renders. Grading covers instruction-following and technical defects only, **never aesthetics**; binary pass/fail/n/a, no numeric scale; the grading sheet is blind (verified to contain no arm field). Four rules are written into its README: canary first, cost ceiling before any call, cases frozen after preparation, and plan rows physically separated from observation rows.
+- **Render A/B loop**: `eval/render_loop/`, 12 cases × 2 arms = 24 renders. Grading covers instruction-following and technical defects only, **never aesthetics**; binary pass/fail/n/a, no numeric scale; grading media use anonymous sample IDs, and the comparison uses complete pairs. Four rules are written into its README: canary first, cost ceiling before any call, cases frozen after preparation, and plan rows physically separated from observation rows.
 
 ### How to use it: it asks itself one question first — what do you actually want?
 
