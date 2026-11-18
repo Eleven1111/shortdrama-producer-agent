@@ -10,7 +10,10 @@ on:
 jobs:
   validate:
     name: Structure + manifest + retrieval validation
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
 
@@ -82,8 +85,15 @@ jobs:
                 len(d['missing_sections']), 'missing section(s)')
           PY2
 
-      - name: install.sh syntax check
-        run: bash -n install.sh && echo "install.sh syntax OK"
+      - name: Python regression tests
+        run: |
+          python3 tests/test_diagnose_negation.py
+          python3 -m unittest discover -s tests -p 'test_continuity.py'
+          python3 -m unittest discover -s tests -p 'test_render_eval.py'
+          python3 -m unittest discover -s tests -p 'test_omni.py'
+
+      - name: Local install and update smoke test
+        run: /bin/bash tests/test_install.sh
 
       - name: README bilingual completeness
         run: |

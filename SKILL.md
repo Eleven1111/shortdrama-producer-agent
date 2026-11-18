@@ -257,16 +257,22 @@ the most-expanded sections. So after generating, add what a first draft predicta
 ### Step 6 — Deliver
 Output ONLY clean paste-ready prompt(s) + ≤3 short notes.
 
-**Two format traps, both cost a full delivery round if missed** (details: `references/prompt-templates.md`):
-- Section headers must be **standalone all-caps lines** — a line-initial label like
+**Delivery formatting** (details: `references/prompt-templates.md`):
+- For Seedance, section headers must be **standalone all-caps lines** — a line-initial label like
   `STYLE — …` or `Lighting: …` is invisible to `diagnose_prompt.py`, which then reports all
   eight baseline sections as missing. This is a formatting trap, not a content defect.
 - A copyable single-file HTML (per-prompt copy + copy-all, `<pre>` via `textContent`) is the
   house delivery format for short-drama batches; ship it alongside a plain-text bundle.
 
-Before handing over, run the two deterministic gates — `diagnose_prompt.py` per shot
-(sections / constraints / contradictions / spec) and `continuity_check.py` on the batch
-(numbering · end→start chaining · anchor spelling) — then render-check the HTML.
+Before delivery, choose checks by target model. For Seedance, run
+`scripts/diagnose_prompt.py` per shot and review its JSON findings. Apply the Seedance
+section format only to Seedance. For Gemini Omni, run `scripts/omni_check.py` on the
+Omni prompt bodies, with `--version 1.1` or `--version 1.2-flash` matching the target. For other models, check the prompt against the target dialect in
+`references/model-adaptation.md`. In all cases, check the chosen platform's
+limits. For multi-shot work, also run `scripts/continuity_check.py` on the
+sequence bundle, including the previous batch's last shot when available. Record
+known identity and prop handoffs in the sequence protocol's structured continuity fields.
+Preview the HTML when delivering an HTML bundle.
 
 ## Short-drama mode (multi-shot / story)
 

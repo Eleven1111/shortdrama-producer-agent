@@ -13,7 +13,7 @@
   python3 run_ab.py --render --backend dry # 走渲染（dry/manual/ark）
   python3 run_ab.py --sheet                # 生成盲测评分表
 """
-import argparse, json, os, random, sys
+import argparse, json, os, random, shutil, sys, tempfile
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, 'out')
@@ -23,7 +23,7 @@ from render_adapter import render, RenderError          # noqa: E402
 
 RUBRIC_ITEMS = [
     'duration', 'shot_count', 'hard_cut_timecode', 'camera_move', 'lens_locked',
-    'camera_relative_direction', 'axis_180', 'no_empty_first_frame', 'hold_final_frame',
+    'no_fisheye', 'camera_relative_direction', 'axis_180', 'no_empty_first_frame', 'hold_final_frame',
     'character_count', 'hands_formed', 'identity_consistency', 'prop_consistency',
     'no_floating', 'no_smearing', 'no_look_at_lens', 'no_slow_motion',
     'no_onscreen_text', 'not_3d_render', 'diegetic_audio', 'shutter_cadence',
@@ -99,15 +99,21 @@ def sheet():
         results = json.load(f)
 
     rows, key = [], {}
-    rnd = random.Random(20260817)
+    blind_dir = tempfile.mkdtemp(prefix="blind-videos-", dir=OUT)
     shuffled = results[:]
-    rnd.shuffle(shuffled)
+    random.SystemRandom().shuffle(shuffled)
     for n, r in enumerate(shuffled, 1):
         sid = 'S%03d' % n
         key[sid] = {'case_id': r['case_id'], 'arm': r['arm'], 'job_id': r['job_id']}
+        video = r.get('video')
+        blind_video = None
+        if r['status'] == 'ok' and video and os.path.isfile(video):
+            blind_path = os.path.join(blind_dir, '%s.mp4' % sid)
+            shutil.copyfile(video, blind_path)
+            blind_video = os.path.relpath(blind_path, OUT)
         rows.append({
             'sample_id': sid,                  # 评分者只看到这个
-            'video': r.get('video'),
+            'video': blind_video,
             'probes': r.get('probes', []),     # 提示重点看哪几项，不泄露组别
             'scores': {k: '' for k in RUBRIC_ITEMS},   # pass / fail / n/a
             'grader': '', 'grader_type': '',   # human / vision_model / auto

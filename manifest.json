@@ -36,7 +36,8 @@
       "scripts/seedance_search.py",
       "scripts/seedance_corpus.jsonl.gz",
       "scripts/diagnose_prompt.py",
-      "scripts/continuity_check.py"
+      "scripts/continuity_check.py",
+      "scripts/omni_check.py"
     ],
     "references": [
       "references/action-scene-craft.md",

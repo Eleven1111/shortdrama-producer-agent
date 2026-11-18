@@ -308,6 +308,16 @@ proposals (label it Tier 2/3). The 30% budget ceiling and A/B thresholds are **d
 not measured results** — never present this layer's output as validated.
 
 ### Step 6 — Deliver
+
+Before delivery, choose checks by target model. For Seedance, run
+`scripts/diagnose_prompt.py` per shot and review its JSON findings. Apply the Seedance
+section format only to Seedance. For Gemini Omni, run `scripts/omni_check.py` on the
+Omni prompt bodies, with `--version 1.1` or `--version 1.2-flash` matching the target. For other models, check the prompt against the target dialect in
+`references/model-adaptation.md`. In all cases, check the chosen platform's
+limits. For multi-shot work, also run `scripts/continuity_check.py` on the
+sequence bundle, including the previous batch's last shot when available. Record
+known identity and prop handoffs in the sequence protocol's structured continuity fields.
+Preview the HTML when delivering an HTML bundle.
 Output ONLY clean paste-ready prompt(s) + ≤3 short notes. No commentary walls.
 
 ## Short-drama mode (multi-shot / story)

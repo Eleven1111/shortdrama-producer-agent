@@ -1,84 +1,146 @@
 #!/usr/bin/env python3
-"""P1 渲染回环 · 结果聚合。读盲测评分表 + 组别映射，出 A/B 对比。
+"""按相同用例聚合完整的盲测 A/B 评分，报告效应量与方向。"""
 
-只报效应量与方向，不做显著性声称 —— 12 对样本撑不起 p 值，硬报会是假精确。
-若 A 组缺陷不降反升，照实输出：负面结果同样要回写。
-"""
-import json, os, sys
+import json
+import os
+import sys
 from collections import Counter, defaultdict
 
-HERE = os.path.dirname(os.path.abspath(__file__))
-OUT = os.path.join(HERE, 'out')
+from run_ab import OUT, RUBRIC_ITEMS
+
+ARMS = ('A', 'B')
+SCORE_VALUES = {'pass', 'fail', 'n/a'}
+
+
+def complete_scores(row):
+    scores = row.get('scores', {})
+    if not isinstance(scores, dict) or scores.keys() != set(RUBRIC_ITEMS):
+        return None
+    normalized = {
+        item: value.strip().lower() if isinstance(value, str) else ''
+        for item, value in scores.items()
+    }
+    if set(normalized.values()) <= SCORE_VALUES and any(
+        value != 'n/a' for value in normalized.values()
+    ):
+        return normalized
+    return None
+
+
+def collect_pairs(rows, key):
+    by_sample = {row['sample_id']: row for row in rows}
+    if len(by_sample) != len(rows) or by_sample.keys() - key.keys():
+        sys.exit('评分表含重复样本或未登记样本')
+
+    by_case = defaultdict(dict)
+    for sample_id, entry in key.items():
+        case_id, arm = entry['case_id'], entry['arm']
+        if arm not in ARMS or arm in by_case[case_id]:
+            sys.exit('盲测映射含未知组别或重复槽位')
+        by_case[case_id][arm] = sample_id
+
+    pairs = []
+    incomplete = {}
+    for case_id, slots in sorted(by_case.items()):
+        reasons = {}
+        usable = {}
+        for arm in ARMS:
+            sample_id = slots.get(arm)
+            row = by_sample.get(sample_id)
+            if sample_id is None:
+                reasons[arm] = '缺组别槽位'
+            elif row is None:
+                reasons[arm] = '缺评分行'
+            elif not row.get('video') or not os.path.isfile(os.path.join(OUT, row['video'])):
+                reasons[arm] = '缺成片'
+            else:
+                scores = complete_scores(row)
+                if scores is None:
+                    reasons[arm] = '评分缺项、值无效或全部不适用'
+                else:
+                    usable[arm] = (row, scores)
+
+        if not reasons:
+            _, a_scores = usable['A']
+            _, b_scores = usable['B']
+            if any((a_scores[item] == 'n/a') != (b_scores[item] == 'n/a')
+                   for item in RUBRIC_ITEMS):
+                reasons['pair'] = 'A/B 适用项不一致'
+
+        if reasons:
+            incomplete[case_id] = reasons
+        else:
+            pairs.append(usable)
+    return pairs, incomplete
 
 
 def main():
-    sp, kp = os.path.join(OUT, 'grading_sheet.json'), os.path.join(OUT, '_blind_key.json')
-    for p in (sp, kp):
-        if not os.path.exists(p):
-            sys.exit('缺 %s' % p)
-    rows = json.load(open(sp, encoding='utf-8'))
-    key = json.load(open(kp, encoding='utf-8'))
+    sp = os.path.join(OUT, 'grading_sheet.json')
+    kp = os.path.join(OUT, '_blind_key.json')
+    for path in (sp, kp):
+        if not os.path.exists(path):
+            sys.exit('缺 %s' % path)
+    with open(sp, encoding='utf-8') as f:
+        rows = json.load(f)
+    with open(kp, encoding='utf-8') as f:
+        key = json.load(f)
 
-    graded = [r for r in rows if any(v for v in r['scores'].values())]
-    if not graded:
-        sys.exit('评分表还是空的 —— 先完成评分再聚合')
-    print('已评分 %d / %d 条' % (len(graded), len(rows)))
-    gt = Counter(r.get('grader_type') or 'unspecified' for r in graded)
-    print('评分方式：%s' % dict(gt))
-    if 'unspecified' in gt:
-        print('  ⚠ 有样本未标注评分方式 —— rubric 要求必须标注（人评/模型评/自动）')
+    pairs, incomplete = collect_pairs(rows, key)
+    print('完整配对 %d / %d 个已登记用例' % (len(pairs), len(pairs) + len(incomplete)))
+    for case_id, reasons in incomplete.items():
+        print('  %s: %s' % (case_id, '，'.join('%s %s' % item for item in reasons.items())))
 
-    per_arm = defaultdict(lambda: {'n': 0, 'fail': 0, 'items': Counter(), 'na': 0})
-    for r in graded:
-        arm = key.get(r['sample_id'], {}).get('arm')
-        if not arm:
-            continue
-        a = per_arm[arm]
-        a['n'] += 1
-        for item, v in r['scores'].items():
-            v = (v or '').strip().lower()
-            if v == 'fail':
-                a['fail'] += 1
-                a['items'][item] += 1
-            elif v in ('n/a', 'na'):
-                a['na'] += 1
-
-    print('\n=== 主指标：每片缺陷数 ===')
+    per_arm = {}
     means = {}
-    for arm in ('A', 'B'):
-        a = per_arm.get(arm)
-        if not a or not a['n']:
-            print('  %s 组：无数据' % arm)
-            continue
-        means[arm] = a['fail'] / a['n']
-        label = '含 Step 5.5' if arm == 'A' else '不含 Step 5.5'
-        print('  %s 组（%-12s）n=%2d  缺陷 %3d  每片 %.2f' % (arm, label, a['n'], a['fail'], means[arm]))
+    graders = Counter()
+    if pairs:
+        print('\n=== 主指标：每片缺陷数 ===')
+        for arm in ARMS:
+            failures = Counter()
+            applicable = Counter()
+            for pair in pairs:
+                row, scores = pair[arm]
+                graders[row.get('grader_type') or 'unspecified'] += 1
+                failures.update(item for item, value in scores.items() if value == 'fail')
+                applicable.update(item for item, value in scores.items() if value != 'n/a')
+            total = sum(failures.values())
+            per_arm[arm] = {
+                'n': len(pairs), 'fail': total,
+                'na': len(pairs) * len(RUBRIC_ITEMS) - sum(applicable.values()),
+                'items': dict(failures), 'applicable': dict(applicable),
+            }
+            means[arm] = total / len(pairs)
+            label = '含 Step 5.5' if arm == 'A' else '不含 Step 5.5'
+            print('  %s 组（%s）缺陷 %d，每片 %.2f' % (arm, label, total, means[arm]))
 
-    if len(means) == 2:
-        d = means['B'] - means['A']
+        delta = means['B'] - means['A']
+        print('  差值 %+.2f 缺陷/片（B − A）' % delta)
         if means['B']:
-            print('\n  差值 %+.2f 缺陷/片（相对 %+.1f%%）' % (d, d / means['B'] * 100))
-        verdict = ('Step 5.5 方向为正（A 组缺陷更少）' if d > 0 else
-                   'Step 5.5 方向为负（A 组缺陷更多 —— 约束无效或有害，需回写）'
-                   if d < 0 else 'A/B 无差异')
-        print('  判定：%s' % verdict)
-        print('  注：n=%d 对，只报方向与效应量，不做显著性声称。' % min(per_arm['A']['n'], per_arm['B']['n']))
-
-    print('\n=== 分项 fail 次数（定位是哪条约束在起作用）===')
-    items = set(per_arm['A']['items']) | set(per_arm['B']['items'])
-    if items:
-        print('  %-28s %6s %6s' % ('项', 'A', 'B'))
-        for it in sorted(items, key=lambda x: -(per_arm['B']['items'][x] + per_arm['A']['items'][x])):
-            print('  %-28s %6d %6d' % (it, per_arm['A']['items'][it], per_arm['B']['items'][it]))
+            print('  相对差值 %+.1f%%' % (delta / means['B'] * 100))
+        print('  评分方式：%s' % dict(graders))
+        if 'unspecified' in graders:
+            print('  ⚠ 有样本未标注评分方式')
+        print('\n=== 分项失败次数 / 适用样本 ===')
+        for item in RUBRIC_ITEMS:
+            count = per_arm['A']['applicable'].get(item, 0)
+            if count:
+                print('  %-28s A %d/%d  B %d/%d' % (
+                    item, per_arm['A']['items'].get(item, 0), count,
+                    per_arm['B']['items'].get(item, 0), count,
+                ))
     else:
-        print('  （无 fail 记录）')
+        print('等待同一用例的 A/B 成片与完整评分')
 
+    result = {
+        'pair_count': len(pairs),
+        'incomplete_cases': incomplete,
+        'per_arm': per_arm,
+        'mean_defects': means,
+        'grader_types': dict(graders),
+    }
     rp = os.path.join(OUT, 'ab_summary.json')
     with open(rp, 'w', encoding='utf-8') as f:
-        json.dump({'per_arm': {k: {'n': v['n'], 'fail': v['fail'], 'na': v['na'],
-                                   'items': dict(v['items'])} for k, v in per_arm.items()},
-                   'mean_defects': means,
-                   'grader_types': dict(gt)}, f, ensure_ascii=False, indent=1)
+        json.dump(result, f, ensure_ascii=False, indent=1)
     print('\n已写 %s' % rp)
 
 

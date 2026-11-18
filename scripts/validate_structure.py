@@ -22,6 +22,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # 这个假绿是故障注入测出来的。工作流步骤一律用行首标题锚定。
 REQUIRED_PHRASES = {
     'SKILL.md': [
+        (r'`scripts/omni_check\.py`', 'Omni 交付质检接线'),
         (r'(?m)^#+ Step 0 —', '输出模式选择（diagnosis/revision 入口）'),
         (r'(?m)^#+ Step 1\.5 —', '平台能力检查'),
         (r'(?m)^#+ Step 3\.5 —', '用户素材绑定'),
@@ -44,6 +45,7 @@ REQUIRED_PHRASES = {
         (r'`references/longform-protocol\.md`', '长片协议接线（v3.14）'),
     ],
     'AGENTS.md': [
+        (r'`scripts/omni_check\.py`', 'Omni 交付质检接线'),
         (r'(?m)^#+ Step 0 —', '输出模式选择'),
         (r'(?m)^#+ Step 1\.5 —', '平台能力检查'),
         (r'(?m)^#+ Step 3\.5 —', '用户素材绑定'),

@@ -161,7 +161,7 @@ shortdrama-producer 的原生规范（OPTICS/`<<<锚>>>`/`—`分段/负面约�
 
 ### 7.4 Omni 自检（在通用自检之上追加）
 
-> 机械门：`python3 scripts/omni_check.py <含 1..N 条 prompt 的文件>` —— 把下面这张清单落成确定性
+> 机械门（1.1 使用 `--version 1.1`）：`python3 scripts/omni_check.py <纯 prompt 文件> --version 1.2-flash` —— 把下面这张清单落成确定性
 > 判据（数值残留 / 画幅 / 单场景声明 / 镜内硬切 / >10s 未规划 Extend / 祈使式接续 / 帧内文字互斥
 > 为 error；360p、seed 绝对值、负面行数、对白引号为 warn）。**跑在纯 prompt 文件上**——把说明性
 > 正文一起喂进去，讲解用的反例会被当成真违规报出来。
