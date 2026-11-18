@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """按相同用例聚合完整的盲测 A/B 评分，报告效应量与方向。"""
 
+import argparse
 import json
 import os
 import sys
@@ -145,4 +146,9 @@ def main():
 
 
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--out-dir', help='与 run_ab.py 相同的实验目录，默认 out/')
+    args = parser.parse_args()
+    if args.out_dir:
+        OUT = os.path.abspath(args.out_dir)
     main()
